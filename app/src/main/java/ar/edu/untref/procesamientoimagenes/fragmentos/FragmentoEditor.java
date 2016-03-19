@@ -1,12 +1,15 @@
 package ar.edu.untref.procesamientoimagenes.fragmentos;
 
+import android.graphics.Bitmap;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
 import java.io.File;
+import java.io.IOException;
 
+import ar.edu.untref.procesamientoimagenes.ImageLoadingUtil;
 import ar.edu.untref.procesamientoimagenes.R;
 import butterknife.Bind;
 
@@ -31,7 +34,18 @@ public class FragmentoEditor extends FragmentoBasico {
         if (isAdded()) {
 
             nombreImagen.setText(imagen.getName());
-            Picasso.with(getActivity()).load("file:///" + imagen.getAbsolutePath()).into(imagenOriginal);
+
+            if (imagen.getName().endsWith(".pgm") || imagen.getName().endsWith(".ppm")) {
+                try {
+                    Bitmap loadedBitmap = ImageLoadingUtil.readBitmapFromPPM2(imagen.getAbsolutePath());
+                    imagenOriginal.setImageBitmap(loadedBitmap);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            else {
+                Picasso.with(getActivity()).load("file:///" + imagen.getAbsolutePath()).into(imagenOriginal);
+            }
         }
     }
 }
