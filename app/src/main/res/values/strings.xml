@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">Procesamiento de imágenes. Cocuzza - Maisano</string>
+    <string name="no_hay_permisos_escritura">No hay permisos suficientes para cargar las imágenes a la memoria externa.</string>
+</resources>
