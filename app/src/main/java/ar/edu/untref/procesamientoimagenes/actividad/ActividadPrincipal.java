@@ -15,18 +15,26 @@ import java.io.FileOutputStream;
 import java.io.InputStream;
 
 import ar.edu.untref.procesamientoimagenes.R;
+import ar.edu.untref.procesamientoimagenes.fragmentos.FragmentoEditor;
 import ar.edu.untref.procesamientoimagenes.fragmentos.FragmentoListaArchivos;
 
 public class ActividadPrincipal extends ActividadBasica {
 
     private static final String LOG_TAG = ActividadPrincipal.class.getSimpleName();
     private static final int PEDIR_PERMISOS_ESCRITURA = 1;
-    private FragmentoListaArchivos fragmentoListaArchivos = new FragmentoListaArchivos();
+    private FragmentoListaArchivos fragmentoListaArchivos;
+    private FragmentoEditor fragmentoEditor = new FragmentoEditor();
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
+
+        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        fragmentTransaction.replace(R.id.editorPlaceholder, fragmentoEditor);
+        fragmentTransaction.commitAllowingStateLoss();
+
+        this.fragmentoListaArchivos = FragmentoListaArchivos.getInstance(fragmentoEditor);
         copiarArchivosAMemoriaExterna();
     }
 

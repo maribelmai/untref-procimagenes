@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ar.edu.untref.procesamientoimagenes.R;
+import ar.edu.untref.procesamientoimagenes.fragmentos.FragmentoEditor;
 import butterknife.ButterKnife;
 
 /**
@@ -20,6 +21,11 @@ import butterknife.ButterKnife;
 public class AdaptadorArchivos extends RecyclerView.Adapter<AdaptadorArchivos.ViewHolder> {
 
     private List<File> archivos = new ArrayList<>();
+    private FragmentoEditor fragmentoEditor;
+
+    public AdaptadorArchivos(FragmentoEditor fragmentoEditor) {
+        this.fragmentoEditor = fragmentoEditor;
+    }
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -53,10 +59,18 @@ public class AdaptadorArchivos extends RecyclerView.Adapter<AdaptadorArchivos.Vi
         ImageView icono;
         TextView nombreArchivo;
 
+        private final View.OnClickListener previsualizar = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                fragmentoEditor.cargarImagen(archivo);
+            }
+        };
+
         public ViewHolder(View itemView) {
 
             super(itemView);
             this.nombreArchivo = ButterKnife.findById(itemView, R.id.nombreArchivo);
+            itemView.setOnClickListener(this.previsualizar);
         }
     }
 }

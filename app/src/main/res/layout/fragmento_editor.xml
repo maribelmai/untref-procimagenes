@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="0.45"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/nombreImagen"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="cameraman.png"
+            android:padding="16dp"
+            android:textSize="16sp"
+            android:textStyle="bold"/>
+
+        <ImageView
+            android:id="@+id/imagenOriginal"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+    </LinearLayout>
+
+    <View
+        android:layout_width="0.5dp"
+        android:layout_height="match_parent"
+        android:background="@android:color/darker_gray"/>
+
+    <ImageView
+        android:id="@+id/imagenEditada"
+        android:layout_weight="0.45"
+        android:layout_width="0dp"
+        android:layout_height="match_parent" />
+
+    <RelativeLayout
+        android:id="@+id/toolBox"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="0.1"/>
+
+</LinearLayout>

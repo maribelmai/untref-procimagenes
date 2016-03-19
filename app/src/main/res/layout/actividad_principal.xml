@@ -8,10 +8,16 @@
         android:id="@+id/listaArchivosPlaceholder"
         android:layout_width="0dp"
         android:layout_height="match_parent"
-        android:layout_weight="0.3"/>
+        android:layout_weight="0.2"/>
 
     <View
         android:layout_width="0.5dp"
         android:layout_height="match_parent"
         android:background="@android:color/darker_gray"/>
+
+    <FrameLayout
+        android:id="@+id/editorPlaceholder"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="0.8"/>
 </LinearLayout>

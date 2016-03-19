@@ -28,6 +28,8 @@ public class FragmentoListaArchivos extends FragmentoBasico {
     SwipeRefreshLayout refreshLayout;
 
     private AdaptadorArchivos adaptadorArchivos;
+    private FragmentoEditor fragmentoEditor;
+
     private SwipeRefreshLayout.OnRefreshListener onRefresh = new SwipeRefreshLayout.OnRefreshListener() {
         @Override
         public void onRefresh() {
@@ -39,10 +41,11 @@ public class FragmentoListaArchivos extends FragmentoBasico {
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+
         super.onViewCreated(view, savedInstanceState);
 
         this.listaArchivos.setLayoutManager(new LinearLayoutManager(getActivity()));
-        this.adaptadorArchivos = new AdaptadorArchivos();
+        this.adaptadorArchivos = new AdaptadorArchivos(fragmentoEditor);
         this.listaArchivos.setAdapter(this.adaptadorArchivos);
 
         this.refreshLayout.setOnRefreshListener(this.onRefresh);
@@ -64,5 +67,13 @@ public class FragmentoListaArchivos extends FragmentoBasico {
     @Override
     protected int getLayout() {
         return R.layout.fragmento_listado_archivos;
+    }
+
+    public static FragmentoListaArchivos getInstance(FragmentoEditor fragmentoEditor) {
+
+        FragmentoListaArchivos fragmentoListaArchivos = new FragmentoListaArchivos();
+        fragmentoListaArchivos.fragmentoEditor = fragmentoEditor;
+
+        return fragmentoListaArchivos;
     }
 }
