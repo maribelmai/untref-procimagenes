@@ -66,7 +66,7 @@ public class ActividadPrincipal extends ActividadBasica {
         }
         else {
 
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, PEDIR_PERMISOS_ESCRITURA);
+            ActivityCompat.requestPermissions(this, new String[]{ Manifest.permission.WRITE_EXTERNAL_STORAGE }, PEDIR_PERMISOS_ESCRITURA);
         }
     }
 
