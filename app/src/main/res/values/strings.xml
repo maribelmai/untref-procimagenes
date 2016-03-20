@@ -1,4 +1,6 @@
 <resources>
     <string name="app_name">Procesamiento de imágenes. Cocuzza - Maisano</string>
     <string name="no_hay_permisos_escritura">No hay permisos suficientes para cargar las imágenes a la memoria externa.</string>
+    <string name="hint_obtener_pixel">Toca un punto para conocer el valor del pixel</string>
+    <string name="titulo_obtener_pixel">Obtener pixel</string>
 </resources>

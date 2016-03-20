@@ -12,6 +12,16 @@
         android:orientation="vertical">
 
         <TextView
+            android:layout_width="match_parent"
+            android:gravity="center"
+            android:textAllCaps="true"
+            android:layout_height="wrap_content"
+            android:text="Imagen original"
+            android:padding="16dp"
+            android:textSize="16sp"
+            android:textStyle="bold"/>
+
+        <TextView
             android:id="@+id/nombreImagen"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -31,16 +41,98 @@
         android:layout_height="match_parent"
         android:background="@android:color/darker_gray"/>
 
-    <ImageView
-        android:id="@+id/imagenEditada"
+    <LinearLayout
         android:layout_weight="0.45"
         android:layout_width="0dp"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-    <RelativeLayout
+        <TextView
+            android:layout_width="match_parent"
+            android:gravity="center"
+            android:textAllCaps="true"
+            android:layout_height="wrap_content"
+            android:text="Imagen editada"
+            android:padding="16dp"
+            android:textSize="16sp"
+            android:textStyle="bold"/>
+
+        <LinearLayout
+            android:id="@+id/guardar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:padding="16dp"
+            style="@style/selectableItem">
+
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/ic_save"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Guardar"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:layout_marginLeft="8dp"/>
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/imagenEditada"
+            android:layout_weight="0.45"
+            android:layout_width="0dp"
+            android:layout_height="match_parent" />
+    </LinearLayout>
+
+    <View
+        android:layout_width="0.5dp"
+        android:layout_height="match_parent"
+        android:background="@android:color/darker_gray"/>
+
+    <ScrollView
         android:id="@+id/toolBox"
         android:layout_width="0dp"
         android:layout_height="match_parent"
-        android:layout_weight="0.1"/>
+        android:layout_weight="0.1">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="8dp">
+
+            <!-- Obtener pixel -->
+
+            <LinearLayout
+                android:id="@+id/obtenerPixel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:gravity="center"
+                style="@style/selectableItem">
+
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:src="@drawable/get_pixel"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="OBTENER PIXEL"
+                    android:gravity="center"
+                    android:textSize="10sp"
+                    android:padding="4dp"
+                    android:textStyle="bold"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+    </ScrollView>
+
+
 
 </LinearLayout>

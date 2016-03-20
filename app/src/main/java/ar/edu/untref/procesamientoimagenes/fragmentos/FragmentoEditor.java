@@ -1,18 +1,17 @@
 package ar.edu.untref.procesamientoimagenes.fragmentos;
 
-import android.graphics.Bitmap;
+import android.content.Intent;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.squareup.picasso.Picasso;
-
 import java.io.File;
-import java.io.IOException;
 
-import ar.edu.untref.procesamientoimagenes.ImageLoadingUtil;
 import ar.edu.untref.procesamientoimagenes.R;
+import ar.edu.untref.procesamientoimagenes.actividad.ActividadObtenerPixel;
+import ar.edu.untref.procesamientoimagenes.modelo.Constante;
 import butterknife.Bind;
+import butterknife.OnClick;
 
 /**
  * Created by mmaisano on 19/03/16.
@@ -24,6 +23,7 @@ public class FragmentoEditor extends FragmentoBasico {
 
     @Bind(R.id.nombreImagen)
     TextView nombreImagen;
+    private File imagen;
 
     @Override
     protected int getLayout() {
@@ -34,22 +34,40 @@ public class FragmentoEditor extends FragmentoBasico {
 
         if (isAdded()) {
 
-            nombreImagen.setText(imagen.getName());
-
-            if (imagen.getName().endsWith(".ppm")) {
-                try {
-                    Bitmap loadedBitmap = ImageLoadingUtil.readPPM(imagen.getAbsolutePath());
-                    imagenOriginal.setImageBitmap(loadedBitmap);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-            else if (imagen.getName().endsWith(".pgm")) {
-               Toast.makeText(getActivity(), "Todavía no estamos soportando este tipo de archivo", Toast.LENGTH_LONG).show();
-            }
-            else {
-                Picasso.with(getActivity()).load("file:///" + imagen.getAbsolutePath()).into(imagenOriginal);
-            }
+            this.imagen = imagen;
+            leerInformacionImagen();
+            mostrarImagen();
         }
+    }
+
+    private void leerInformacionImagen() {
+        //TODO: Armar matriz
+    }
+
+    private void mostrarImagen() {
+
+        if (isAdded()) {
+            nombreImagen.setText(imagen.getName());
+            getAplicacion().mostrarImagen(imagen, imagenOriginal, getActivity());
+        }
+    }
+
+    @OnClick(R.id.obtenerPixel)
+    public void obtenerPixel() {
+
+        if (imagen != null) {
+
+            Intent intent = new Intent(getActivity(), ActividadObtenerPixel.class);
+            intent.putExtra(Constante.EXTRA_IMAGEN, imagen);
+            startActivity(intent);
+        }
+        else {
+            Toast.makeText(getActivity(), "Selecciona una imagen", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    @OnClick(R.id.guardar)
+    public void guardar() {
+
     }
 }

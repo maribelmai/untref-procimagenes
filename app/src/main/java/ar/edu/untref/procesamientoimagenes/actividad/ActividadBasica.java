@@ -5,7 +5,9 @@ import android.os.Environment;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.view.MenuItem;
 
+import ar.edu.untref.procesamientoimagenes.Aplicacion;
 import butterknife.ButterKnife;
 
 /**
@@ -26,5 +28,17 @@ public abstract class ActividadBasica extends AppCompatActivity {
         return Environment.getExternalStorageDirectory() + "/ProcImagenes";
     }
 
+    public Aplicacion getAplicacion() {
+        return Aplicacion.class.cast(getApplicationContext());
+    }
+
     protected abstract int getLayout();
+
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        if (item.getItemId() == android.R.id.home) {
+            onBackPressed();
+        }
+        return super.onOptionsItemSelected(item);
+    }
 }

@@ -1,4 +1,4 @@
-package ar.edu.untref.procesamientoimagenes;
+package ar.edu.untref.procesamientoimagenes.util;
 
 import android.graphics.Bitmap;
 import android.graphics.Color;

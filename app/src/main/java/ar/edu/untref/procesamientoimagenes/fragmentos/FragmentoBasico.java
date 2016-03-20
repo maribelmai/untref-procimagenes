@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import ar.edu.untref.procesamientoimagenes.Aplicacion;
 import ar.edu.untref.procesamientoimagenes.actividad.ActividadBasica;
 import butterknife.ButterKnife;
 
@@ -29,5 +30,9 @@ public abstract class FragmentoBasico extends Fragment {
     @NonNull
     protected String getDirectorioImagenes() {
         return ActividadBasica.class.cast(getActivity()).getDirectorioImagenes();
+    }
+
+    protected Aplicacion getAplicacion() {
+        return ActividadBasica.class.cast(getActivity()).getAplicacion();
     }
 }
