@@ -69,6 +69,7 @@ public class ActividadPrincipal extends ActividadBasica {
             copiarRaw(R.raw.wdg3, directorio.getAbsolutePath() + "/wdg3.gif");
             copiarRaw(R.raw.abe_natsumi, directorio.getAbsolutePath() + "/abe_natsumi.pgm");
             copiarRaw(R.raw.hara_fumina, directorio.getAbsolutePath() + "/hara_fumina.ppm");
+            copiarRaw(R.raw.butterfly, directorio.getAbsolutePath() + "/butterfly.bmp");
 
             FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
             fragmentTransaction.replace(R.id.listaArchivosPlaceholder, fragmentoListaArchivos);

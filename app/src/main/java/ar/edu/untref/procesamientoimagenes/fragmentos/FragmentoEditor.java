@@ -3,6 +3,7 @@ package ar.edu.untref.procesamientoimagenes.fragmentos;
 import android.graphics.Bitmap;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 
@@ -35,13 +36,16 @@ public class FragmentoEditor extends FragmentoBasico {
 
             nombreImagen.setText(imagen.getName());
 
-            if (imagen.getName().endsWith(".pgm") || imagen.getName().endsWith(".ppm")) {
+            if (imagen.getName().endsWith(".ppm")) {
                 try {
-                    Bitmap loadedBitmap = ImageLoadingUtil.readBitmapFromPPM2(imagen.getAbsolutePath());
+                    Bitmap loadedBitmap = ImageLoadingUtil.readPPM(imagen.getAbsolutePath());
                     imagenOriginal.setImageBitmap(loadedBitmap);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
+            }
+            else if (imagen.getName().endsWith(".pgm")) {
+               Toast.makeText(getActivity(), "Todavía no estamos soportando este tipo de archivo", Toast.LENGTH_LONG).show();
             }
             else {
                 Picasso.with(getActivity()).load("file:///" + imagen.getAbsolutePath()).into(imagenOriginal);
