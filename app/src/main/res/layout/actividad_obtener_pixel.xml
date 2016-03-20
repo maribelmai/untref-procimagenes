@@ -96,5 +96,19 @@
                 android:layout_marginTop="16dp"
                 tools:text="125"/>
         </LinearLayout>
+
+        <TextView
+            android:visibility="gone"
+            android:id="@+id/modificarColor"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="MODIFICAR COLOR"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/selector_boton"
+            android:padding="12dp"
+            android:textSize="12sp"
+            android:textColor="@android:color/white"
+            android:textStyle="bold"/>
     </LinearLayout>
 </LinearLayout>

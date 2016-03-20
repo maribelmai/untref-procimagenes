@@ -35,13 +35,8 @@ public class FragmentoEditor extends FragmentoBasico {
         if (isAdded()) {
 
             this.imagen = imagen;
-            leerInformacionImagen();
             mostrarImagen();
         }
-    }
-
-    private void leerInformacionImagen() {
-        //TODO: Armar matriz
     }
 
     private void mostrarImagen() {

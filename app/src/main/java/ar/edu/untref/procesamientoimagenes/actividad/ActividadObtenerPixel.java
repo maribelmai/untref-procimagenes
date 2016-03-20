@@ -16,8 +16,10 @@ import android.widget.Toast;
 import java.io.File;
 
 import ar.edu.untref.procesamientoimagenes.R;
+import ar.edu.untref.procesamientoimagenes.dialogos.DialogoModificarColor;
 import ar.edu.untref.procesamientoimagenes.modelo.Constante;
 import butterknife.Bind;
+import butterknife.OnClick;
 import butterknife.OnTextChanged;
 import butterknife.OnTouch;
 
@@ -40,6 +42,9 @@ public class ActividadObtenerPixel extends ActividadBasica {
 
     @Bind(R.id.rgb)
     TextView rgb;
+
+    @Bind(R.id.modificarColor)
+    View modificarColor;
 
     private static final String LOG_TAG = ActividadObtenerPixel.class.getSimpleName();
     private File imagen;
@@ -70,6 +75,8 @@ public class ActividadObtenerPixel extends ActividadBasica {
         valorX.setText(String.valueOf(x));
         valorY.setText(String.valueOf((y)));
 
+        modificarColor.setVisibility(View.VISIBLE);
+
         return false;
     }
 
@@ -88,7 +95,13 @@ public class ActividadObtenerPixel extends ActividadBasica {
         }
     }
 
-    private void mostrarColor(int x, int y) {
+    @OnClick(R.id.modificarColor)
+    public void modificarColor() {
+
+        new DialogoModificarColor().mostrar(this, valorX.getText().toString(), valorY.getText().toString(), imageView);
+    }
+
+    public void mostrarColor(int x, int y) {
 
         Bitmap bitmap = ((BitmapDrawable)imageView.getDrawable()).getBitmap();
 

@@ -2,5 +2,7 @@
     <string name="app_name">Procesamiento de imágenes. Cocuzza - Maisano</string>
     <string name="no_hay_permisos_escritura">No hay permisos suficientes para cargar las imágenes a la memoria externa.</string>
     <string name="hint_obtener_pixel">Toca un punto para conocer el valor del pixel</string>
-    <string name="titulo_obtener_pixel">Obtener pixel</string>
+    <string name="titulo_obtener_pixel">Pixel</string>
+    <string name="modificandoPixel">Estás modificando el valor de: x:{valorX} y:{valorY}</string>
+    <string name="modificar_color_titulo_dialogo">Modificar color de un pixel</string>
 </resources>
