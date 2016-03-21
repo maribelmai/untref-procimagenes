@@ -99,18 +99,23 @@ public class DialogoModificarColor {
             @Override
             public void onClick(DialogInterface dialog, int which) {
 
-                int redValue = Integer.parseInt(red.getText().toString());
-                int greenValue = Integer.parseInt(green.getText().toString());
-                int blueValue = Integer.parseInt(blue.getText().toString());
+                if (!red.getText().toString().isEmpty() &&
+                        !green.getText().toString().isEmpty() &&
+                        !blue.getText().toString().isEmpty()) {
 
-                Bitmap bitmap = ((BitmapDrawable) imageView.getDrawable()).getBitmap();
-                Bitmap mutableBitmap = bitmap.copy(Bitmap.Config.ARGB_8888, true);
-                bitmap.recycle();
+                    int redValue = Integer.parseInt(red.getText().toString());
+                    int greenValue = Integer.parseInt(green.getText().toString());
+                    int blueValue = Integer.parseInt(blue.getText().toString());
 
-                mutableBitmap.setPixel(x, y, Color.rgb(redValue, greenValue, blueValue));
-                imageView.setImageBitmap(mutableBitmap);
+                    Bitmap bitmap = ((BitmapDrawable) imageView.getDrawable()).getBitmap();
+                    Bitmap mutableBitmap = bitmap.copy(Bitmap.Config.ARGB_8888, true);
+                    bitmap.recycle();
 
-                actividadObtenerPixel.mostrarColor(x,y);
+                    mutableBitmap.setPixel(x, y, Color.rgb(redValue, greenValue, blueValue));
+                    imageView.setImageBitmap(mutableBitmap);
+
+                    actividadObtenerPixel.mostrarColor(x, y);
+                }
             }
         });
         builder.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {

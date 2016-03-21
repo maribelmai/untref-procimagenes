@@ -1,8 +1,6 @@
 package ar.edu.untref.procesamientoimagenes.actividad;
 
 import android.os.Bundle;
-import android.os.Environment;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
@@ -21,11 +19,6 @@ public abstract class ActividadBasica extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(getLayout());
         ButterKnife.bind(this);
-    }
-
-    @NonNull
-    public String getDirectorioImagenes() {
-        return Environment.getExternalStorageDirectory() + "/ProcImagenes";
     }
 
     public Aplicacion getAplicacion() {

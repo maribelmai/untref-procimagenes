@@ -1,5 +1,6 @@
 package ar.edu.untref.procesamientoimagenes.actividad;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
@@ -14,6 +15,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.File;
+import java.io.IOException;
 
 import ar.edu.untref.procesamientoimagenes.R;
 import ar.edu.untref.procesamientoimagenes.dialogos.DialogoModificarColor;
@@ -123,5 +125,23 @@ public class ActividadObtenerPixel extends ActividadBasica {
 
     private String darFormato(int r, int g, int b) {
         return "<b><font color=\"#db2222\">R: " + r + "</><font color=\"#158e34\"> &nbsp;&nbsp; G: " + g + "</><font color=\"#0342ab\"> &nbsp;&nbsp; B: " + b + "</></>";
+    }
+
+    @Override
+    public void finish() {
+
+        String nombreOriginal = imagen.getName();
+        File file = null;
+
+        try {
+            file = getAplicacion().guardarArchivo(((BitmapDrawable) imageView.getDrawable()).getBitmap(), "/tmp/", nombreOriginal.substring(0, nombreOriginal.lastIndexOf(".")) + "_" + System.currentTimeMillis() + nombreOriginal.substring(nombreOriginal.lastIndexOf(".")));
+        } catch (IOException e) {
+            Log.e(LOG_TAG, "Temporal no se pudo guardar: " + e);
+        }
+
+        Intent intent = new Intent();
+        intent.putExtra(Constante.EXTRA_IMAGEN, file);
+        setResult(Constante.RESULT_CODE_IMAGEN_MODIFICADA, intent);
+        super.finish();
     }
 }

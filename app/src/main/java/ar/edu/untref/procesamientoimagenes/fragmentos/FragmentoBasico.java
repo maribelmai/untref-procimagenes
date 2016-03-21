@@ -29,7 +29,7 @@ public abstract class FragmentoBasico extends Fragment {
 
     @NonNull
     protected String getDirectorioImagenes() {
-        return ActividadBasica.class.cast(getActivity()).getDirectorioImagenes();
+        return getAplicacion().getDirectorioImagenes();
     }
 
     protected Aplicacion getAplicacion() {

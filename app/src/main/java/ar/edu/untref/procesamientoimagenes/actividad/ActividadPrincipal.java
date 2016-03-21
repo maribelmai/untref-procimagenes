@@ -51,7 +51,7 @@ public class ActividadPrincipal extends ActividadBasica {
 
         if (tengoPermisosEscritura) {
 
-            File directorio = new File(getDirectorioImagenes());
+            File directorio = new File(getAplicacion().getDirectorioImagenes());
 
             if(!directorio.exists()){
                 directorio.mkdirs();
