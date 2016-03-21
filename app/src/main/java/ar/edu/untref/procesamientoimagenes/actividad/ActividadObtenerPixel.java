@@ -57,7 +57,7 @@ public class ActividadObtenerPixel extends ActividadBasica {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle(R.string.titulo_obtener_pixel);
         this.imagen = (File) getIntent().getSerializableExtra(Constante.EXTRA_IMAGEN);
-        getAplicacion().mostrarImagen(imagen, imageView, this);
+        getAplicacion().mostrarImagen(imagen, imageView);
     }
 
     @Override

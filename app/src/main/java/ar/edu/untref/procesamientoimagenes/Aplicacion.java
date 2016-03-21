@@ -19,7 +19,7 @@ import ar.edu.untref.procesamientoimagenes.util.ImageLoadingUtil;
  */
 public class Aplicacion extends Application {
 
-    public void mostrarImagen(File imagen, ImageView imageView, Context context) {
+    public void mostrarImagen(File imagen, ImageView imageView) {
 
         if (imagen.getName().endsWith(".ppm")) {
             try {
@@ -30,7 +30,7 @@ public class Aplicacion extends Application {
             }
         }
         else if (imagen.getName().endsWith(".pgm")) {
-            Toast.makeText(context, "Todavía no estamos soportando este tipo de archivo", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "Todavía no estamos soportando este tipo de archivo", Toast.LENGTH_LONG).show();
         }
         else {
 

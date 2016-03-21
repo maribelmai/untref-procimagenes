@@ -52,7 +52,7 @@ public class FragmentoEditor extends FragmentoBasico {
 
         if (isAdded()) {
             nombreImagen.setText(imagen.getName());
-            getAplicacion().mostrarImagen(imagen, imagenOriginal, getActivity());
+            getAplicacion().mostrarImagen(imagen, imagenOriginal);
             imagenEditada.setImageDrawable(null);
             botonGuardar.setVisibility(View.INVISIBLE);
         }
@@ -80,7 +80,7 @@ public class FragmentoEditor extends FragmentoBasico {
             File file = (File) data.getSerializableExtra(Constante.EXTRA_IMAGEN);
             imagenOriginal.setImageDrawable(null);
             mostrarImagen();
-            getAplicacion().mostrarImagen(file, imagenEditada, getActivity());
+            getAplicacion().mostrarImagen(file, imagenEditada);
             botonGuardar.setVisibility(View.VISIBLE);
         }
     }
