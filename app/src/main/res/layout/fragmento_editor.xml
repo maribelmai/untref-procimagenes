@@ -128,6 +128,31 @@
                     android:padding="4dp"
                     android:textStyle="bold"/>
             </LinearLayout>
+
+            <!-- Recortar -->
+
+            <LinearLayout
+                android:id="@+id/recortar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:gravity="center"
+                style="@style/selectableItem">
+
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:src="@drawable/ic_recortar"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="RECORTAR"
+                    android:gravity="center"
+                    android:textSize="10sp"
+                    android:padding="4dp"
+                    android:textStyle="bold"/>
+            </LinearLayout>
         </LinearLayout>
     </ScrollView>
 </LinearLayout>
