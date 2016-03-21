@@ -15,7 +15,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.File;
-import java.io.IOException;
 
 import ar.edu.untref.procesamientoimagenes.R;
 import ar.edu.untref.procesamientoimagenes.dialogos.DialogoModificarColor;
@@ -135,7 +134,7 @@ public class ActividadObtenerPixel extends ActividadBasica {
 
         try {
             file = getAplicacion().guardarArchivo(((BitmapDrawable) imageView.getDrawable()).getBitmap(), "/tmp/", nombreOriginal.substring(0, nombreOriginal.lastIndexOf(".")) + "_" + System.currentTimeMillis() + nombreOriginal.substring(nombreOriginal.lastIndexOf(".")));
-        } catch (IOException e) {
+        } catch (Exception e) {
             Log.e(LOG_TAG, "Temporal no se pudo guardar: " + e);
         }
 
