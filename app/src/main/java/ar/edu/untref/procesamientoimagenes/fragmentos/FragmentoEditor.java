@@ -97,4 +97,9 @@ public class FragmentoEditor extends FragmentoBasico {
             Toast.makeText(getActivity(), "Ocurrió un error guardando el archivo", Toast.LENGTH_SHORT).show();
         }
     }
+
+    @OnClick(R.id.recortar)
+    public void recortar() {
+
+    }
 }
