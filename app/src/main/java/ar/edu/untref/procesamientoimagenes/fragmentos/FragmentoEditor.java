@@ -8,7 +8,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.File;
-import java.io.IOException;
 
 import ar.edu.untref.procesamientoimagenes.R;
 import ar.edu.untref.procesamientoimagenes.actividad.ActividadObtenerPixel;
@@ -94,7 +93,7 @@ public class FragmentoEditor extends FragmentoBasico {
             String nuevoNombre = nombreOriginal.substring(0, nombreOriginal.lastIndexOf(".")) + "_" + System.currentTimeMillis() + nombreOriginal.substring(nombreOriginal.lastIndexOf("."));
             getAplicacion().guardarArchivo(((BitmapDrawable) imagenEditada.getDrawable()).getBitmap(), "/", nuevoNombre);
             Toast.makeText(getActivity(), nuevoNombre + " guardado correctamente", Toast.LENGTH_SHORT).show();
-        } catch (IOException e) {
+        } catch (Exception e) {
             Toast.makeText(getActivity(), "Ocurrió un error guardando el archivo", Toast.LENGTH_SHORT).show();
         }
     }
