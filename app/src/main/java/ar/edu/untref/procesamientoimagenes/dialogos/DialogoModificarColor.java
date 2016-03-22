@@ -14,6 +14,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import ar.edu.untref.procesamientoimagenes.R;
+import ar.edu.untref.procesamientoimagenes.actividad.ActividadObtenerEscalaDeGrises;
 import ar.edu.untref.procesamientoimagenes.actividad.ActividadObtenerPixel;
 import butterknife.ButterKnife;
 

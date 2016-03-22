@@ -10,6 +10,7 @@ import android.widget.Toast;
 import java.io.File;
 
 import ar.edu.untref.procesamientoimagenes.R;
+import ar.edu.untref.procesamientoimagenes.actividad.ActividadObtenerEscalaDeGrises;
 import ar.edu.untref.procesamientoimagenes.actividad.ActividadObtenerPixel;
 import ar.edu.untref.procesamientoimagenes.modelo.Constante;
 import butterknife.Bind;
@@ -105,5 +106,8 @@ public class FragmentoEditor extends FragmentoBasico {
     @OnClick(R.id.escalaDeGrises)
     public void escalaDeGrises() {
 
+        Intent intent = new Intent(getActivity(), ActividadObtenerEscalaDeGrises.class);
+        intent.putExtra(Constante.EXTRA_IMAGEN, imagen);
+        startActivityForResult(intent, Constante.REQUEST_CODE_PIXEL);
     }
 }
