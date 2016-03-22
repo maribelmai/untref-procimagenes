@@ -102,4 +102,8 @@ public class FragmentoEditor extends FragmentoBasico {
     public void recortar() {
 
     }
+    @OnClick(R.id.escalaDeGrises)
+    public void escalaDeGrises() {
+
+    }
 }
