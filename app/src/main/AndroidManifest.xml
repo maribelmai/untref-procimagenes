@@ -25,6 +25,9 @@
 
         <activity android:name=".actividad.ActividadDegrade"
             android:screenOrientation="landscape"/>
+
+        <activity android:name=".actividad.ActividadRecortar"
+            android:screenOrientation="landscape"/>
     </application>
 
 </manifest>

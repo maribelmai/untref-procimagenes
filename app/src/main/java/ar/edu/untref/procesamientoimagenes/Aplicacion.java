@@ -1,10 +1,10 @@
 package ar.edu.untref.procesamientoimagenes;
 
 import android.app.Application;
-import android.content.Context;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Environment;
+import android.provider.MediaStore;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -34,7 +34,12 @@ public class Aplicacion extends Application {
         }
         else {
 
-            imageView.setImageURI(Uri.fromFile(imagen));
+            try {
+                Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), Uri.fromFile(imagen));
+                imageView.setImageBitmap(bitmap);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 

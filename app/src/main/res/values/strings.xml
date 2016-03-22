@@ -5,4 +5,9 @@
     <string name="titulo_obtener_pixel">Pixel</string>
     <string name="modificandoPixel">Estás modificando el valor de: x:{valorX} y:{valorY}</string>
     <string name="modificar_color_titulo_dialogo">Modificar color de un pixel</string>
+    <string name="recortar">Recortar</string>
+    <string name="guardar">Guardar</string>
+    <string name="hint_recortar">Selecciona una porción de la imagen</string>
+    <string name="selecciona_una_imagen">Selecciona una imagen</string>
+    <string name="desdeHasta">Desde: {x},{y} Hasta: {x2},{y2}</string>
 </resources>

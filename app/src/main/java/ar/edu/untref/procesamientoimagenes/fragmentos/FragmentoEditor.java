@@ -12,6 +12,7 @@ import java.io.File;
 import ar.edu.untref.procesamientoimagenes.R;
 import ar.edu.untref.procesamientoimagenes.actividad.ActividadDegrade;
 import ar.edu.untref.procesamientoimagenes.actividad.ActividadObtenerPixel;
+import ar.edu.untref.procesamientoimagenes.actividad.ActividadRecortar;
 import ar.edu.untref.procesamientoimagenes.modelo.Constante;
 import butterknife.Bind;
 import butterknife.OnClick;
@@ -69,7 +70,7 @@ public class FragmentoEditor extends FragmentoBasico {
             startActivityForResult(intent, Constante.REQUEST_CODE_PIXEL);
         }
         else {
-            Toast.makeText(getActivity(), "Selecciona una imagen", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), R.string.selecciona_una_imagen, Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -102,13 +103,21 @@ public class FragmentoEditor extends FragmentoBasico {
     @OnClick(R.id.recortar)
     public void recortar() {
 
+        if (imagen != null) {
+
+            Intent intent = new Intent(getActivity(), ActividadRecortar.class);
+            intent.putExtra(Constante.EXTRA_IMAGEN, imagen);
+            startActivity(intent);
+        }
+        else {
+            Toast.makeText(getActivity(), R.string.selecciona_una_imagen, Toast.LENGTH_SHORT).show();
+        }
     }
 
     @OnClick(R.id.escalaDeGrises)
     public void escalaDeGrises() {
 
         Intent intent = new Intent(getActivity(), ActividadDegrade.class);
-        intent.putExtra(Constante.EXTRA_IMAGEN, imagen);
-        startActivityForResult(intent, Constante.REQUEST_CODE_PIXEL);
+        startActivity(intent);
     }
 }
