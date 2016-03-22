@@ -1,6 +1,7 @@
 package ar.edu.untref.procesamientoimagenes.actividad;
 
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.widget.ImageView;
@@ -43,8 +44,15 @@ public class ActividadDegrade extends ActividadBasica {
         // bitmapDegradeGrises.setPixel(0, 0, Color.rgb(0,0,0));
         // bitmapDegradeGrises.setPixel(0, 0, 0); <--- Es lo mismo que lo de arriba pero sirve solo para grises.
         // Esa línea hace que el píxel en la posición 0, 0 sea de color negro.
+        int i;
+        int j;
 
+        for(i=0;i<=255;i++){
+            for(j=0;j<=255;j++){
+                bitmapDegradeGrises.setPixel(i, j, Color.rgb(i, i, i));
+            }
 
+        }
 
 
         //Muestro lo que dibujaste así ves cómo va quedando
