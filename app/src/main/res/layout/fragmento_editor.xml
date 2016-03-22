@@ -165,12 +165,12 @@
                 <ImageView
                     android:layout_width="30dp"
                     android:layout_height="30dp"
-                    android:src="@drawable/escaladegrises"/>
+                    android:src="@drawable/ic_degrade"/>
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="ESCALA DE GRISES"
+                    android:text="DEGRADE"
                     android:gravity="center"
                     android:textSize="10sp"
                     android:padding="4dp"

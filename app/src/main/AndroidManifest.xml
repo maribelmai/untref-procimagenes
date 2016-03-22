@@ -23,7 +23,7 @@
         <activity android:name=".actividad.ActividadObtenerPixel"
             android:screenOrientation="landscape"/>
 
-        <activity android:name=".actividad.ActividadObtenerEscalaDeGrises"
+        <activity android:name=".actividad.ActividadDegrade"
             android:screenOrientation="landscape"/>
     </application>
 
