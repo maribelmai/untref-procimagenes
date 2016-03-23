@@ -165,6 +165,14 @@
                     android:layout_marginRight="16dp"
                     android:gravity="center"
                     tools:background="@color/blue"/>
+
+                <TextView
+                    android:id="@+id/rgb"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:layout_gravity="center"
+                    tools:text="125"/>
             </LinearLayout>
         </ScrollView>
     </LinearLayout>

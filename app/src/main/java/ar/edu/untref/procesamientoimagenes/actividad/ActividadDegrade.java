@@ -43,23 +43,11 @@ public class ActividadDegrade extends ActividadBasica {
 
         Bitmap bitmapDegradeGrises = Bitmap.createBitmap(ancho, alto, Bitmap.Config.RGB_565);
 
-        //TODO: Llenar toda la primer fila de 0, la segunda de 1, la tercera de 2, etc.
-        //Por ejemplo:
-        // bitmapDegradeGrises.setPixel(0, 0, Color.rgb(0,0,0));
-        // bitmapDegradeGrises.setPixel(0, 0, 0); <--- Es lo mismo que lo de arriba pero sirve solo para grises.
-        // Esa línea hace que el píxel en la posición 0, 0 sea de color negro.
-        int i;
-        int j;
-
-        for(i=0;i<=255;i++){
-            for(j=0;j<=255;j++){
+        for(int i=0; i <= ancho -1; i++){
+            for(int j=0; j<= alto -1; j++){
                 bitmapDegradeGrises.setPixel(i, j, Color.rgb(i, i, i));
             }
-
         }
-
-
-        //Muestro lo que dibujaste así ves cómo va quedando
 
         try {
             File archivo = getAplicacion().guardarArchivo(bitmapDegradeGrises, "/", "degradeGrises.png");
@@ -72,7 +60,7 @@ public class ActividadDegrade extends ActividadBasica {
     private void generarDegradeColores() {
 
         int ancho = 50;
-        int alto = 255*6;
+        int alto = 255*6; //SON 6 ETAPAS
 
         Integer r = 255;
         Integer g = 0;
@@ -133,8 +121,6 @@ public class ActividadDegrade extends ActividadBasica {
                 g--;
             }
         }
-
-        //Muestro lo que dibujaste así ves cómo va quedando
 
         try {
             File archivo = getAplicacion().guardarArchivo(bitmapDegradeColores, "/", "degradeColores.png");

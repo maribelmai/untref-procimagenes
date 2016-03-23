@@ -122,10 +122,6 @@ public class ActividadObtenerPixel extends ActividadBasica {
         }
     }
 
-    private String darFormato(int r, int g, int b) {
-        return "<b><font color=\"#db2222\">R: " + r + "</><font color=\"#158e34\"> &nbsp;&nbsp; G: " + g + "</><font color=\"#0342ab\"> &nbsp;&nbsp; B: " + b + "</></>";
-    }
-
     @Override
     public void finish() {
 

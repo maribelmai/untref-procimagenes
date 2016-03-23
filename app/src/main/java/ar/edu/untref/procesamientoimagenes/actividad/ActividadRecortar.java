@@ -49,6 +49,9 @@ public class ActividadRecortar extends ActividadBasica {
     @Bind(R.id.colorPromedio)
     View colorPromedio;
 
+    @Bind(R.id.rgb)
+    TextView rgb;
+
     private Point desde;
     private Point hasta;
 
@@ -149,11 +152,11 @@ public class ActividadRecortar extends ActividadBasica {
 
         imagenRecortada.setImageBitmap(bitmapNuevo);
         cantidadPixeles.setText(String.valueOf(nuevoAncho * nuevoAlto));
-        colorPromedio.setBackgroundColor(obtenerColorPromedio(bitmapNuevo));
+        mostrarColorPromedio(bitmapNuevo);
         guardar.setVisibility(View.VISIBLE);
     }
 
-    private int obtenerColorPromedio(Bitmap bitmapNuevo) {
+    private void mostrarColorPromedio(Bitmap bitmapNuevo) {
 
         int ancho = bitmapNuevo.getWidth();
         int alto = bitmapNuevo.getHeight();
@@ -175,9 +178,12 @@ public class ActividadRecortar extends ActividadBasica {
             }
         }
 
-        return  Color.rgb(sumaRojo / cantidadPixeles,
-                sumaVerde / cantidadPixeles,
-                sumaAzul / cantidadPixeles);
+        int promedioRojos = sumaRojo / cantidadPixeles;
+        int promedioVerdes = sumaVerde / cantidadPixeles;
+        int promedioAzules = sumaAzul / cantidadPixeles;
+
+        colorPromedio.setBackgroundColor(Color.rgb(promedioRojos, promedioVerdes, promedioAzules));
+        rgb.setText(Html.fromHtml(darFormato(promedioRojos, promedioVerdes, promedioAzules)));
     }
 
     @OnClick(R.id.guardar)
@@ -207,5 +213,6 @@ public class ActividadRecortar extends ActividadBasica {
         limpiarValores.setVisibility(View.GONE);
         cantidadPixeles.setText("");
         colorPromedio.setBackgroundResource(android.R.color.transparent);
+        rgb.setText("");
     }
 }
