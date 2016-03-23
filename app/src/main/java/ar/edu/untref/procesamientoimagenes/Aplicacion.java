@@ -29,6 +29,16 @@ public class Aplicacion extends Application {
                 e.printStackTrace();
             }
         }
+        else if (imagen.getName().endsWith(".raw")) {
+            Toast.makeText(this, "Todavía no estamos soportando este tipo de archivo", Toast.LENGTH_LONG).show();
+
+//            try {
+//                Bitmap loadedBitmap = ImageLoadingUtil.readRaw(imagen.getAbsolutePath());
+//                imageView.setImageBitmap(loadedBitmap);
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
+        }
         else if (imagen.getName().endsWith(".pgm")) {
             Toast.makeText(this, "Todavía no estamos soportando este tipo de archivo", Toast.LENGTH_LONG).show();
         }

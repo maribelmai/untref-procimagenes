@@ -11,6 +11,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.StreamTokenizer;
+import java.nio.ByteBuffer;
 import java.util.Scanner;
 
 /**
@@ -104,5 +105,24 @@ public class ImageLoadingUtil {
         }
 
         return bitmap;
+    }
+
+    public static Bitmap readRaw(String path) throws IOException {
+
+        FileInputStream fileInputStream = null;
+
+        File file = new File(path);
+
+        byte[] src = new byte[(int) file.length()];
+
+        fileInputStream = new FileInputStream(file);
+        fileInputStream.read(src);
+        fileInputStream.close();
+
+
+        Bitmap bm = Bitmap.createBitmap(512, 512, Bitmap.Config.ARGB_8888);
+        bm.copyPixelsFromBuffer(ByteBuffer.wrap(src));
+
+        return bm;
     }
 }

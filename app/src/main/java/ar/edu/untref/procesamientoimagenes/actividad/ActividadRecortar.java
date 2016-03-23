@@ -1,6 +1,7 @@
 package ar.edu.untref.procesamientoimagenes.actividad;
 
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.graphics.Point;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
@@ -41,6 +42,12 @@ public class ActividadRecortar extends ActividadBasica {
 
     @Bind(R.id.limpiar)
     View limpiarValores;
+
+    @Bind(R.id.cantidadPixeles)
+    TextView cantidadPixeles;
+
+    @Bind(R.id.colorPromedio)
+    View colorPromedio;
 
     private Point desde;
     private Point hasta;
@@ -126,11 +133,11 @@ public class ActividadRecortar extends ActividadBasica {
             hastaY = desde.y;
         }
 
-        int nuevoAncho = hastaX - desdeX;
-        int nuevoAlto = hastaY - desdeY;
+        int nuevoAncho = hastaX - desdeX + 1;
+        int nuevoAlto = hastaY - desdeY + 1;
 
         Bitmap bitmapOriginal = ((BitmapDrawable) imagenOriginal.getDrawable()).getBitmap();
-        Bitmap bitmapNuevo = Bitmap.createBitmap(nuevoAncho + 1, nuevoAlto + 1, Bitmap.Config.RGB_565);
+        Bitmap bitmapNuevo = Bitmap.createBitmap(nuevoAncho, nuevoAlto, Bitmap.Config.RGB_565);
 
         for (int i = desdeX , x = 0 ; i <= hastaX; i++ , x ++) {
 
@@ -141,7 +148,36 @@ public class ActividadRecortar extends ActividadBasica {
         }
 
         imagenRecortada.setImageBitmap(bitmapNuevo);
+        cantidadPixeles.setText(String.valueOf(nuevoAncho * nuevoAlto));
+        colorPromedio.setBackgroundColor(obtenerColorPromedio(bitmapNuevo));
         guardar.setVisibility(View.VISIBLE);
+    }
+
+    private int obtenerColorPromedio(Bitmap bitmapNuevo) {
+
+        int ancho = bitmapNuevo.getWidth();
+        int alto = bitmapNuevo.getHeight();
+
+        int cantidadPixeles = ancho * alto;
+        int sumaRojo = 0;
+        int sumaVerde = 0;
+        int sumaAzul = 0;
+
+        for (int x = 0; x < ancho; x++) {
+
+            for (int y = 0; y < alto; y ++) {
+
+                int color = bitmapNuevo.getPixel(x, y);
+
+                sumaRojo += Color.red(color);
+                sumaVerde += Color.green(color);
+                sumaAzul += Color.blue(color);
+            }
+        }
+
+        return  Color.rgb(sumaRojo / cantidadPixeles,
+                sumaVerde / cantidadPixeles,
+                sumaAzul / cantidadPixeles);
     }
 
     @OnClick(R.id.guardar)
@@ -169,5 +205,7 @@ public class ActividadRecortar extends ActividadBasica {
         guardar.setVisibility(View.INVISIBLE);
         imagenRecortada.setImageDrawable(null);
         limpiarValores.setVisibility(View.GONE);
+        cantidadPixeles.setText("");
+        colorPromedio.setBackgroundResource(android.R.color.transparent);
     }
 }
