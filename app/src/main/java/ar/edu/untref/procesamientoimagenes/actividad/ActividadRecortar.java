@@ -183,7 +183,7 @@ public class ActividadRecortar extends ActividadBasica {
         int promedioAzules = sumaAzul / cantidadPixeles;
 
         colorPromedio.setBackgroundColor(Color.rgb(promedioRojos, promedioVerdes, promedioAzules));
-        rgb.setText(Html.fromHtml(darFormato(promedioRojos, promedioVerdes, promedioAzules)));
+        rgb.setText(Html.fromHtml(darFormatoRGB(promedioRojos, promedioVerdes, promedioAzules)));
     }
 
     @OnClick(R.id.guardar)

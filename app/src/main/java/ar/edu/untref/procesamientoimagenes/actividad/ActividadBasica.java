@@ -1,5 +1,6 @@
 package ar.edu.untref.procesamientoimagenes.actividad;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -35,7 +36,20 @@ public abstract class ActividadBasica extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    protected String darFormato(int r, int g, int b) {
+    protected String darFormatoRGB(int r, int g, int b) {
         return "<b><font color=\"#db2222\">R: " + r + "</><font color=\"#158e34\"> &nbsp;&nbsp; G: " + g + "</><font color=\"#0342ab\"> &nbsp;&nbsp; B: " + b + "</></>";
     }
+
+    protected String darFormatoHSV(int pixel) {
+
+        float[] hsv = new float[3];
+        Color.colorToHSV(pixel, hsv);
+
+        int h = (int) hsv[0];
+        int s = (int) (hsv[1] * 100);
+        int v = (int) (hsv[2] * 100);
+
+        return "H: " + h + "    S: " + s + "    V: " + v;
+    }
+
 }

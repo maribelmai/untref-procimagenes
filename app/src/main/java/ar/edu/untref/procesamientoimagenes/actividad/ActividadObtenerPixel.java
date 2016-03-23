@@ -2,6 +2,7 @@ package ar.edu.untref.procesamientoimagenes.actividad;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -43,6 +44,9 @@ public class ActividadObtenerPixel extends ActividadBasica {
 
     @Bind(R.id.rgb)
     TextView rgb;
+
+    @Bind(R.id.hsv)
+    TextView hsv;
 
     @Bind(R.id.modificarColor)
     View modificarColor;
@@ -114,8 +118,11 @@ public class ActividadObtenerPixel extends ActividadBasica {
             int G = (pixel >> 8) & 0xff;
             int B = pixel & 0xff;
 
-            String rgbString = darFormato(R, G, B);
+            String rgbString = darFormatoRGB(R, G, B);
             rgb.setText(Html.fromHtml(rgbString));
+
+            String hsvString = darFormatoHSV(pixel);
+            hsv.setText(hsvString);
         }
         catch (IllegalArgumentException e) {
             Toast.makeText(this, "Pixel no válido", Toast.LENGTH_SHORT).show();
