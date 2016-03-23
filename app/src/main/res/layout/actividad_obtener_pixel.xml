@@ -9,18 +9,24 @@
     android:focusableInTouchMode="true"
     android:descendantFocusability="beforeDescendants">
 
-    <FrameLayout
+    <ScrollView
         android:layout_width="0dp"
         android:layout_height="match_parent"
-        android:layout_weight="0.7">
+        android:layout_weight="0.7"
+        android:layout_margin="32dp">
 
-        <ImageView
-            android:id="@+id/imagen"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:adjustViewBounds="true"
-            android:layout_gravity="center"/>
-    </FrameLayout>
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/imagen"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:adjustViewBounds="true"
+                android:layout_gravity="center"/>
+        </FrameLayout>
+    </ScrollView>
 
     <ScrollView
         android:layout_width="0dp"
