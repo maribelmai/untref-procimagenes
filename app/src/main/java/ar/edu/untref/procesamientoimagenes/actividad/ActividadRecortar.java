@@ -39,6 +39,9 @@ public class ActividadRecortar extends ActividadBasica {
     @Bind(R.id.guardar)
     View guardar;
 
+    @Bind(R.id.limpiar)
+    View limpiarValores;
+
     private Point desde;
     private Point hasta;
 
@@ -76,7 +79,7 @@ public class ActividadRecortar extends ActividadBasica {
                     .replace("{y}", "<b>" + String.valueOf(desde.y) + "</b>")
                     .replace("{x2},{y2}", "<b>" + "No seleccionado" + "</b>")));
             desdeSeleccionado = true;
-
+            limpiarValores.setVisibility(View.VISIBLE);
         }
         else if (!hastaSeleccionado) {
             this.hasta.set((int) motionEvent.getX(), (int) motionEvent.getY());
@@ -165,5 +168,6 @@ public class ActividadRecortar extends ActividadBasica {
         this.desdeHasta.setText(R.string.sinDesdeHasta);
         guardar.setVisibility(View.INVISIBLE);
         imagenRecortada.setImageDrawable(null);
+        limpiarValores.setVisibility(View.GONE);
     }
 }
