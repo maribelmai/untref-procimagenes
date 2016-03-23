@@ -5,7 +5,7 @@ import android.graphics.Point;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.util.Log;
+import android.text.Html;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
@@ -71,27 +71,24 @@ public class ActividadRecortar extends ActividadBasica {
 
         if (!desdeSeleccionado) {
             this.desde.set((int) motionEvent.getX(), (int) motionEvent.getY());
-            this.desdeHasta.setText(this.desdeHasta.getText().toString()
-                    .replace("{x}", String.valueOf(desde.x))
-                    .replace("{y}", String.valueOf(desde.y)));
+            this.desdeHasta.setText(Html.fromHtml(getString(R.string.desdeHasta)
+                    .replace("{x}", "<b>" + String.valueOf(desde.x) + "</b>")
+                    .replace("{y}", "<b>" + String.valueOf(desde.y) + "</b>")
+                    .replace("{x2},{y2}", "<b>" + "No seleccionado" + "</b>")));
             desdeSeleccionado = true;
 
         }
         else if (!hastaSeleccionado) {
             this.hasta.set((int) motionEvent.getX(), (int) motionEvent.getY());
-            this.desdeHasta.setText(this.desdeHasta.getText().toString()
-                    .replace("{x2}", String.valueOf(hasta.x))
-                    .replace("{y2}", String.valueOf(hasta.y)));
+            this.desdeHasta.setText(Html.fromHtml(getString(R.string.desdeHasta)
+                    .replace("{x}", "<b>" + String.valueOf(desde.x) + "</b>")
+                    .replace("{y}", "<b>" + String.valueOf(desde.y) + "</b>")
+                    .replace("{x2}", "<b>" + String.valueOf(hasta.x) + "</b>")
+                    .replace("{y2}", "<b>" + String.valueOf(hasta.y)) + "</b>"));
             hastaSeleccionado = true;
         }
         else {
-            desdeSeleccionado = false;
-            hastaSeleccionado = false;
-            this.desde = new Point();
-            this.hasta = new Point();
-            this.desdeHasta.setText(R.string.desdeHasta);
-            guardar.setVisibility(View.INVISIBLE);
-            imagenRecortada.setImageDrawable(null);
+            limpiar();
         }
 
         if (desdeSeleccionado && hastaSeleccionado) {
@@ -129,7 +126,6 @@ public class ActividadRecortar extends ActividadBasica {
         int nuevoAncho = hastaX - desdeX;
         int nuevoAlto = hastaY - desdeY;
 
-        Log.i(LOG_TAG, "NUEVO ANCHO: " + nuevoAncho + " NUEVO ALTO: " + nuevoAlto);
         Bitmap bitmapOriginal = ((BitmapDrawable) imagenOriginal.getDrawable()).getBitmap();
         Bitmap bitmapNuevo = Bitmap.createBitmap(nuevoAncho + 1, nuevoAlto + 1, Bitmap.Config.RGB_565);
 
@@ -157,5 +153,17 @@ public class ActividadRecortar extends ActividadBasica {
         } catch (IOException e) {
             Toast.makeText(this, "Ocurrió un error guardando el archivo", Toast.LENGTH_SHORT).show();
         }
+    }
+
+    @OnClick(R.id.limpiar)
+    public void limpiar() {
+
+        desdeSeleccionado = false;
+        hastaSeleccionado = false;
+        this.desde = new Point();
+        this.hasta = new Point();
+        this.desdeHasta.setText(R.string.sinDesdeHasta);
+        guardar.setVisibility(View.INVISIBLE);
+        imagenRecortada.setImageDrawable(null);
     }
 }

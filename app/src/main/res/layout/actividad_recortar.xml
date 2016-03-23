@@ -43,11 +43,36 @@
 
         <TextView
             android:id="@+id/desdeHasta"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/desdeHasta"
+            android:text="@string/sinDesdeHasta"
             android:padding="16dp"
             android:layout_below="@+id/guardar"/>
+
+        <LinearLayout
+            android:id="@+id/limpiar"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_toRightOf="@+id/desdeHasta"
+            android:layout_alignBottom="@+id/desdeHasta"
+            android:padding="16dp"
+            style="@style/selectableItem">
+
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/ic_clear"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/limpiarValores"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:layout_marginLeft="8dp"/>
+        </LinearLayout>
 
     </RelativeLayout>
 

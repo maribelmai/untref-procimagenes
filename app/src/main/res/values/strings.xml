@@ -10,4 +10,6 @@
     <string name="hint_recortar">Selecciona una porción de la imagen</string>
     <string name="selecciona_una_imagen">Selecciona una imagen</string>
     <string name="desdeHasta">Desde: {x},{y} Hasta: {x2},{y2}</string>
+    <string name="sinDesdeHasta">Toca un píxel para seleccionar el origen y luego toca otro para seleccionar el destino</string>
+    <string name="limpiarValores">Limpiar</string>
 </resources>

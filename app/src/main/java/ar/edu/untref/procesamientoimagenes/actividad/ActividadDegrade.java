@@ -71,57 +71,73 @@ public class ActividadDegrade extends ActividadBasica {
 
     private void generarDegradeColores() {
 
-        int ancho = 256;
-        int alto = 1600;
+        int ancho = 50;
+        int alto = 255*6;
 
-        Bitmap bitmapDegradeGrises = Bitmap.createBitmap(ancho, alto, Bitmap.Config.RGB_565);
-        int i;
-        int j;
-        int y=0;
+        Integer r = 255;
+        Integer g = 0;
+        Integer b = 0;
 
-        for(i=0;i<=255;i++){
-            for(j=0;j<=255;j++){
-                bitmapDegradeGrises.setPixel(i, y, Color.rgb( 255 , 0 , j ));
-                y=y+1;
-            }
-        }
-        for(i=0;i<=255;i++){
-            for(j=0;j<=255;j++){
-                bitmapDegradeGrises.setPixel(i, y, Color.rgb( 255-j , 0 , 255 ));
-                y=y+1;
-            }
-        }
-        for(i=0;i<=255;i++){
-            for (j = 0; j <= 255; j++) {
-                bitmapDegradeGrises.setPixel(i, y, Color.rgb( 0 , j , 255 ));
-                y=y+1;
-            }
-        }
-        for(i=0;i<=255;i++){
-            for (j = 0; j <= 255; j++) {
-                bitmapDegradeGrises.setPixel(i, y, Color.rgb( 0 ,  255 , 255-j ));
-                y=y+1;
-            }
-        }
-        for(i=0;i<=255;i++){
-            for (j = 0; j <= 255; j++) {
-                bitmapDegradeGrises.setPixel(i, y, Color.rgb( j , 255 , 0 ));
-                y=y+1;
+        Integer etapa = 1;
+
+        Bitmap bitmapDegradeColores = Bitmap.createBitmap(ancho, alto, Bitmap.Config.RGB_565);
+
+        for (int y = 0; y < alto ; y ++) {
+
+            for (int x = 0; x < ancho; x++) {
+
+                bitmapDegradeColores.setPixel(x, y, Color.rgb(r, g, b));
             }
 
-        }
-        for(i=0;i<=255;i++){
-            for (j = 0; j <= 255; j++) {
-                bitmapDegradeGrises.setPixel(i, y, Color.rgb( 255 , 255-j , 0 ));
-                y=y+1;
-            }
+            if (etapa == 1) {
+                b ++;
 
+                if (b == 255) {
+                    etapa = 2;
+                }
+            }
+            else if (etapa == 2) {
+
+                r --;
+
+                if (r == 0) {
+                    etapa = 3;
+                }
+            }
+            else if (etapa == 3) {
+
+                g ++;
+
+                if (g == 255) {
+                    etapa = 4;
+                }
+            }
+            else if (etapa == 4) {
+
+                b--;
+
+                if (b == 0) {
+                    etapa = 5;
+                }
+            }
+            else if (etapa == 5) {
+
+                r ++;
+
+                if (r == 255) {
+                    etapa = 6;
+                }
+            }
+            else {
+
+                g--;
+            }
         }
 
         //Muestro lo que dibujaste así ves cómo va quedando
 
         try {
-            File archivo = getAplicacion().guardarArchivo(bitmapDegradeGrises, "/", "degradeGrises.png");
+            File archivo = getAplicacion().guardarArchivo(bitmapDegradeColores, "/", "degradeColores.png");
             getAplicacion().mostrarImagen(archivo, degradeColores);
         } catch (IOException e) {
             e.printStackTrace();
