@@ -154,8 +154,10 @@
                     android:textStyle="bold"/>
             </LinearLayout>
 
+            <!-- Degradé -->
+
             <LinearLayout
-                android:id="@+id/escalaDeGrises"
+                android:id="@+id/degrade"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
@@ -171,6 +173,31 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="DEGRADE"
+                    android:gravity="center"
+                    android:textSize="10sp"
+                    android:padding="4dp"
+                    android:textStyle="bold"/>
+            </LinearLayout>
+
+            <!-- Formas -->
+
+            <LinearLayout
+                android:id="@+id/formas"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:gravity="center"
+                style="@style/selectableItem">
+
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:src="@drawable/ic_formas"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="FORMAS"
                     android:gravity="center"
                     android:textSize="10sp"
                     android:padding="4dp"

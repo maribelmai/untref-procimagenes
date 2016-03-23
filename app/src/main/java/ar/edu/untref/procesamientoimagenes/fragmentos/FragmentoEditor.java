@@ -11,6 +11,7 @@ import java.io.File;
 
 import ar.edu.untref.procesamientoimagenes.R;
 import ar.edu.untref.procesamientoimagenes.actividad.ActividadDegrade;
+import ar.edu.untref.procesamientoimagenes.actividad.ActividadFormas;
 import ar.edu.untref.procesamientoimagenes.actividad.ActividadObtenerPixel;
 import ar.edu.untref.procesamientoimagenes.actividad.ActividadRecortar;
 import ar.edu.untref.procesamientoimagenes.modelo.Constante;
@@ -114,10 +115,17 @@ public class FragmentoEditor extends FragmentoBasico {
         }
     }
 
-    @OnClick(R.id.escalaDeGrises)
-    public void escalaDeGrises() {
+    @OnClick(R.id.degrade)
+    public void crearDegrades() {
 
         Intent intent = new Intent(getActivity(), ActividadDegrade.class);
+        startActivity(intent);
+    }
+
+    @OnClick(R.id.formas)
+    public void crearFormas() {
+
+        Intent intent = new Intent(getActivity(), ActividadFormas.class);
         startActivity(intent);
     }
 }

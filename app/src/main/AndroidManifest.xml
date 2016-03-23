@@ -28,6 +28,9 @@
 
         <activity android:name=".actividad.ActividadRecortar"
             android:screenOrientation="landscape"/>
+
+        <activity android:name=".actividad.ActividadFormas"
+            android:screenOrientation="landscape"/>
     </application>
 
 </manifest>
