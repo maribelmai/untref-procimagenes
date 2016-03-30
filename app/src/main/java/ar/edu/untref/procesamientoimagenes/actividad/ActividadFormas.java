@@ -1,7 +1,9 @@
 package ar.edu.untref.procesamientoimagenes.actividad;
 
 import android.graphics.Bitmap;
+import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Paint;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.widget.ImageView;
@@ -36,6 +38,27 @@ public class ActividadFormas extends ActividadBasica {
 
     private void generarCirculo() {
 
+        int ancho = 200;
+        int alto = 200;
+
+        int blanco = Color.rgb(255, 255, 255);
+
+        Bitmap bitmapCirculo = Bitmap.createBitmap(ancho, alto, Bitmap.Config.RGB_565);
+
+        Paint paint = new Paint();
+        paint.setAntiAlias(true);
+        paint.setColor(blanco);
+
+        Canvas canvas = new Canvas(bitmapCirculo);
+        canvas.drawCircle(100, 100, 50, paint);
+
+        circulo.setImageBitmap(bitmapCirculo);
+
+        try {
+            getAplicacion().guardarArchivo(bitmapCirculo, "/", "circulo.png");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     private void generarCuadrado() {
