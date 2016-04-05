@@ -2,13 +2,15 @@ package ar.edu.untref.procesamientoimagenes.actividad;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.TextView;
+import android.widget.Toast;
 
 import ar.edu.untref.procesamientoimagenes.Aplicacion;
 import ar.edu.untref.procesamientoimagenes.R;
@@ -21,17 +23,14 @@ import butterknife.OnClick;
  */
 public class ActividadOperaciones extends ActividadBasica {
 
-    @Bind(R.id.nombreImagen1)
-    TextView nombreImagen1;
-
-    @Bind(R.id.nombreImagen2)
-    TextView nombreImagen2;
-
     @Bind(R.id.imagen1)
     ImageView imagen1;
 
     @Bind(R.id.imagen2)
     ImageView imagen2;
+
+    @Bind(R.id.imagenResultante)
+    ImageView imagenResultante;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -84,5 +83,45 @@ public class ActividadOperaciones extends ActividadBasica {
         if (!isFinishing()) {
             alertDialog.show();
         }
+    }
+
+    @OnClick(R.id.sumar)
+    public void sumar() {
+
+        BitmapDrawable drawable1 = (BitmapDrawable) imagen1.getDrawable();
+        BitmapDrawable drawable2 = (BitmapDrawable) imagen2.getDrawable();
+
+        if (drawable1 != null && drawable2 != null) {
+
+            Bitmap bitmap1 = drawable1.getBitmap();
+            Bitmap bitmap2 = drawable2.getBitmap();
+
+            if (bitmap1.getHeight() == bitmap2.getHeight() && bitmap1.getWidth() == bitmap2.getWidth()) {
+
+                Bitmap resultante = sumar(bitmap1, bitmap2);
+                imagenResultante.setImageBitmap(resultante);
+            }
+            else {
+                Toast.makeText(this, "Las imágenes deben tener las mismas dimensiones", Toast.LENGTH_SHORT).show();
+            }
+        }
+        else {
+            Toast.makeText(this, "Selecciona dos imágenes", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private Bitmap sumar(Bitmap bitmap1, Bitmap bitmap2) {
+
+        Bitmap bitmapNuevo = Bitmap.createBitmap(bitmap1.getWidth(), bitmap2.getHeight(), Bitmap.Config.RGB_565);
+
+        for (int x = 0; x < bitmapNuevo.getWidth(); x ++) {
+
+            for (int y = 0; y < bitmapNuevo.getHeight(); y ++) {
+
+                bitmapNuevo.setPixel(x, y, bitmap1.getPixel(x,y) + bitmap2.getPixel(x,y));
+            }
+        }
+
+        return bitmapNuevo;
     }
 }
