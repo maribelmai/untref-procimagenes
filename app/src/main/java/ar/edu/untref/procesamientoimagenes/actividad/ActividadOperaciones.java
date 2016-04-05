@@ -3,10 +3,12 @@ package ar.edu.untref.procesamientoimagenes.actividad;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
@@ -22,6 +24,8 @@ import butterknife.OnClick;
  * Created by maribel on 4/4/16.
  */
 public class ActividadOperaciones extends ActividadBasica {
+
+    private static final String LOG_TAG = ActividadOperaciones.class.getSimpleName();
 
     @Bind(R.id.imagen1)
     ImageView imagen1;
@@ -112,16 +116,62 @@ public class ActividadOperaciones extends ActividadBasica {
 
     private Bitmap sumar(Bitmap bitmap1, Bitmap bitmap2) {
 
-        Bitmap bitmapNuevo = Bitmap.createBitmap(bitmap1.getWidth(), bitmap2.getHeight(), Bitmap.Config.RGB_565);
+        int [][] matrizPixeles = new int[bitmap1.getWidth()][bitmap2.getHeight()];
 
-        for (int x = 0; x < bitmapNuevo.getWidth(); x ++) {
+        for (int x = 0; x < bitmap1.getWidth(); x ++) {
 
-            for (int y = 0; y < bitmapNuevo.getHeight(); y ++) {
+            for (int y = 0; y < bitmap1.getHeight(); y ++) {
 
-                bitmapNuevo.setPixel(x, y, bitmap1.getPixel(x,y) + bitmap2.getPixel(x,y));
+                int valorPixelBitmap1 = Color.red(bitmap1.getPixel(x, y));
+                int valorPixelBitmap2 = Color.red(bitmap2.getPixel(x, y));
+
+                matrizPixeles[x][y] = valorPixelBitmap1 + valorPixelBitmap2;
             }
         }
 
-        return bitmapNuevo;
+        return hacerTransformacionLineal(matrizPixeles);
+    }
+
+    private Bitmap hacerTransformacionLineal(int[][] matrizPixeles) {
+
+        int valorMinimo = matrizPixeles[0][0];
+        int valorMaximo = matrizPixeles[0][0];
+
+        //Obtengo mínimo y máximo
+        for (int x = 0; x < matrizPixeles.length; x ++) {
+
+            for (int y = 0; y < matrizPixeles[0].length; y ++) {
+
+                int pixel = matrizPixeles[x][y];
+
+                if (pixel < valorMinimo) {
+                    valorMinimo = pixel;
+                }
+                else if (pixel > valorMaximo) {
+                    valorMaximo = pixel;
+                }
+            }
+        }
+
+        Log.i(LOG_TAG, "Valor mínimo: " + valorMinimo);
+        Log.i(LOG_TAG, "Valor máximo: " + valorMaximo);
+
+        Bitmap bitmap = Bitmap.createBitmap(matrizPixeles.length, matrizPixeles[0].length, Bitmap.Config.RGB_565);
+
+        //Aplico transformación
+        for (int x = 0; x < matrizPixeles.length; x ++) {
+
+            for (int y = 0; y < matrizPixeles[0].length; y ++) {
+
+                int pixel = matrizPixeles[x][y];
+                int nuevoPixel = (255 * pixel) / valorMaximo;
+
+                bitmap.setPixel(x,y, Color.rgb(nuevoPixel, nuevoPixel, nuevoPixel));
+
+                Log.i(LOG_TAG, pixel + " --> " + nuevoPixel);
+            }
+        }
+
+        return bitmap;
     }
 }
