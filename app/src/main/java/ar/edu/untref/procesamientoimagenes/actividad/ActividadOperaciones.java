@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import ar.edu.untref.procesamientoimagenes.Aplicacion;
@@ -36,11 +37,16 @@ public class ActividadOperaciones extends ActividadBasica {
     @Bind(R.id.imagenResultante)
     ImageView imagenResultante;
 
+    @Bind(R.id.resultadoOperacion)
+    TextView resultadoOperacion;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getSupportActionBar().setTitle("Operaciones");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        this.resultadoOperacion.setText(getString(R.string.resultado_operacion).replace("{operacion}", ""));
     }
 
     @Override
@@ -92,6 +98,8 @@ public class ActividadOperaciones extends ActividadBasica {
     @OnClick(R.id.sumar)
     public void sumar() {
 
+        this.resultadoOperacion.setText(getString(R.string.resultado_operacion).replace("{operacion}", "(SUMA)"));
+
         BitmapDrawable drawable1 = (BitmapDrawable) imagen1.getDrawable();
         BitmapDrawable drawable2 = (BitmapDrawable) imagen2.getDrawable();
 
@@ -129,49 +137,94 @@ public class ActividadOperaciones extends ActividadBasica {
             }
         }
 
-        return hacerTransformacionLineal(matrizPixeles);
+        return hacerTransformacionLinealSuma(matrizPixeles);
     }
 
-    private Bitmap hacerTransformacionLineal(int[][] matrizPixeles) {
+    @OnClick(R.id.restar)
+    public void restar() {
 
-        int valorMinimo = matrizPixeles[0][0];
-        int valorMaximo = matrizPixeles[0][0];
+        this.resultadoOperacion.setText(getString(R.string.resultado_operacion).replace("{operacion}", "(RESTA)"));
 
-        //Obtengo mínimo y máximo
-        for (int x = 0; x < matrizPixeles.length; x ++) {
+        BitmapDrawable drawable1 = (BitmapDrawable) imagen1.getDrawable();
+        BitmapDrawable drawable2 = (BitmapDrawable) imagen2.getDrawable();
 
-            for (int y = 0; y < matrizPixeles[0].length; y ++) {
+        if (drawable1 != null && drawable2 != null) {
 
-                int pixel = matrizPixeles[x][y];
+            Bitmap bitmap1 = drawable1.getBitmap();
+            Bitmap bitmap2 = drawable2.getBitmap();
 
-                if (pixel < valorMinimo) {
-                    valorMinimo = pixel;
-                }
-                else if (pixel > valorMaximo) {
-                    valorMaximo = pixel;
-                }
+            if (bitmap1.getHeight() == bitmap2.getHeight() && bitmap1.getWidth() == bitmap2.getWidth()) {
+
+                Bitmap resultante = restar(bitmap1, bitmap2);
+                imagenResultante.setImageBitmap(resultante);
+            }
+            else {
+                Toast.makeText(this, "Las imágenes deben tener las mismas dimensiones", Toast.LENGTH_SHORT).show();
+            }
+        }
+        else {
+            Toast.makeText(this, "Selecciona dos imágenes", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private Bitmap restar(Bitmap bitmap1, Bitmap bitmap2) {
+
+        int [][] matrizPixeles = new int[bitmap1.getWidth()][bitmap2.getHeight()];
+
+        for (int x = 0; x < bitmap1.getWidth(); x ++) {
+
+            for (int y = 0; y < bitmap1.getHeight(); y ++) {
+
+                int valorPixelBitmap1 = Color.red(bitmap1.getPixel(x, y));
+                int valorPixelBitmap2 = Color.red(bitmap2.getPixel(x, y));
+
+                matrizPixeles[x][y] = valorPixelBitmap1 - valorPixelBitmap2;
             }
         }
 
-        Log.i(LOG_TAG, "Valor mínimo: " + valorMinimo);
-        Log.i(LOG_TAG, "Valor máximo: " + valorMaximo);
+        return hacerTransformacionLinealResta(matrizPixeles);
+    }
+
+    private Bitmap hacerTransformacionLinealResta(int[][] matrizPixeles) {
 
         Bitmap bitmap = Bitmap.createBitmap(matrizPixeles.length, matrizPixeles[0].length, Bitmap.Config.RGB_565);
 
-        //Aplico transformación
+        //Aplico transformación en un rango de -255 a 255 No pueden haber colores negativos -> Los llevo a 0
         for (int x = 0; x < matrizPixeles.length; x ++) {
 
             for (int y = 0; y < matrizPixeles[0].length; y ++) {
 
                 int pixel = matrizPixeles[x][y];
-                int nuevoPixel = (255 * pixel) / valorMaximo;
+                int nuevoPixel = pixel < 0 ? 0 : pixel;
 
-                bitmap.setPixel(x,y, Color.rgb(nuevoPixel, nuevoPixel, nuevoPixel));
+                //bitmap.setPixel(x,y, Color.rgb(nuevoPixel, nuevoPixel, nuevoPixel));
 
                 Log.i(LOG_TAG, pixel + " --> " + nuevoPixel);
             }
         }
 
+        return bitmap;
+    }
+
+    private Bitmap hacerTransformacionLinealSuma(int[][] matrizPixeles) {
+
+        int alto = matrizPixeles.length;
+        int ancho = matrizPixeles[0].length;
+
+        Bitmap bitmap = Bitmap.createBitmap(alto, ancho, Bitmap.Config.RGB_565);
+
+        for (int x = 0; x < alto; x ++) {
+
+            for (int y = 0; y < ancho; y ++) {
+
+                int pixel = matrizPixeles[x][y];
+                int nuevoPixel = pixel / 2;
+
+                bitmap.setPixel(x, y, Color.rgb(nuevoPixel, nuevoPixel, nuevoPixel));
+
+                //Log.i(LOG_TAG, pixel + " --> " + nuevoPixel);
+            }
+        }
         return bitmap;
     }
 }

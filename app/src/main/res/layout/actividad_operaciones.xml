@@ -130,9 +130,10 @@
                 android:layout_marginLeft="8dp"/>
 
             <TextView
+                android:id="@+id/resultadoOperacion"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="RESULTADO"
+                android:text="@string/resultado_operacion"
                 android:textStyle="bold"
                 android:padding="16dp"/>
         </LinearLayout>
