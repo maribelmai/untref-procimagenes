@@ -95,10 +95,8 @@ public class ActividadOperaciones extends ActividadBasica {
         }
     }
 
-    @OnClick(R.id.sumar)
-    public void sumar() {
-
-        this.resultadoOperacion.setText(getString(R.string.resultado_operacion).replace("{operacion}", "(SUMA)"));
+    @OnClick({R.id.sumar, R.id.restar, R.id.multiplicar})
+    public void sumar(View view) {
 
         BitmapDrawable drawable1 = (BitmapDrawable) imagen1.getDrawable();
         BitmapDrawable drawable2 = (BitmapDrawable) imagen2.getDrawable();
@@ -110,7 +108,20 @@ public class ActividadOperaciones extends ActividadBasica {
 
             if (bitmap1.getHeight() == bitmap2.getHeight() && bitmap1.getWidth() == bitmap2.getWidth()) {
 
-                Bitmap resultante = sumar(bitmap1, bitmap2);
+                Bitmap resultante = null;
+
+                if (view.getId() == R.id.sumar) {
+                    this.resultadoOperacion.setText(getString(R.string.resultado_operacion).replace("{operacion}", "(SUMA)"));
+                    resultante = sumar(bitmap1, bitmap2);
+                }
+                else if (view.getId() == R.id.restar) {
+                    this.resultadoOperacion.setText(getString(R.string.resultado_operacion).replace("{operacion}", "(RESTA)"));
+                    resultante = restar(bitmap1, bitmap2);
+                }
+                else if (view.getId() == R.id.multiplicar) {
+                    this.resultadoOperacion.setText(getString(R.string.resultado_operacion).replace("{operacion}", "(PRODUCTO)"));
+                    resultante = multiplicar(bitmap1, bitmap2);
+                }
                 imagenResultante.setImageBitmap(resultante);
             }
             else {
@@ -140,32 +151,6 @@ public class ActividadOperaciones extends ActividadBasica {
         return hacerTransformacionLinealSuma(matrizPixeles);
     }
 
-    @OnClick(R.id.restar)
-    public void restar() {
-
-        this.resultadoOperacion.setText(getString(R.string.resultado_operacion).replace("{operacion}", "(RESTA)"));
-
-        BitmapDrawable drawable1 = (BitmapDrawable) imagen1.getDrawable();
-        BitmapDrawable drawable2 = (BitmapDrawable) imagen2.getDrawable();
-
-        if (drawable1 != null && drawable2 != null) {
-
-            Bitmap bitmap1 = drawable1.getBitmap();
-            Bitmap bitmap2 = drawable2.getBitmap();
-
-            if (bitmap1.getHeight() == bitmap2.getHeight() && bitmap1.getWidth() == bitmap2.getWidth()) {
-
-                Bitmap resultante = restar(bitmap1, bitmap2);
-                imagenResultante.setImageBitmap(resultante);
-            }
-            else {
-                Toast.makeText(this, "Las imágenes deben tener las mismas dimensiones", Toast.LENGTH_SHORT).show();
-            }
-        }
-        else {
-            Toast.makeText(this, "Selecciona dos imágenes", Toast.LENGTH_SHORT).show();
-        }
-    }
 
     private Bitmap restar(Bitmap bitmap1, Bitmap bitmap2) {
 
@@ -185,6 +170,72 @@ public class ActividadOperaciones extends ActividadBasica {
         return hacerTransformacionLinealResta(matrizPixeles);
     }
 
+    private Bitmap multiplicar(Bitmap bitmap1, Bitmap bitmap2) {
+
+        int [][] matrizPixeles = new int[bitmap1.getWidth()][bitmap2.getHeight()];
+
+        for (int x = 0; x < bitmap1.getWidth(); x ++) {
+
+            for (int y = 0; y < bitmap1.getHeight(); y ++) {
+
+                int valorPixelBitmap1 = Color.red(bitmap1.getPixel(x, y));
+                int valorPixelBitmap2 = Color.red(bitmap2.getPixel(x, y));
+
+                matrizPixeles[x][y] = valorPixelBitmap1 * valorPixelBitmap2;
+            }
+        }
+
+        return hacerTransformacionLinealMultiplicacion(matrizPixeles);
+    }
+
+    private Bitmap hacerTransformacionLinealMultiplicacion(int[][] matrizPixeles) {
+
+        int MAXIMO_POSIBLE = 255;
+        int valorMinimo = matrizPixeles[0][0];
+        int valorMaximo = matrizPixeles[0][0];
+
+        //Obtengo mínimo y máximo
+        for (int x = 0; x < matrizPixeles.length; x ++) {
+
+            for (int y = 0; y < matrizPixeles[0].length; y ++) {
+
+                int pixel = matrizPixeles[x][y];
+
+                if (pixel < valorMinimo) {
+                    valorMinimo = pixel;
+                }
+                else if (pixel > valorMaximo) {
+                    valorMaximo = pixel;
+                }
+            }
+        }
+
+        Log.i(LOG_TAG, "Valor mínimo: " + valorMinimo);
+        Log.i(LOG_TAG, "Valor máximo: " + valorMaximo);
+
+        Bitmap bitmap = Bitmap.createBitmap(matrizPixeles.length, matrizPixeles[0].length, Bitmap.Config.RGB_565);
+
+        if (valorMaximo > MAXIMO_POSIBLE) {
+
+            //Aplico transformación en un rango de -255 a 255 No pueden haber colores negativos -> Los llevo a 0
+            for (int x = 0; x < matrizPixeles.length; x ++) {
+
+                for (int y = 0; y < matrizPixeles[0].length; y ++) {
+
+                    int pixel = matrizPixeles[x][y];
+                    int nuevoPixel = pixel * MAXIMO_POSIBLE / valorMaximo;
+
+                    bitmap.setPixel(x,y, Color.rgb(nuevoPixel, nuevoPixel, nuevoPixel));
+
+                    //Log.i(LOG_TAG, pixel + " --> " + nuevoPixel);
+                }
+            }
+        }
+
+        return bitmap;
+
+    }
+
     private Bitmap hacerTransformacionLinealResta(int[][] matrizPixeles) {
 
         Bitmap bitmap = Bitmap.createBitmap(matrizPixeles.length, matrizPixeles[0].length, Bitmap.Config.RGB_565);
@@ -197,9 +248,9 @@ public class ActividadOperaciones extends ActividadBasica {
                 int pixel = matrizPixeles[x][y];
                 int nuevoPixel = pixel < 0 ? 0 : pixel;
 
-                //bitmap.setPixel(x,y, Color.rgb(nuevoPixel, nuevoPixel, nuevoPixel));
+                bitmap.setPixel(x, y, Color.rgb(nuevoPixel, nuevoPixel, nuevoPixel));
 
-                Log.i(LOG_TAG, pixel + " --> " + nuevoPixel);
+                //Log.i(LOG_TAG, pixel + " --> " + nuevoPixel);
             }
         }
 
