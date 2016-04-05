@@ -13,6 +13,7 @@ import ar.edu.untref.procesamientoimagenes.R;
 import ar.edu.untref.procesamientoimagenes.actividad.ActividadDegrade;
 import ar.edu.untref.procesamientoimagenes.actividad.ActividadFormas;
 import ar.edu.untref.procesamientoimagenes.actividad.ActividadObtenerPixel;
+import ar.edu.untref.procesamientoimagenes.actividad.ActividadOperaciones;
 import ar.edu.untref.procesamientoimagenes.actividad.ActividadRecortar;
 import ar.edu.untref.procesamientoimagenes.modelo.Constante;
 import butterknife.Bind;
@@ -126,6 +127,13 @@ public class FragmentoEditor extends FragmentoBasico {
     public void crearFormas() {
 
         Intent intent = new Intent(getActivity(), ActividadFormas.class);
+        startActivity(intent);
+    }
+
+    @OnClick(R.id.operaciones)
+    public void operarConImagenes() {
+
+        Intent intent = new Intent(getActivity(), ActividadOperaciones.class);
         startActivity(intent);
     }
 }
