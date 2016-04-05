@@ -19,6 +19,18 @@ import ar.edu.untref.procesamientoimagenes.util.ImageLoadingUtil;
  */
 public class Aplicacion extends Application {
 
+    private static Aplicacion context;
+
+    public static Aplicacion getContext() {
+        return context;
+    }
+
+    @Override
+    public void onCreate() {
+        super.onCreate();
+        Aplicacion.context = this;
+    }
+
     public void mostrarImagen(File imagen, ImageView imageView) {
 
         if (imagen.getName().endsWith(".ppm")) {

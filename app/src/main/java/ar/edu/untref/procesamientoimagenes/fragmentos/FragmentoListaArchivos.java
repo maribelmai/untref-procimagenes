@@ -6,6 +6,7 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.ImageView;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -75,5 +76,13 @@ public class FragmentoListaArchivos extends FragmentoBasico {
         fragmentoListaArchivos.fragmentoEditor = fragmentoEditor;
 
         return fragmentoListaArchivos;
+    }
+
+    public void setDisplay(ImageView display) {
+        this.adaptadorArchivos.setDisplay(display);
+    }
+
+    public File obtenerSeleccion() {
+        return this.adaptadorArchivos.getSeleccion();
     }
 }

@@ -14,6 +14,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import ar.edu.untref.procesamientoimagenes.Aplicacion;
 import ar.edu.untref.procesamientoimagenes.R;
 import ar.edu.untref.procesamientoimagenes.fragmentos.FragmentoEditor;
 import butterknife.ButterKnife;
@@ -25,6 +26,8 @@ public class AdaptadorArchivos extends RecyclerView.Adapter<AdaptadorArchivos.Vi
 
     private List<File> archivos = new ArrayList<>();
     private FragmentoEditor fragmentoEditor;
+    private ImageView display;
+    private File seleccion;
 
     public AdaptadorArchivos(FragmentoEditor fragmentoEditor) {
         this.fragmentoEditor = fragmentoEditor;
@@ -63,6 +66,14 @@ public class AdaptadorArchivos extends RecyclerView.Adapter<AdaptadorArchivos.Vi
         notifyItemRangeChanged(0, listaArchivos.size());
     }
 
+    public void setDisplay(ImageView display) {
+        this.display = display;
+    }
+
+    public File getSeleccion() {
+        return seleccion;
+    }
+
     public class ViewHolder extends RecyclerView.ViewHolder {
 
         File archivo;
@@ -74,7 +85,15 @@ public class AdaptadorArchivos extends RecyclerView.Adapter<AdaptadorArchivos.Vi
             public void onClick(View v) {
 
                 if (!archivo.isDirectory()) {
-                    fragmentoEditor.cargarImagen(archivo);
+
+                    seleccion = archivo;
+
+                    if (fragmentoEditor != null) {
+                        fragmentoEditor.cargarImagen(archivo);
+                    }
+                    else {
+                        Aplicacion.getContext().mostrarImagen(archivo, display);
+                    }
                 }
                 else {
                     Toast.makeText(v.getContext(), "Esta aplicación no abre directorios", Toast.LENGTH_SHORT).show();

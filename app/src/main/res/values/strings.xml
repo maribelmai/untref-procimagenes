@@ -12,4 +12,6 @@
     <string name="desdeHasta">Desde: {x},{y} Hasta: {x2},{y2}</string>
     <string name="sinDesdeHasta">Toca un píxel para seleccionar el origen y luego toca otro para seleccionar el destino</string>
     <string name="limpiarValores">Limpiar</string>
+    <string name="aceptar">Aceptar</string>
+    <string name="cancelar">Cancelar</string>
 </resources>
