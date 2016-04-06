@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentTransaction;
@@ -14,6 +15,10 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.google.android.gms.appindexing.Action;
+import com.google.android.gms.appindexing.AppIndex;
+import com.google.android.gms.common.api.GoogleApiClient;
 
 import ar.edu.untref.procesamientoimagenes.Aplicacion;
 import ar.edu.untref.procesamientoimagenes.R;
@@ -39,6 +44,11 @@ public class ActividadOperaciones extends ActividadBasica {
 
     @Bind(R.id.resultadoOperacion)
     TextView resultadoOperacion;
+    /**
+     * ATTENTION: This was auto-generated to implement the App Indexing API.
+     * See https://g.co/AppIndexing/AndroidStudio for more information.
+     */
+    private GoogleApiClient client;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -47,6 +57,9 @@ public class ActividadOperaciones extends ActividadBasica {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         this.resultadoOperacion.setText(getString(R.string.resultado_operacion).replace("{operacion}", ""));
+        // ATTENTION: This was auto-generated to implement the App Indexing API.
+        // See https://g.co/AppIndexing/AndroidStudio for more information.
+        client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
     }
 
     @Override
@@ -95,11 +108,12 @@ public class ActividadOperaciones extends ActividadBasica {
         }
     }
 
-    @OnClick({R.id.sumar, R.id.restar, R.id.multiplicar})
-    public void sumar(View view) {
+    @OnClick({R.id.sumar, R.id.restar, R.id.multiplicar, R.id.multiplicarPorEscalar})
+    public void operar(View view) {
 
         BitmapDrawable drawable1 = (BitmapDrawable) imagen1.getDrawable();
         BitmapDrawable drawable2 = (BitmapDrawable) imagen2.getDrawable();
+        Bitmap resultante = null;
 
         if (drawable1 != null && drawable2 != null) {
 
@@ -108,38 +122,32 @@ public class ActividadOperaciones extends ActividadBasica {
 
             if (bitmap1.getHeight() == bitmap2.getHeight() && bitmap1.getWidth() == bitmap2.getWidth()) {
 
-                Bitmap resultante = null;
-
                 if (view.getId() == R.id.sumar) {
                     this.resultadoOperacion.setText(getString(R.string.resultado_operacion).replace("{operacion}", "(SUMA)"));
                     resultante = sumar(bitmap1, bitmap2);
-                }
-                else if (view.getId() == R.id.restar) {
+                } else if (view.getId() == R.id.restar) {
                     this.resultadoOperacion.setText(getString(R.string.resultado_operacion).replace("{operacion}", "(RESTA)"));
                     resultante = restar(bitmap1, bitmap2);
-                }
-                else if (view.getId() == R.id.multiplicar) {
+                } else if (view.getId() == R.id.multiplicar) {
                     this.resultadoOperacion.setText(getString(R.string.resultado_operacion).replace("{operacion}", "(PRODUCTO)"));
                     resultante = multiplicar(bitmap1, bitmap2);
                 }
                 imagenResultante.setImageBitmap(resultante);
-            }
-            else {
+            } else {
                 Toast.makeText(this, "Las imágenes deben tener las mismas dimensiones", Toast.LENGTH_SHORT).show();
             }
-        }
-        else {
+        } else {
             Toast.makeText(this, "Selecciona dos imágenes", Toast.LENGTH_SHORT).show();
         }
     }
 
     private Bitmap sumar(Bitmap bitmap1, Bitmap bitmap2) {
 
-        int [][] matrizPixeles = new int[bitmap1.getWidth()][bitmap2.getHeight()];
+        int[][] matrizPixeles = new int[bitmap1.getWidth()][bitmap2.getHeight()];
 
-        for (int x = 0; x < bitmap1.getWidth(); x ++) {
+        for (int x = 0; x < bitmap1.getWidth(); x++) {
 
-            for (int y = 0; y < bitmap1.getHeight(); y ++) {
+            for (int y = 0; y < bitmap1.getHeight(); y++) {
 
                 int valorPixelBitmap1 = Color.red(bitmap1.getPixel(x, y));
                 int valorPixelBitmap2 = Color.red(bitmap2.getPixel(x, y));
@@ -154,11 +162,11 @@ public class ActividadOperaciones extends ActividadBasica {
 
     private Bitmap restar(Bitmap bitmap1, Bitmap bitmap2) {
 
-        int [][] matrizPixeles = new int[bitmap1.getWidth()][bitmap2.getHeight()];
+        int[][] matrizPixeles = new int[bitmap1.getWidth()][bitmap2.getHeight()];
 
-        for (int x = 0; x < bitmap1.getWidth(); x ++) {
+        for (int x = 0; x < bitmap1.getWidth(); x++) {
 
-            for (int y = 0; y < bitmap1.getHeight(); y ++) {
+            for (int y = 0; y < bitmap1.getHeight(); y++) {
 
                 int valorPixelBitmap1 = Color.red(bitmap1.getPixel(x, y));
                 int valorPixelBitmap2 = Color.red(bitmap2.getPixel(x, y));
@@ -172,16 +180,33 @@ public class ActividadOperaciones extends ActividadBasica {
 
     private Bitmap multiplicar(Bitmap bitmap1, Bitmap bitmap2) {
 
-        int [][] matrizPixeles = new int[bitmap1.getWidth()][bitmap2.getHeight()];
+        int[][] matrizPixeles = new int[bitmap1.getWidth()][bitmap2.getHeight()];
 
-        for (int x = 0; x < bitmap1.getWidth(); x ++) {
+        for (int x = 0; x < bitmap1.getWidth(); x++) {
 
-            for (int y = 0; y < bitmap1.getHeight(); y ++) {
+            for (int y = 0; y < bitmap1.getHeight(); y++) {
 
                 int valorPixelBitmap1 = Color.red(bitmap1.getPixel(x, y));
                 int valorPixelBitmap2 = Color.red(bitmap2.getPixel(x, y));
 
                 matrizPixeles[x][y] = valorPixelBitmap1 * valorPixelBitmap2;
+            }
+        }
+
+        return hacerTransformacionLinealMultiplicacion(matrizPixeles);
+    }
+
+    private Bitmap multiplicarPorEscalar(Bitmap bitmap1, Integer escalar) {
+
+        int[][] matrizPixeles = new int[bitmap1.getWidth()][bitmap1.getWidth()];
+
+        for (int x = 0; x < bitmap1.getWidth(); x++) {
+
+            for (int y = 0; y < bitmap1.getHeight(); y++) {
+
+                int valorPixelBitmap1 = Color.red(bitmap1.getPixel(x, y));
+
+                matrizPixeles[x][y] = valorPixelBitmap1 * escalar;
             }
         }
 
@@ -195,16 +220,15 @@ public class ActividadOperaciones extends ActividadBasica {
         int valorMaximo = matrizPixeles[0][0];
 
         //Obtengo mínimo y máximo
-        for (int x = 0; x < matrizPixeles.length; x ++) {
+        for (int x = 0; x < matrizPixeles.length; x++) {
 
-            for (int y = 0; y < matrizPixeles[0].length; y ++) {
+            for (int y = 0; y < matrizPixeles[0].length; y++) {
 
                 int pixel = matrizPixeles[x][y];
 
                 if (pixel < valorMinimo) {
                     valorMinimo = pixel;
-                }
-                else if (pixel > valorMaximo) {
+                } else if (pixel > valorMaximo) {
                     valorMaximo = pixel;
                 }
             }
@@ -218,14 +242,14 @@ public class ActividadOperaciones extends ActividadBasica {
         if (valorMaximo > MAXIMO_POSIBLE) {
 
             //Aplico transformación en un rango de -255 a 255 No pueden haber colores negativos -> Los llevo a 0
-            for (int x = 0; x < matrizPixeles.length; x ++) {
+            for (int x = 0; x < matrizPixeles.length; x++) {
 
-                for (int y = 0; y < matrizPixeles[0].length; y ++) {
+                for (int y = 0; y < matrizPixeles[0].length; y++) {
 
                     int pixel = matrizPixeles[x][y];
                     int nuevoPixel = pixel * MAXIMO_POSIBLE / valorMaximo;
 
-                    bitmap.setPixel(x,y, Color.rgb(nuevoPixel, nuevoPixel, nuevoPixel));
+                    bitmap.setPixel(x, y, Color.rgb(nuevoPixel, nuevoPixel, nuevoPixel));
 
                     //Log.i(LOG_TAG, pixel + " --> " + nuevoPixel);
                 }
@@ -241,9 +265,9 @@ public class ActividadOperaciones extends ActividadBasica {
         Bitmap bitmap = Bitmap.createBitmap(matrizPixeles.length, matrizPixeles[0].length, Bitmap.Config.RGB_565);
 
         //Aplico transformación en un rango de -255 a 255 No pueden haber colores negativos -> Los llevo a 0
-        for (int x = 0; x < matrizPixeles.length; x ++) {
+        for (int x = 0; x < matrizPixeles.length; x++) {
 
-            for (int y = 0; y < matrizPixeles[0].length; y ++) {
+            for (int y = 0; y < matrizPixeles[0].length; y++) {
 
                 int pixel = matrizPixeles[x][y];
                 int nuevoPixel = pixel < 0 ? 0 : pixel;
@@ -264,9 +288,9 @@ public class ActividadOperaciones extends ActividadBasica {
 
         Bitmap bitmap = Bitmap.createBitmap(alto, ancho, Bitmap.Config.RGB_565);
 
-        for (int x = 0; x < alto; x ++) {
+        for (int x = 0; x < alto; x++) {
 
-            for (int y = 0; y < ancho; y ++) {
+            for (int y = 0; y < ancho; y++) {
 
                 int pixel = matrizPixeles[x][y];
                 int nuevoPixel = pixel / 2;
@@ -277,5 +301,45 @@ public class ActividadOperaciones extends ActividadBasica {
             }
         }
         return bitmap;
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        // ATTENTION: This was auto-generated to implement the App Indexing API.
+        // See https://g.co/AppIndexing/AndroidStudio for more information.
+        client.connect();
+        Action viewAction = Action.newAction(
+                Action.TYPE_VIEW, // TODO: choose an action type.
+                "ActividadOperaciones Page", // TODO: Define a title for the content shown.
+                // TODO: If you have web page content that matches this app activity's content,
+                // make sure this auto-generated web page URL is correct.
+                // Otherwise, set the URL to null.
+                Uri.parse("http://host/path"),
+                // TODO: Make sure this auto-generated app deep link URI is correct.
+                Uri.parse("android-app://ar.edu.untref.procesamientoimagenes.actividad/http/host/path")
+        );
+        AppIndex.AppIndexApi.start(client, viewAction);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+
+        // ATTENTION: This was auto-generated to implement the App Indexing API.
+        // See https://g.co/AppIndexing/AndroidStudio for more information.
+        Action viewAction = Action.newAction(
+                Action.TYPE_VIEW, // TODO: choose an action type.
+                "ActividadOperaciones Page", // TODO: Define a title for the content shown.
+                // TODO: If you have web page content that matches this app activity's content,
+                // make sure this auto-generated web page URL is correct.
+                // Otherwise, set the URL to null.
+                Uri.parse("http://host/path"),
+                // TODO: Make sure this auto-generated app deep link URI is correct.
+                Uri.parse("android-app://ar.edu.untref.procesamientoimagenes.actividad/http/host/path")
+        );
+        AppIndex.AppIndexApi.end(client, viewAction);
+        client.disconnect();
     }
 }
