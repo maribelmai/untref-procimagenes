@@ -141,7 +141,14 @@ public class FragmentoEditor extends FragmentoBasico {
     @OnClick(R.id.histograma)
     public void operarConHistograma() {
 
-        Intent intent = new Intent(getActivity(), ActividadHistograma.class);
-        startActivity(intent);
+        if (imagen != null) {
+
+            Intent intent = new Intent(getActivity(), ActividadHistograma.class);
+            intent.putExtra(Constante.EXTRA_IMAGEN, imagen);
+            startActivity(intent);
+        }
+        else {
+            Toast.makeText(getActivity(), R.string.selecciona_una_imagen, Toast.LENGTH_SHORT).show();
+        }
     }
 }
