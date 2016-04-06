@@ -16,9 +16,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.File;
+
 import ar.edu.untref.procesamientoimagenes.Aplicacion;
 import ar.edu.untref.procesamientoimagenes.R;
 import ar.edu.untref.procesamientoimagenes.fragmentos.FragmentoListaArchivos;
+import ar.edu.untref.procesamientoimagenes.modelo.Constante;
 import butterknife.Bind;
 import butterknife.OnClick;
 
@@ -40,12 +43,19 @@ public class ActividadOperaciones extends ActividadBasica {
 
     @Bind(R.id.resultadoOperacion)
     TextView resultadoOperacion;
+    private File imagen;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         getSupportActionBar().setTitle("Operaciones");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        if (getIntent().hasExtra(Constante.EXTRA_IMAGEN)) {
+            this.imagen = (File) getIntent().getSerializableExtra(Constante.EXTRA_IMAGEN);
+            getAplicacion().mostrarImagen(imagen, imagen1);
+        }
 
         this.resultadoOperacion.setText(getString(R.string.resultado_operacion).replace("{operacion}", ""));
     }

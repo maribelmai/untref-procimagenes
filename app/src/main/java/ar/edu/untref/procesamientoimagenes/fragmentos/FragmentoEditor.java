@@ -136,6 +136,10 @@ public class FragmentoEditor extends FragmentoBasico {
     public void operarConImagenes() {
 
         Intent intent = new Intent(getActivity(), ActividadOperaciones.class);
+        if (imagen != null) {
+
+            intent.putExtra(Constante.EXTRA_IMAGEN, imagen);
+        }
         startActivity(intent);
     }
 
