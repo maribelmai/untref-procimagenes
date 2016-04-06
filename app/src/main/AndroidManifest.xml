@@ -37,6 +37,9 @@
 
         <activity android:name=".actividad.ActividadHistograma"
             android:screenOrientation="landscape"/>
+
+        <activity android:name=".actividad.ActividadUmbral"
+            android:screenOrientation="landscape"/>
     </application>
 
 </manifest>

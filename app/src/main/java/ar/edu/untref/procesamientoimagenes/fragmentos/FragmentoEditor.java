@@ -16,6 +16,7 @@ import ar.edu.untref.procesamientoimagenes.actividad.ActividadHistograma;
 import ar.edu.untref.procesamientoimagenes.actividad.ActividadObtenerPixel;
 import ar.edu.untref.procesamientoimagenes.actividad.ActividadOperaciones;
 import ar.edu.untref.procesamientoimagenes.actividad.ActividadRecortar;
+import ar.edu.untref.procesamientoimagenes.actividad.ActividadUmbral;
 import ar.edu.untref.procesamientoimagenes.modelo.Constante;
 import butterknife.Bind;
 import butterknife.OnClick;
@@ -144,6 +145,20 @@ public class FragmentoEditor extends FragmentoBasico {
         if (imagen != null) {
 
             Intent intent = new Intent(getActivity(), ActividadHistograma.class);
+            intent.putExtra(Constante.EXTRA_IMAGEN, imagen);
+            startActivity(intent);
+        }
+        else {
+            Toast.makeText(getActivity(), R.string.selecciona_una_imagen, Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    @OnClick(R.id.umbral)
+    public void umbralizar() {
+
+        if (imagen != null) {
+
+            Intent intent = new Intent(getActivity(), ActividadUmbral.class);
             intent.putExtra(Constante.EXTRA_IMAGEN, imagen);
             startActivity(intent);
         }

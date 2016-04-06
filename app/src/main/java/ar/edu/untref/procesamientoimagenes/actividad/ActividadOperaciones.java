@@ -141,8 +141,8 @@ public class ActividadOperaciones extends ActividadBasica {
 
     private void mostrarDialogoMultiplicacionEscalar(final Bitmap bitmap1) {
 
-        View view = LayoutInflater.from(this).inflate(R.layout.view_multiplicacion_escalar, null);
-        final EditText inputEscalar = (EditText) view.findViewById(R.id.escalar);
+        View view = LayoutInflater.from(this).inflate(R.layout.view_seleccion_valor, null);
+        final EditText inputEscalar = (EditText) view.findViewById(R.id.valor);
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setView(view);
