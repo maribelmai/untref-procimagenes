@@ -141,6 +141,19 @@
                 android:textStyle="bold"
                 android:background="@drawable/selector_boton"
                 android:layout_marginTop="16dp"/>
+
+            <TextView
+                android:id="@+id/negativoDeImagen"
+                android:layout_width="30dp"
+                android:gravity="center"
+                android:layout_height="wrap_content"
+                android:text="-1"
+                android:padding="8dp"
+                android:textColor="@android:color/white"
+                android:textStyle="bold"
+                android:background="@drawable/selector_boton"
+                android:layout_marginTop="16dp"/>
+
         </LinearLayout>
 
         <ScrollView

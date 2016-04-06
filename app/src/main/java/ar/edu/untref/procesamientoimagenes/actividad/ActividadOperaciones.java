@@ -96,7 +96,7 @@ public class ActividadOperaciones extends ActividadBasica {
         }
     }
 
-    @OnClick({R.id.sumar, R.id.restar, R.id.multiplicar, R.id.multiplicarPorEscalar})
+    @OnClick({R.id.sumar, R.id.restar, R.id.multiplicar, R.id.multiplicarPorEscalar, R.id.negativoDeImagen})
     public void operar(View view) {
 
         BitmapDrawable drawable1 = (BitmapDrawable) imagen1.getDrawable();
@@ -111,6 +111,13 @@ public class ActividadOperaciones extends ActividadBasica {
             bitmap1 = drawable1.getBitmap();
 
             mostrarDialogoMultiplicacionEscalar(bitmap1);
+        }
+        else if(drawable1 != null && view.getId() == R.id.negativoDeImagen) {
+            bitmap1 = drawable1.getBitmap();
+
+            resultante= negativoDeImagen(bitmap1);
+            imagenResultante.setImageBitmap(resultante);
+
         }
         else if (drawable1 != null && drawable2 != null) {
 
@@ -235,6 +242,26 @@ public class ActividadOperaciones extends ActividadBasica {
         }
 
         return hacerTransformacionLinealMultiplicacion(matrizPixeles);
+    }
+
+    private Bitmap negativoDeImagen(Bitmap bitmap1) {
+
+        int[][] matrizPixeles = new int[bitmap1.getWidth()][bitmap1.getHeight()];
+        Bitmap bitmap = Bitmap.createBitmap(matrizPixeles.length, matrizPixeles[0].length, Bitmap.Config.RGB_565);
+
+        for (int x = 0; x < bitmap1.getWidth(); x++) {
+
+            for (int y = 0; y < bitmap1.getHeight(); y++) {
+
+                int valorPixelBitmap1 = Color.red(bitmap1.getPixel(x, y));
+
+                int nuevoPixel = 255 - valorPixelBitmap1;
+
+                bitmap.setPixel(x, y, Color.rgb(nuevoPixel, nuevoPixel, nuevoPixel));
+            }
+        }
+
+        return bitmap;
     }
 
     private Bitmap hacerTransformacionLinealMultiplicacion(int[][] matrizPixeles) {
