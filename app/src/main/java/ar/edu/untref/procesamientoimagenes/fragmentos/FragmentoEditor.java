@@ -12,6 +12,7 @@ import java.io.File;
 import ar.edu.untref.procesamientoimagenes.R;
 import ar.edu.untref.procesamientoimagenes.actividad.ActividadDegrade;
 import ar.edu.untref.procesamientoimagenes.actividad.ActividadFormas;
+import ar.edu.untref.procesamientoimagenes.actividad.ActividadHistograma;
 import ar.edu.untref.procesamientoimagenes.actividad.ActividadObtenerPixel;
 import ar.edu.untref.procesamientoimagenes.actividad.ActividadOperaciones;
 import ar.edu.untref.procesamientoimagenes.actividad.ActividadRecortar;
@@ -134,6 +135,13 @@ public class FragmentoEditor extends FragmentoBasico {
     public void operarConImagenes() {
 
         Intent intent = new Intent(getActivity(), ActividadOperaciones.class);
+        startActivity(intent);
+    }
+
+    @OnClick(R.id.histograma)
+    public void operarConHistograma() {
+
+        Intent intent = new Intent(getActivity(), ActividadHistograma.class);
         startActivity(intent);
     }
 }
