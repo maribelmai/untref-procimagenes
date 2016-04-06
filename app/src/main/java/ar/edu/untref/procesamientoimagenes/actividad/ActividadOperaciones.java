@@ -5,20 +5,16 @@ import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import com.google.android.gms.appindexing.Action;
-import com.google.android.gms.appindexing.AppIndex;
-import com.google.android.gms.common.api.GoogleApiClient;
 
 import ar.edu.untref.procesamientoimagenes.Aplicacion;
 import ar.edu.untref.procesamientoimagenes.R;
@@ -44,11 +40,6 @@ public class ActividadOperaciones extends ActividadBasica {
 
     @Bind(R.id.resultadoOperacion)
     TextView resultadoOperacion;
-    /**
-     * ATTENTION: This was auto-generated to implement the App Indexing API.
-     * See https://g.co/AppIndexing/AndroidStudio for more information.
-     */
-    private GoogleApiClient client;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -57,9 +48,6 @@ public class ActividadOperaciones extends ActividadBasica {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         this.resultadoOperacion.setText(getString(R.string.resultado_operacion).replace("{operacion}", ""));
-        // ATTENTION: This was auto-generated to implement the App Indexing API.
-        // See https://g.co/AppIndexing/AndroidStudio for more information.
-        client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
     }
 
     @Override
@@ -115,10 +103,19 @@ public class ActividadOperaciones extends ActividadBasica {
         BitmapDrawable drawable2 = (BitmapDrawable) imagen2.getDrawable();
         Bitmap resultante = null;
 
-        if (drawable1 != null && drawable2 != null) {
+        Bitmap bitmap1;
+        Bitmap bitmap2;
 
-            Bitmap bitmap1 = drawable1.getBitmap();
-            Bitmap bitmap2 = drawable2.getBitmap();
+        if (drawable1 != null && view.getId() == R.id.multiplicarPorEscalar) {
+
+            bitmap1 = drawable1.getBitmap();
+
+            mostrarDialogoMultiplicacionEscalar(bitmap1);
+        }
+        else if (drawable1 != null && drawable2 != null) {
+
+            bitmap1 = drawable1.getBitmap();
+            bitmap2 = drawable2.getBitmap();
 
             if (bitmap1.getHeight() == bitmap2.getHeight() && bitmap1.getWidth() == bitmap2.getWidth()) {
 
@@ -132,6 +129,7 @@ public class ActividadOperaciones extends ActividadBasica {
                     this.resultadoOperacion.setText(getString(R.string.resultado_operacion).replace("{operacion}", "(PRODUCTO)"));
                     resultante = multiplicar(bitmap1, bitmap2);
                 }
+
                 imagenResultante.setImageBitmap(resultante);
             } else {
                 Toast.makeText(this, "Las imágenes deben tener las mismas dimensiones", Toast.LENGTH_SHORT).show();
@@ -139,6 +137,32 @@ public class ActividadOperaciones extends ActividadBasica {
         } else {
             Toast.makeText(this, "Selecciona dos imágenes", Toast.LENGTH_SHORT).show();
         }
+    }
+
+    private void mostrarDialogoMultiplicacionEscalar(final Bitmap bitmap1) {
+
+        View view = LayoutInflater.from(this).inflate(R.layout.view_multiplicacion_escalar, null);
+        final EditText inputEscalar = (EditText) view.findViewById(R.id.escalar);
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setView(view);
+        builder.setTitle(R.string.multiplicacion_por_escalar);
+        builder.setPositiveButton(R.string.aceptar, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+                String valorIngresado = inputEscalar.getText().toString();
+                resultadoOperacion.setText(getString(R.string.resultado_operacion).replace("{operacion}", "(PRODUCTO POR " + valorIngresado + ")"));
+                Bitmap resultante = multiplicarPorEscalar(bitmap1, Integer.valueOf(valorIngresado));
+                imagenResultante.setImageBitmap(resultante);
+            }
+        });
+        builder.setNegativeButton(R.string.cancelar, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+            }
+        });
+        builder.show();
     }
 
     private Bitmap sumar(Bitmap bitmap1, Bitmap bitmap2) {
@@ -198,7 +222,7 @@ public class ActividadOperaciones extends ActividadBasica {
 
     private Bitmap multiplicarPorEscalar(Bitmap bitmap1, Integer escalar) {
 
-        int[][] matrizPixeles = new int[bitmap1.getWidth()][bitmap1.getWidth()];
+        int[][] matrizPixeles = new int[bitmap1.getWidth()][bitmap1.getHeight()];
 
         for (int x = 0; x < bitmap1.getWidth(); x++) {
 
@@ -301,45 +325,5 @@ public class ActividadOperaciones extends ActividadBasica {
             }
         }
         return bitmap;
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-
-        // ATTENTION: This was auto-generated to implement the App Indexing API.
-        // See https://g.co/AppIndexing/AndroidStudio for more information.
-        client.connect();
-        Action viewAction = Action.newAction(
-                Action.TYPE_VIEW, // TODO: choose an action type.
-                "ActividadOperaciones Page", // TODO: Define a title for the content shown.
-                // TODO: If you have web page content that matches this app activity's content,
-                // make sure this auto-generated web page URL is correct.
-                // Otherwise, set the URL to null.
-                Uri.parse("http://host/path"),
-                // TODO: Make sure this auto-generated app deep link URI is correct.
-                Uri.parse("android-app://ar.edu.untref.procesamientoimagenes.actividad/http/host/path")
-        );
-        AppIndex.AppIndexApi.start(client, viewAction);
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-
-        // ATTENTION: This was auto-generated to implement the App Indexing API.
-        // See https://g.co/AppIndexing/AndroidStudio for more information.
-        Action viewAction = Action.newAction(
-                Action.TYPE_VIEW, // TODO: choose an action type.
-                "ActividadOperaciones Page", // TODO: Define a title for the content shown.
-                // TODO: If you have web page content that matches this app activity's content,
-                // make sure this auto-generated web page URL is correct.
-                // Otherwise, set the URL to null.
-                Uri.parse("http://host/path"),
-                // TODO: Make sure this auto-generated app deep link URI is correct.
-                Uri.parse("android-app://ar.edu.untref.procesamientoimagenes.actividad/http/host/path")
-        );
-        AppIndex.AppIndexApi.end(client, viewAction);
-        client.disconnect();
     }
 }
