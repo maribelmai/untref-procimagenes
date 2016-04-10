@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="horizontal"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_weight="1">
+    android:layout_weight="1"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
+    android:descendantFocusability="beforeDescendants">
 
     <ScrollView
         android:layout_width="0dp"
@@ -54,17 +56,57 @@
             android:orientation="vertical"
             android:layout_marginLeft="16dp">
 
-            <TextView
-                android:id="@+id/ruidoGaussiano"
+            <RelativeLayout
+                android:id="@+id/layoutRuidoGaussiano"
                 android:layout_width="wrap_content"
-                android:gravity="center"
-                android:layout_height="wrap_content"
-                android:text="Ruido Gaussiano"
-                android:padding="8dp"
-                android:textColor="@android:color/white"
-                android:textStyle="bold"
-                android:background="@drawable/selector_boton"
-                android:layout_marginTop="16dp"/>
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/tituloRuidoGaussiano"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Ruido Gaussiano"
+                    android:textStyle="bold"
+                    android:layout_marginTop="16dp"/>
+
+                <EditText
+                    android:id="@+id/valorDesvio"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:hint="Desvío"
+                    android:inputType="numberDecimal"
+                    android:layout_below="@+id/tituloRuidoGaussiano"/>
+
+                <EditText
+                    android:id="@+id/valorMedia"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:inputType="numberDecimal"
+                    android:hint="Media"
+                    android:layout_below="@+id/valorDesvio"/>
+
+                <TextView
+                    android:id="@+id/ruidoGaussiano"
+                    android:layout_width="wrap_content"
+                    android:gravity="center"
+                    android:layout_height="wrap_content"
+                    android:text="Aplicar"
+                    android:padding="8dp"
+                    android:textAllCaps="true"
+                    android:textSize="11sp"
+                    android:layout_marginTop="8dp"
+                    android:textColor="@android:color/white"
+                    android:textStyle="bold"
+                    android:background="@drawable/selector_boton"
+                    android:layout_below="@+id/valorMedia"/>
+
+            </RelativeLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:background="@color/gris"
+                android:layout_marginTop="8dp"/>
 
             <TextView
                 android:id="@+id/ruidoRayleigh"

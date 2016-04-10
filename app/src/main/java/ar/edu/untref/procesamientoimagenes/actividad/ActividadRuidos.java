@@ -1,7 +1,5 @@
 package ar.edu.untref.procesamientoimagenes.actividad;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
@@ -10,12 +8,9 @@ import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -38,6 +33,12 @@ public class ActividadRuidos extends ActividadBasica {
 
     @Bind(R.id.nombreImagen)
     TextView nombreImagen;
+
+    @Bind(R.id.valorDesvio)
+    EditText desvio;
+
+    @Bind(R.id.valorMedia)
+    EditText media;
 
     private Bitmap bitmapOriginal;
     private File imagen;
@@ -62,10 +63,12 @@ public class ActividadRuidos extends ActividadBasica {
     @OnClick(R.id.ruidoGaussiano)
     public void aplicarRuidoGaussiano(){
 
+        ocultarTeclado();
+
         Bitmap mutableBitmap = bitmapOriginal.copy(Bitmap.Config.RGB_565, true);
 
-        double desvio = 20D;
-        double media = 50D;
+        double desvio = Double.parseDouble(this.desvio.getText().toString());
+        double media = Double.parseDouble(this.media.getText().toString());
 
         Random random = new Random();
 

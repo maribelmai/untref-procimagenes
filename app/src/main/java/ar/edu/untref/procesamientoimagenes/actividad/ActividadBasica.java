@@ -1,10 +1,12 @@
 package ar.edu.untref.procesamientoimagenes.actividad;
 
+import android.app.Activity;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
+import android.view.inputmethod.InputMethodManager;
 
 import ar.edu.untref.procesamientoimagenes.Aplicacion;
 import butterknife.ButterKnife;
@@ -52,4 +54,15 @@ public abstract class ActividadBasica extends AppCompatActivity {
         return "H: " + h + "    S: " + s + "    V: " + v;
     }
 
+    protected void ocultarTeclado() {
+
+        try {
+
+            InputMethodManager inputMethodManager = (InputMethodManager)  this.getSystemService(Activity.INPUT_METHOD_SERVICE);
+            inputMethodManager.hideSoftInputFromWindow(this.getCurrentFocus().getWindowToken(), 0);
+        }
+        catch (Exception ignored) {
+            //NO SE CAPTURA, PUEDE QUE EL TECLADO YA ESTÉ CERRADO Y ENTONCES FALLE
+        }
+    }
 }
