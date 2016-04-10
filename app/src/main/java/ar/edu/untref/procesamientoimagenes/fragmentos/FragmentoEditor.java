@@ -82,7 +82,7 @@ public class FragmentoEditor extends FragmentoBasico {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
 
-        if (requestCode == Constante.REQUEST_CODE_PIXEL && resultCode == Constante.RESULT_CODE_IMAGEN_MODIFICADA) {
+        if (resultCode == Constante.RESULT_CODE_IMAGEN_MODIFICADA) {
 
             File file = (File) data.getSerializableExtra(Constante.EXTRA_IMAGEN);
             imagenOriginal.setImageDrawable(null);
@@ -178,7 +178,7 @@ public class FragmentoEditor extends FragmentoBasico {
 
             Intent intent = new Intent(getActivity(), ActividadRuidos.class);
             intent.putExtra(Constante.EXTRA_IMAGEN, imagen);
-            startActivity(intent);
+            startActivityForResult(intent, Constante.RESULT_CODE_IMAGEN_MODIFICADA);
         }
         else {
             Toast.makeText(getActivity(), R.string.selecciona_una_imagen, Toast.LENGTH_SHORT).show();
