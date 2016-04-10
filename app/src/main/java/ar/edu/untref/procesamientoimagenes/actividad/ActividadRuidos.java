@@ -103,6 +103,21 @@ public class ActividadRuidos extends ActividadBasica {
 
     @OnClick(R.id.ruidoRayleigh)
     public void aplicarRuidoRayleigh(){
+        Bitmap mutableBitmap = bitmapOriginal.copy(Bitmap.Config.RGB_565, true);
+
+        for (int x = 0; x < bitmapOriginal.getWidth(); x++) {
+
+            for (int y = 0; y < bitmapOriginal.getHeight(); y++) {
+                double randomCreado = generarAleatorioRayleigh(0.1f);
+
+                int pixelOriginal = bitmapOriginal.getPixel(x, y);
+                int nivelGris = Color.red(pixelOriginal);
+                int nuevoColor = (int) (nivelGris * randomCreado);
+                mutableBitmap.setPixel(x, y, Color.rgb(nuevoColor, nuevoColor, nuevoColor));
+            }
+        }
+
+        imageView.setImageBitmap(mutableBitmap);
 
     }
 
@@ -113,6 +128,78 @@ public class ActividadRuidos extends ActividadBasica {
 
     @OnClick(R.id.ruidoSalyPimienta)
     public void aplicarRuidoSalyPimienta(){
+
+    }
+
+    private float generarAleatorioRayleigh(float phi) {
+
+        float x;
+        float y;
+
+        do
+            x = (float) Math.random();
+        while (x <= 0); // x no puede ser cero
+
+        y = (float) (Float.valueOf(phi) * (Math.sqrt( (-2) * Math.log10(1-x) ) ));
+        return y;
+    }
+
+    private Bitmap hacerTransformacionLinealMultiplicacion(Bitmap bitmap1) {
+
+        int[][] matrizPixeles = new int[bitmap1.getWidth()][bitmap1.getHeight()];
+
+        for (int x = 0; x < bitmap1.getWidth(); x++) {
+
+            for (int y = 0; y < bitmap1.getHeight(); y++) {
+
+                int valorPixelBitmap = Color.red(bitmap1.getPixel(x, y));
+
+                matrizPixeles[x][y] = valorPixelBitmap;
+            }
+        }
+
+        int MAXIMO_POSIBLE = 255;
+        int valorMinimo = matrizPixeles[0][0];
+        int valorMaximo = matrizPixeles[0][0];
+
+        //Obtengo mínimo y máximo
+        for (int x = 0; x < matrizPixeles.length; x++) {
+
+            for (int y = 0; y < matrizPixeles[0].length; y++) {
+
+                int pixel = matrizPixeles[x][y];
+
+                if (pixel < valorMinimo) {
+                    valorMinimo = pixel;
+                } else if (pixel > valorMaximo) {
+                    valorMaximo = pixel;
+                }
+            }
+        }
+
+        Log.i(LOG_TAG, "Valor mínimo: " + valorMinimo);
+        Log.i(LOG_TAG, "Valor máximo: " + valorMaximo);
+
+        Bitmap bitmap = Bitmap.createBitmap(matrizPixeles.length, matrizPixeles[0].length, Bitmap.Config.RGB_565);
+
+        if (valorMaximo > MAXIMO_POSIBLE) {
+
+            //Aplico transformación en un rango de -255 a 255 No pueden haber colores negativos -> Los llevo a 0
+            for (int x = 0; x < matrizPixeles.length; x++) {
+
+                for (int y = 0; y < matrizPixeles[0].length; y++) {
+
+                    int pixel = matrizPixeles[x][y];
+                    int nuevoPixel = pixel * MAXIMO_POSIBLE / valorMaximo;
+
+                    bitmap.setPixel(x, y, Color.rgb(nuevoPixel, nuevoPixel, nuevoPixel));
+
+                    //Log.i(LOG_TAG, pixel + " --> " + nuevoPixel);
+                }
+            }
+        }
+
+        return bitmap;
 
     }
 
