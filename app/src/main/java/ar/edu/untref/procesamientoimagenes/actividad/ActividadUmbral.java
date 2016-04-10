@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -41,7 +42,29 @@ public class ActividadUmbral extends ActividadBasica {
     @Bind(R.id.muestraColor)
     View muestraColor;
 
+    @Bind(R.id.seleccionUmbralSeekbar)
+    SeekBar seleccionUmbral;
+
     private File imagen;
+    private SeekBar.OnSeekBarChangeListener valorSeleccionado = new SeekBar.OnSeekBarChangeListener() {
+        @Override
+        public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+        }
+
+        @Override
+        public void onStartTrackingTouch(SeekBar seekBar) {
+        }
+
+        @Override
+        public void onStopTrackingTouch(SeekBar seekBar) {
+
+            int progress = seekBar.getProgress();
+
+            umbralSeleccionado.setText(String.valueOf(progress));
+            muestraColor.setBackgroundColor(Color.rgb(progress, progress, progress));
+            umbralizar(progress);
+        }
+    };
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -49,6 +72,8 @@ public class ActividadUmbral extends ActividadBasica {
 
         getSupportActionBar().setTitle("Umbralizar");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        this.seleccionUmbral.setOnSeekBarChangeListener(this.valorSeleccionado);
 
         this.imagen = (File) getIntent().getSerializableExtra(Constante.EXTRA_IMAGEN);
         this.nombreImagen.setText(this.imagen.getName());
@@ -75,6 +100,7 @@ public class ActividadUmbral extends ActividadBasica {
 
                     umbralSeleccionado.setText(valorIngresado);
                     muestraColor.setBackgroundColor(Color.rgb(valorEntero, valorEntero, valorEntero));
+                    seleccionUmbral.setProgress(valorEntero);
                     umbralizar(valorEntero);
                 }
                 else {

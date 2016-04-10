@@ -57,31 +57,43 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical">
 
+                <SeekBar
+                    android:id="@+id/seleccionUmbralSeekbar"
+                    android:layout_width="256dp"
+                    android:layout_height="wrap_content"
+                    android:max="255"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="16dp"/>
+
                 <TextView
                     android:id="@+id/umbralizar"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="SELECCIONAR UMBRAL"
+                    android:text="UMBRAL"
                     android:textStyle="bold"
-                    android:padding="16dp"
+                    android:padding="8dp"
+                    android:textSize="10sp"
                     android:background="@drawable/selector_boton"
                     android:textColor="@android:color/white"
                     android:layout_marginTop="16dp"
-                    android:layout_marginLeft="16dp"/>
+                    android:layout_marginLeft="8dp"
+                    android:layout_centerVertical="true"
+                    android:layout_toRightOf="@+id/muestraColor"/>
 
                 <TextView
                     android:id="@+id/umbralSeleccionado"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     tools:text="255"
-                    android:layout_toRightOf="@+id/umbralizar"
+                    android:textSize="12sp"
+                    android:layout_toRightOf="@+id/seleccionUmbralSeekbar"
                     android:layout_marginLeft="16dp"
                     android:layout_centerVertical="true"/>
 
                 <View
                     android:id="@+id/muestraColor"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
                     android:layout_toRightOf="@+id/umbralSeleccionado"
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="16dp"/>
