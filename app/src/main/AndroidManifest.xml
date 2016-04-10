@@ -39,6 +39,9 @@
             android:screenOrientation="landscape"/>
 
         <activity android:name=".actividad.ActividadUmbral"
+        android:screenOrientation="landscape"/>
+
+        <activity android:name=".actividad.ActividadRuidos"
             android:screenOrientation="landscape"/>
     </application>
 

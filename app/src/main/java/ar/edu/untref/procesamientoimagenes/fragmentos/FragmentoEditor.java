@@ -16,6 +16,7 @@ import ar.edu.untref.procesamientoimagenes.actividad.ActividadHistograma;
 import ar.edu.untref.procesamientoimagenes.actividad.ActividadObtenerPixel;
 import ar.edu.untref.procesamientoimagenes.actividad.ActividadOperaciones;
 import ar.edu.untref.procesamientoimagenes.actividad.ActividadRecortar;
+import ar.edu.untref.procesamientoimagenes.actividad.ActividadRuidos;
 import ar.edu.untref.procesamientoimagenes.actividad.ActividadUmbral;
 import ar.edu.untref.procesamientoimagenes.modelo.Constante;
 import butterknife.Bind;
@@ -163,6 +164,19 @@ public class FragmentoEditor extends FragmentoBasico {
         if (imagen != null) {
 
             Intent intent = new Intent(getActivity(), ActividadUmbral.class);
+            intent.putExtra(Constante.EXTRA_IMAGEN, imagen);
+            startActivity(intent);
+        }
+        else {
+            Toast.makeText(getActivity(), R.string.selecciona_una_imagen, Toast.LENGTH_SHORT).show();
+        }
+    }
+    @OnClick(R.id.ruidos)
+    public void aplicarRuido() {
+
+        if (imagen != null) {
+
+            Intent intent = new Intent(getActivity(), ActividadRuidos.class);
             intent.putExtra(Constante.EXTRA_IMAGEN, imagen);
             startActivity(intent);
         }
