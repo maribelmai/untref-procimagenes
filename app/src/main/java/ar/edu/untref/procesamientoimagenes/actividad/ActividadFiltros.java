@@ -3,7 +3,6 @@ package ar.edu.untref.procesamientoimagenes.actividad;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -80,50 +79,6 @@ public class ActividadFiltros extends ActividadBasica {
         }
     }
 
-    private Bitmap hacerTransformacionLinealMultiplicacion(int[][] matrizPixeles) {
-
-        int MAXIMO_POSIBLE = 255;
-        int valorMinimo = Integer.MAX_VALUE;
-        int valorMaximo = Integer.MIN_VALUE;
-
-        //Obtengo mínimo y máximo
-        for (int x = 0; x < matrizPixeles.length; x++) {
-
-            for (int y = 0; y < matrizPixeles[0].length; y++) {
-
-                int pixel = matrizPixeles[x][y];
-
-                if (pixel < valorMinimo) {
-                    valorMinimo = pixel;
-                } else if (pixel > valorMaximo) {
-                    valorMaximo = pixel;
-                }
-            }
-        }
-
-        Log.i(LOG_TAG, "Valor mínimo: " + valorMinimo);
-        Log.i(LOG_TAG, "Valor máximo: " + valorMaximo);
-
-        Bitmap bitmap = Bitmap.createBitmap(matrizPixeles.length, matrizPixeles[0].length, Bitmap.Config.RGB_565);
-
-        //if (valorMaximo > MAXIMO_POSIBLE) {
-
-        for (int x = 0; x < matrizPixeles.length; x++) {
-            for (int y = 0; y < matrizPixeles[0].length; y++) {
-
-                int pixel = matrizPixeles[x][y];
-                int nuevoPixel = pixel * MAXIMO_POSIBLE / valorMaximo;
-
-                bitmap.setPixel(x, y, Color.rgb(nuevoPixel, nuevoPixel, nuevoPixel));
-
-                //Log.i(LOG_TAG, pixel + " --> " + nuevoPixel);
-            }
-            // }
-        }
-
-        return bitmap;
-
-    }
 
     @Override
     protected int getLayout() {
