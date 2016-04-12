@@ -1,5 +1,6 @@
 package ar.edu.untref.procesamientoimagenes.actividad;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
@@ -23,6 +24,7 @@ import java.util.ArrayList;
 import ar.edu.untref.procesamientoimagenes.R;
 import ar.edu.untref.procesamientoimagenes.modelo.Constante;
 import butterknife.Bind;
+import butterknife.OnClick;
 
 /**
  * Created by maribel on 4/6/16.
@@ -125,6 +127,14 @@ public class ActividadHistograma extends ActividadBasica {
         data.setDrawValues(false);
 
         histograma.setData(data);
+    }
+
+    @OnClick(R.id.iniciarEcualizacion)
+    public void iniciarEcualizacion() {
+
+        Intent intent = new Intent(this, ActividadEcualizar.class);
+        intent.putExtra(Constante.EXTRA_IMAGEN, imagen);
+        startActivity(intent);
     }
 
     @Override

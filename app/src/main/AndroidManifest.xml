@@ -47,6 +47,9 @@
         <activity android:name=".actividad.ActividadFiltros"
             android:screenOrientation="landscape"/>
 
+        <activity android:name=".actividad.ActividadEcualizar"
+            android:screenOrientation="landscape"/>
+
     </application>
 
 </manifest>

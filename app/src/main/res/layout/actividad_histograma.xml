@@ -5,25 +5,42 @@
     android:layout_height="match_parent"
     android:weightSum="1">
 
-    <ScrollView
+    <RelativeLayout
         android:layout_width="0dp"
         android:layout_height="match_parent"
-        android:layout_weight="0.5"
-        android:fillViewport="true">
+        android:layout_weight="0.5">
 
-        <FrameLayout
+        <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="match_parent"
+            android:fillViewport="true"
+            android:layout_above="@+id/iniciarEcualizacion">
 
-            <ImageView
-                android:id="@+id/imagen"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:adjustViewBounds="true"
-                android:layout_gravity="center"/>
-        </FrameLayout>
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
-    </ScrollView>
+                <ImageView
+                    android:id="@+id/imagen"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:adjustViewBounds="true"
+                    android:layout_gravity="center"/>
+            </FrameLayout>
+        </ScrollView>
+
+        <TextView
+            android:id="@+id/iniciarEcualizacion"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="INICIAR ECUALIZACIÓN"
+            android:layout_alignParentBottom="true"
+            android:padding="12dp"
+            android:layout_margin="8dp"
+            android:background="@drawable/selector_boton"
+            android:textColor="@android:color/white"
+            android:layout_centerHorizontal="true"/>
+    </RelativeLayout>
 
     <RelativeLayout
         android:layout_width="0dp"
