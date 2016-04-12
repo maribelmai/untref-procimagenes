@@ -11,6 +11,7 @@ import android.util.Log;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -40,6 +41,12 @@ public class ActividadRuidos extends ActividadBasica {
     @Bind(R.id.valorMedia)
     EditText media;
 
+    @Bind(R.id.phi)
+    EditText phi;
+
+    @Bind(R.id.contaminacionSalYPimienta)
+    EditText contaminacionSalYPimienta;
+
     private Bitmap bitmapOriginal;
     private File imagen;
 
@@ -65,27 +72,33 @@ public class ActividadRuidos extends ActividadBasica {
 
         ocultarTeclado();
 
-        Bitmap mutableBitmap = bitmapOriginal.copy(Bitmap.Config.RGB_565, true);
+        if (!desvio.getText().toString().trim().isEmpty() && !media.getText().toString().trim().isEmpty()) {
 
-        double desvio = Double.parseDouble(this.desvio.getText().toString());
-        double media = Double.parseDouble(this.media.getText().toString());
+            Bitmap mutableBitmap = bitmapOriginal.copy(Bitmap.Config.RGB_565, true);
 
-        Random random = new Random();
+            double desvio = Double.parseDouble(this.desvio.getText().toString());
+            double media = Double.parseDouble(this.media.getText().toString());
 
-        for (int x = 0; x < bitmapOriginal.getWidth(); x++) {
+            Random random = new Random();
 
-            for (int y = 0; y < bitmapOriginal.getHeight(); y++) {
-                double randomCreado = random.nextGaussian() * desvio + media;
+            for (int x = 0; x < bitmapOriginal.getWidth(); x++) {
 
-                int pixelOriginal = bitmapOriginal.getPixel(x, y);
-                int nivelGris = Color.red(pixelOriginal);
-                int nuevoColor = (int) (nivelGris + randomCreado);
-                mutableBitmap.setPixel(x, y, Color.rgb(nuevoColor, nuevoColor, nuevoColor));
+                for (int y = 0; y < bitmapOriginal.getHeight(); y++) {
+                    double randomCreado = random.nextGaussian() * desvio + media;
+
+                    int pixelOriginal = bitmapOriginal.getPixel(x, y);
+                    int nivelGris = Color.red(pixelOriginal);
+                    int nuevoColor = (int) (nivelGris + randomCreado);
+                    mutableBitmap.setPixel(x, y, Color.rgb(nuevoColor, nuevoColor, nuevoColor));
+                }
             }
-        }
 
-        imageView.setImageBitmap(mutableBitmap);
-        sufijoGuardar = "gaussD" + desvio + "m" + media;
+            imageView.setImageBitmap(mutableBitmap);
+            sufijoGuardar = "gaussD" + desvio + "m" + media;
+        }
+        else {
+            Toast.makeText(this, "Desvío y media no pueden ser vacíos", Toast.LENGTH_SHORT).show();
+        }
     }
 
     private List<Point> obtenerPixelesAleatorios(int cantidad) {
@@ -98,6 +111,13 @@ public class ActividadRuidos extends ActividadBasica {
             int yRandom = new Random().nextInt(bitmapOriginal.getHeight());
 
             Point pixel = new Point(xRandom, yRandom);
+
+            while (pixeles.contains(pixel)) {
+                xRandom = new Random().nextInt(bitmapOriginal.getWidth());
+                yRandom = new Random().nextInt(bitmapOriginal.getHeight());
+                pixel = new Point(xRandom, yRandom);
+            }
+
             pixeles.add(pixel);
         }
 
@@ -106,22 +126,31 @@ public class ActividadRuidos extends ActividadBasica {
 
     @OnClick(R.id.ruidoRayleigh)
     public void aplicarRuidoRayleigh(){
-        Bitmap mutableBitmap = bitmapOriginal.copy(Bitmap.Config.RGB_565, true);
 
-        for (int x = 0; x < bitmapOriginal.getWidth(); x++) {
+        ocultarTeclado();
 
-            for (int y = 0; y < bitmapOriginal.getHeight(); y++) {
-                double randomCreado = generarAleatorioRayleigh(0.1f);
+        if (!phi.getText().toString().trim().isEmpty()) {
 
-                int pixelOriginal = bitmapOriginal.getPixel(x, y);
-                int nivelGris = Color.red(pixelOriginal);
-                int nuevoColor = (int) (nivelGris * randomCreado);
-                mutableBitmap.setPixel(x, y, Color.rgb(nuevoColor, nuevoColor, nuevoColor));
+            Bitmap mutableBitmap = bitmapOriginal.copy(Bitmap.Config.RGB_565, true);
+
+            for (int x = 0; x < bitmapOriginal.getWidth(); x++) {
+
+                for (int y = 0; y < bitmapOriginal.getHeight(); y++) {
+
+                    float phi = Float.parseFloat(this.phi.getText().toString());
+                    double randomCreado = generarAleatorioRayleigh(phi);
+
+                    int pixelOriginal = bitmapOriginal.getPixel(x, y);
+                    int nivelGris = Color.red(pixelOriginal);
+                    int nuevoColor = (int) (nivelGris * randomCreado);
+                    mutableBitmap.setPixel(x, y, Color.rgb(nuevoColor, nuevoColor, nuevoColor));
+                }
             }
+            imageView.setImageBitmap(mutableBitmap);
         }
-
-        imageView.setImageBitmap(mutableBitmap);
-
+        else {
+            Toast.makeText(this, "Phi no puede ser vacío", Toast.LENGTH_SHORT).show();
+        }
     }
 
     @OnClick(R.id.ruidoExponencial)
@@ -132,6 +161,39 @@ public class ActividadRuidos extends ActividadBasica {
     @OnClick(R.id.ruidoSalyPimienta)
     public void aplicarRuidoSalyPimienta(){
 
+        ocultarTeclado();
+
+        if (!contaminacionSalYPimienta.getText().toString().trim().isEmpty()) {
+
+            float p0 = 0.3f;
+            float p1 = 0.7f;
+
+            Random generadorRandom = new Random(1);
+
+            long cantidadTotalPixeles = bitmapOriginal.getWidth() * bitmapOriginal.getHeight();
+            int porcentajeContaminacion = Integer.parseInt(contaminacionSalYPimienta.getText().toString());
+            int cantidadPixelesAContaminar = (int) (cantidadTotalPixeles * porcentajeContaminacion / 100);
+
+            List<Point> pixeles = obtenerPixelesAleatorios(cantidadPixelesAContaminar);
+            Bitmap mutableBitmap = bitmapOriginal.copy(Bitmap.Config.RGB_565, true);
+
+            for (Point point: pixeles) {
+
+                float random = generadorRandom.nextFloat();
+
+                if (random >= p1) {
+                    mutableBitmap.setPixel(point.x, point.y, Color.WHITE);
+                }
+                else {
+                    mutableBitmap.setPixel(point.x, point.y, Color.BLACK);
+                }
+            }
+
+            imageView.setImageBitmap(mutableBitmap);
+        }
+        else {
+            Toast.makeText(this, "Ingrese un nivel de contaminación", Toast.LENGTH_SHORT).show();
+        }
     }
 
     private float generarAleatorioRayleigh(float phi) {
