@@ -43,6 +43,10 @@
 
         <activity android:name=".actividad.ActividadRuidos"
             android:screenOrientation="landscape"/>
+
+        <activity android:name=".actividad.ActividadFiltros"
+            android:screenOrientation="landscape"/>
+
     </application>
 
 </manifest>
