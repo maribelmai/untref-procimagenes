@@ -8,7 +8,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentTransaction;
-import android.util.Log;
+import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -111,7 +111,7 @@ public class ActividadOperaciones extends ActividadBasica {
         }
     }
 
-    @OnClick({R.id.sumar, R.id.restar, R.id.multiplicar, R.id.multiplicarPorEscalar, R.id.negativoDeImagen})
+    @OnClick({R.id.sumar, R.id.restar, R.id.multiplicar, R.id.multiplicarPorEscalar, R.id.negativoDeImagen, R.id.potencia})
     public void operar(View view) {
 
         BitmapDrawable drawable1 = (BitmapDrawable) imagen1.getDrawable();
@@ -124,15 +124,21 @@ public class ActividadOperaciones extends ActividadBasica {
         if (drawable1 != null && view.getId() == R.id.multiplicarPorEscalar) {
 
             bitmap1 = drawable1.getBitmap();
-
             mostrarDialogoMultiplicacionEscalar(bitmap1);
         }
         else if(drawable1 != null && view.getId() == R.id.negativoDeImagen) {
-            bitmap1 = drawable1.getBitmap();
 
+            this.resultadoOperacion.setText(getString(R.string.resultado_operacion).replace("{operacion}", "(NEGATIVO)"));
+            bitmap1 = drawable1.getBitmap();
             resultante= negativoDeImagen(bitmap1);
             imagenResultante.setImageBitmap(resultante);
 
+        }
+        else if(drawable1 != null && view.getId() == R.id.potencia) {
+
+            this.resultadoOperacion.setText(getString(R.string.resultado_operacion).replace("{operacion}", "(POTENCIA)"));
+            bitmap1 = drawable1.getBitmap();
+            mostrarDialogoPotencia(bitmap1);
         }
         else if (drawable1 != null && drawable2 != null) {
 
@@ -165,6 +171,7 @@ public class ActividadOperaciones extends ActividadBasica {
 
         View view = LayoutInflater.from(this).inflate(R.layout.view_seleccion_valor, null);
         final EditText inputEscalar = (EditText) view.findViewById(R.id.valor);
+        inputEscalar.setRawInputType(InputType.TYPE_CLASS_NUMBER);
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setView(view);
@@ -176,6 +183,33 @@ public class ActividadOperaciones extends ActividadBasica {
                 String valorIngresado = inputEscalar.getText().toString();
                 resultadoOperacion.setText(getString(R.string.resultado_operacion).replace("{operacion}", "(PRODUCTO POR " + valorIngresado + ")"));
                 Bitmap resultante = multiplicarPorEscalar(bitmap1, Integer.valueOf(valorIngresado));
+                imagenResultante.setImageBitmap(resultante);
+            }
+        });
+        builder.setNegativeButton(R.string.cancelar, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+            }
+        });
+        builder.show();
+    }
+
+    private void mostrarDialogoPotencia(final Bitmap bitmap1) {
+
+        View view = LayoutInflater.from(this).inflate(R.layout.view_seleccion_valor, null);
+        final EditText inputEscalar = (EditText) view.findViewById(R.id.valor);
+        inputEscalar.setHint("Gamma");
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setView(view);
+        builder.setTitle(R.string.potencia);
+        builder.setPositiveButton(R.string.aceptar, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+                String valorIngresado = inputEscalar.getText().toString();
+                resultadoOperacion.setText(getString(R.string.resultado_operacion).replace("{operacion}", "(PRODUCTO POR " + valorIngresado + ")"));
+                Bitmap resultante = potencia(bitmap1, Float.valueOf(valorIngresado));
                 imagenResultante.setImageBitmap(resultante);
             }
         });
@@ -221,7 +255,37 @@ public class ActividadOperaciones extends ActividadBasica {
             }
         }
 
-        return hacerTransformacionLinealResta(matrizPixeles);
+        return Compresion.hacerCompresionRangoDinamico(matrizPixeles);
+    }
+
+    private Bitmap potencia(Bitmap bitmap, Float gamma) {
+
+        int[] matrizGamma = formarMatrizGamma(gamma);
+
+        Bitmap bitmapNuevo = Bitmap.createBitmap(bitmap.getWidth(),bitmap.getHeight(), Bitmap.Config.RGB_565);
+
+        for(int x=0; x < bitmap.getWidth(); x++) {
+            for(int y=0; y < bitmap.getHeight(); y++) {
+
+                int nivelGris = Color.red(bitmap.getPixel(x,y));
+                int nuevoColor = matrizGamma[nivelGris];
+
+                bitmapNuevo.setPixel(x, y, Color.rgb(nuevoColor,nuevoColor,nuevoColor));
+            }
+        }
+
+        return bitmapNuevo;
+    }
+
+    private int[] formarMatrizGamma(double gamma) {
+
+        int[] matrizGamma = new int[256];
+
+        for(int i=0; i<matrizGamma.length; i++) {
+            matrizGamma[i] = (int) (255 * (Math.pow((double) i / (double) 255, 1 / gamma)));
+        }
+
+        return matrizGamma;
     }
 
     private Bitmap multiplicar(Bitmap bitmap1, Bitmap bitmap2) {
@@ -239,7 +303,7 @@ public class ActividadOperaciones extends ActividadBasica {
             }
         }
 
-        return hacerTransformacionLinealMultiplicacion(matrizPixeles);
+        return Compresion.hacerCompresionRangoDinamico(matrizPixeles);
     }
 
     private Bitmap multiplicarPorEscalar(Bitmap bitmap1, Integer escalar) {
@@ -279,53 +343,6 @@ public class ActividadOperaciones extends ActividadBasica {
         return bitmap;
     }
 
-    private Bitmap hacerTransformacionLinealMultiplicacion(int[][] matrizPixeles) {
-
-        int MAXIMO_POSIBLE = 255;
-        int valorMinimo = matrizPixeles[0][0];
-        int valorMaximo = matrizPixeles[0][0];
-
-        //Obtengo mínimo y máximo
-        for (int x = 0; x < matrizPixeles.length; x++) {
-
-            for (int y = 0; y < matrizPixeles[0].length; y++) {
-
-                int pixel = matrizPixeles[x][y];
-
-                if (pixel < valorMinimo) {
-                    valorMinimo = pixel;
-                } else if (pixel > valorMaximo) {
-                    valorMaximo = pixel;
-                }
-            }
-        }
-
-        Log.i(LOG_TAG, "Valor mínimo: " + valorMinimo);
-        Log.i(LOG_TAG, "Valor máximo: " + valorMaximo);
-
-        Bitmap bitmap = Bitmap.createBitmap(matrizPixeles.length, matrizPixeles[0].length, Bitmap.Config.RGB_565);
-
-        if (valorMaximo > MAXIMO_POSIBLE) {
-
-            //Aplico transformación en un rango de -255 a 255 No pueden haber colores negativos -> Los llevo a 0
-            for (int x = 0; x < matrizPixeles.length; x++) {
-
-                for (int y = 0; y < matrizPixeles[0].length; y++) {
-
-                    int pixel = matrizPixeles[x][y];
-                    int nuevoPixel = pixel * MAXIMO_POSIBLE / valorMaximo;
-
-                    bitmap.setPixel(x, y, Color.rgb(nuevoPixel, nuevoPixel, nuevoPixel));
-
-                    //Log.i(LOG_TAG, pixel + " --> " + nuevoPixel);
-                }
-            }
-        }
-
-        return bitmap;
-
-    }
-
     private Bitmap hacerTransformacionLinealResta(int[][] matrizPixeles) {
 
         Bitmap bitmap = Bitmap.createBitmap(matrizPixeles.length, matrizPixeles[0].length, Bitmap.Config.RGB_565);
@@ -339,8 +356,6 @@ public class ActividadOperaciones extends ActividadBasica {
                 int nuevoPixel = pixel < 0 ? 0 : pixel;
 
                 bitmap.setPixel(x, y, Color.rgb(nuevoPixel, nuevoPixel, nuevoPixel));
-
-                //Log.i(LOG_TAG, pixel + " --> " + nuevoPixel);
             }
         }
 
@@ -362,8 +377,6 @@ public class ActividadOperaciones extends ActividadBasica {
                 int nuevoPixel = pixel / 2;
 
                 bitmap.setPixel(x, y, Color.rgb(nuevoPixel, nuevoPixel, nuevoPixel));
-
-                //Log.i(LOG_TAG, pixel + " --> " + nuevoPixel);
             }
         }
         return bitmap;
