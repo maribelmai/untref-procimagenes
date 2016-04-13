@@ -323,7 +323,7 @@ public class ActividadOperaciones extends ActividadBasica {
 
     private Bitmap hacerCompresionRangoDinamico(int[][] matrizPixeles) {
 
-        int valorMaximo = matrizPixeles[0][0];
+        int valorMaximo = Integer.MIN_VALUE;
 
         //Obtengo máximo
         for (int x = 0; x < matrizPixeles.length; x++) {
@@ -332,25 +332,27 @@ public class ActividadOperaciones extends ActividadBasica {
 
                 int pixel = matrizPixeles[x][y];
 
-              if (pixel > valorMaximo) {
+                if (pixel > valorMaximo) {
                     valorMaximo = pixel;
                 }
             }
         }
 
+        Log.i(LOG_TAG, "Valor máximo: " + valorMaximo);
+
         Bitmap bitmap = Bitmap.createBitmap(matrizPixeles.length, matrizPixeles[0].length, Bitmap.Config.RGB_565);
 
-            for (int x = 0; x < matrizPixeles.length; x++) {
+        for (int x = 0; x < matrizPixeles.length; x++) {
 
-                for (int y = 0; y < matrizPixeles[0].length; y++) {
+            for (int y = 0; y < matrizPixeles[0].length; y++) {
 
-                    int pixel = matrizPixeles[x][y];
-                    int nuevoPixel= (int) (255/( Math.log(1 + valorMaximo) * Math.log(1 + pixel)) );
+                int pixel = matrizPixeles[x][y];
+                int nuevoPixel= (int) ((255/(Math.log(1 + valorMaximo)) * Math.log(1 + pixel)) );
 
-                    bitmap.setPixel(x, y, Color.rgb(nuevoPixel, nuevoPixel, nuevoPixel));
+                bitmap.setPixel(x, y, Color.rgb(nuevoPixel, nuevoPixel, nuevoPixel));
 
-                }
             }
+        }
 
         return bitmap;
 
