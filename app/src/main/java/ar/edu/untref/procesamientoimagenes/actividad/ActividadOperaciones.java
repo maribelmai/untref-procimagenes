@@ -343,25 +343,6 @@ public class ActividadOperaciones extends ActividadBasica {
         return bitmap;
     }
 
-    private Bitmap hacerTransformacionLinealResta(int[][] matrizPixeles) {
-
-        Bitmap bitmap = Bitmap.createBitmap(matrizPixeles.length, matrizPixeles[0].length, Bitmap.Config.RGB_565);
-
-        //Aplico transformación en un rango de -255 a 255 No pueden haber colores negativos -> Los llevo a 0
-        for (int x = 0; x < matrizPixeles.length; x++) {
-
-            for (int y = 0; y < matrizPixeles[0].length; y++) {
-
-                int pixel = matrizPixeles[x][y];
-                int nuevoPixel = pixel < 0 ? 0 : pixel;
-
-                bitmap.setPixel(x, y, Color.rgb(nuevoPixel, nuevoPixel, nuevoPixel));
-            }
-        }
-
-        return bitmap;
-    }
-
     private Bitmap hacerTransformacionLinealSuma(int[][] matrizPixeles) {
 
         int alto = matrizPixeles.length;
