@@ -251,7 +251,7 @@ public class ActividadOperaciones extends ActividadBasica {
             }
         }
 
-        return hacerTransformacionLinealMultiplicacion(matrizPixeles);
+        return hacerCompresionRangoDinamico(matrizPixeles);
     }
 
     private Bitmap negativoDeImagen(Bitmap bitmap1) {
@@ -316,6 +316,41 @@ public class ActividadOperaciones extends ActividadBasica {
                 }
             }
         }
+
+        return bitmap;
+
+    }
+
+    private Bitmap hacerCompresionRangoDinamico(int[][] matrizPixeles) {
+
+        int valorMaximo = matrizPixeles[0][0];
+
+        //Obtengo máximo
+        for (int x = 0; x < matrizPixeles.length; x++) {
+
+            for (int y = 0; y < matrizPixeles[0].length; y++) {
+
+                int pixel = matrizPixeles[x][y];
+
+              if (pixel > valorMaximo) {
+                    valorMaximo = pixel;
+                }
+            }
+        }
+
+        Bitmap bitmap = Bitmap.createBitmap(matrizPixeles.length, matrizPixeles[0].length, Bitmap.Config.RGB_565);
+
+            for (int x = 0; x < matrizPixeles.length; x++) {
+
+                for (int y = 0; y < matrizPixeles[0].length; y++) {
+
+                    int pixel = matrizPixeles[x][y];
+                    int nuevoPixel= (int) (255/( Math.log(1 + valorMaximo) * Math.log(1 + pixel)) );
+
+                    bitmap.setPixel(x, y, Color.rgb(nuevoPixel, nuevoPixel, nuevoPixel));
+
+                }
+            }
 
         return bitmap;
 
