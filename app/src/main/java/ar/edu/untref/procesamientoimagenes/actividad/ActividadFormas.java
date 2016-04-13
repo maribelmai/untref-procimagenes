@@ -25,6 +25,9 @@ public class ActividadFormas extends ActividadBasica {
     @Bind(R.id.circulo)
     ImageView circulo;
 
+    @Bind(R.id.imagenVacia)
+    ImageView imagenVacia;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
 
@@ -34,6 +37,28 @@ public class ActividadFormas extends ActividadBasica {
 
         generarCuadrado();
         generarCirculo();
+        generarImagenVacia();
+    }
+
+    private void generarImagenVacia() {
+
+        int ancho = 200;
+        int alto = 200;
+
+        Bitmap bitmapVacio = Bitmap.createBitmap(ancho, alto, Bitmap.Config.RGB_565);
+
+        for(int x=0; x < ancho; x++){
+            for(int y=0; y < alto; y++){
+                bitmapVacio.setPixel(x, y, Color.GRAY);
+            }
+        }
+
+        try {
+            File archivo = getAplicacion().guardarArchivo(bitmapVacio, "/", "imagen_vacia.png");
+            getAplicacion().mostrarImagen(archivo, imagenVacia);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     private void generarCirculo() {

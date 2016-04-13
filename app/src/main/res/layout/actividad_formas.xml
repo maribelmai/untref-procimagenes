@@ -7,10 +7,10 @@
     android:layout_height="match_parent">
 
     <LinearLayout
-        android:id="@+id/degradeDeGrises"
+        android:id="@+id/layoutCuadrado"
         android:layout_width="0dp"
         android:layout_height="match_parent"
-        android:layout_weight="0.5"
+        android:layout_weight="0.33"
         android:orientation="vertical">
 
         <TextView
@@ -29,10 +29,10 @@
 
 
     <LinearLayout
-        android:id="@+id/degradeDeColores"
+        android:id="@+id/layoutCirculo"
         android:layout_width="0dp"
         android:layout_height="match_parent"
-        android:layout_weight="0.5"
+        android:layout_weight="0.33"
         android:orientation="vertical">
 
         <TextView
@@ -44,6 +44,27 @@
 
         <ImageView
             android:id="@+id/circulo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/layoutImagenVacia"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="0.33"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Imagen vacía"
+            android:padding="16dp"
+            android:textStyle="bold"/>
+
+        <ImageView
+            android:id="@+id/imagenVacia"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="16dp"/>
