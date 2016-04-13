@@ -56,6 +56,7 @@
             android:orientation="vertical"
             android:layout_marginLeft="16dp">
 
+            <!-- Filtro de la media -->
             <RelativeLayout
                 android:id="@+id/layoutFiltroMedia"
                 android:layout_width="wrap_content"
@@ -95,6 +96,13 @@
 
             </RelativeLayout>
 
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:background="@color/gris"
+                android:layout_marginTop="8dp"/>
+
+            <!-- Filtro de la mediana -->
             <RelativeLayout
                 android:id="@+id/layoutFiltroMediana"
                 android:layout_width="wrap_content"
@@ -131,6 +139,60 @@
                     android:textStyle="bold"
                     android:background="@drawable/selector_boton"
                     android:layout_below="@+id/tamanioMatrizMediana"/>
+
+            </RelativeLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:background="@color/gris"
+                android:layout_marginTop="8dp"/>
+
+            <RelativeLayout
+                android:id="@+id/layoutFiltroGauss"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/tituloFiltroGaussiano"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Filtro Gaussiano"
+                    android:textStyle="bold"
+                    android:layout_marginTop="16dp"/>
+
+                <EditText
+                    android:id="@+id/tamanioMatrizGaussiana"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:hint="Tamaño matriz cuadrada"
+                    android:inputType="number"
+                    android:textSize="14sp"
+                    android:layout_below="@+id/tituloFiltroGaussiano"/>
+
+                <EditText
+                    android:id="@+id/sigma"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:hint="Sigma"
+                    android:inputType="numberDecimal"
+                    android:textSize="14sp"
+                    android:layout_below="@+id/tamanioMatrizGaussiana"/>
+
+                <TextView
+                    android:id="@+id/aplicarFiltroGaussiano"
+                    android:layout_width="wrap_content"
+                    android:gravity="center"
+                    android:layout_height="wrap_content"
+                    android:text="Aplicar"
+                    android:padding="8dp"
+                    android:textAllCaps="true"
+                    android:textSize="11sp"
+                    android:layout_marginTop="8dp"
+                    android:textColor="@android:color/white"
+                    android:textStyle="bold"
+                    android:background="@drawable/selector_boton"
+                    android:layout_below="@+id/sigma"/>
 
             </RelativeLayout>
 
