@@ -148,6 +148,7 @@
                 android:background="@color/gris"
                 android:layout_marginTop="8dp"/>
 
+            <!-- Filtro gaussiano -->
             <RelativeLayout
                 android:id="@+id/layoutFiltroGauss"
                 android:layout_width="wrap_content"
@@ -193,6 +194,53 @@
                     android:textStyle="bold"
                     android:background="@drawable/selector_boton"
                     android:layout_below="@+id/sigma"/>
+
+            </RelativeLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:background="@color/gris"
+                android:layout_marginTop="8dp"/>
+
+            <!-- Filtro pasaaltos -->
+
+            <RelativeLayout
+                android:id="@+id/layoutFiltroPasaaltos"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/tituloFiltroPasaaltos"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Filtro pasaaltos"
+                    android:textStyle="bold"
+                    android:layout_marginTop="16dp"/>
+
+                <EditText
+                    android:id="@+id/tamanioMatrizPasaaltos"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:hint="Tamaño matriz cuadrada"
+                    android:inputType="number"
+                    android:textSize="14sp"
+                    android:layout_below="@+id/tituloFiltroPasaaltos"/>
+
+                <TextView
+                    android:id="@+id/aplicarFiltroPasaaltos"
+                    android:layout_width="wrap_content"
+                    android:gravity="center"
+                    android:layout_height="wrap_content"
+                    android:text="Aplicar"
+                    android:padding="8dp"
+                    android:textAllCaps="true"
+                    android:textSize="11sp"
+                    android:layout_marginTop="8dp"
+                    android:textColor="@android:color/white"
+                    android:textStyle="bold"
+                    android:background="@drawable/selector_boton"
+                    android:layout_below="@+id/tamanioMatrizPasaaltos"/>
 
             </RelativeLayout>
 

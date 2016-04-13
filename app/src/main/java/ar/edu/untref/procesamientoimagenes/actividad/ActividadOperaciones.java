@@ -26,6 +26,7 @@ import ar.edu.untref.procesamientoimagenes.Aplicacion;
 import ar.edu.untref.procesamientoimagenes.R;
 import ar.edu.untref.procesamientoimagenes.fragmentos.FragmentoListaArchivos;
 import ar.edu.untref.procesamientoimagenes.modelo.Constante;
+import ar.edu.untref.procesamientoimagenes.util.Compresion;
 import butterknife.Bind;
 import butterknife.OnClick;
 
@@ -255,7 +256,7 @@ public class ActividadOperaciones extends ActividadBasica {
             }
         }
 
-        return hacerCompresionRangoDinamico(matrizPixeles);
+        return Compresion.hacerCompresionRangoDinamico(matrizPixeles);
     }
 
     private Bitmap negativoDeImagen(Bitmap bitmap1) {
@@ -318,43 +319,6 @@ public class ActividadOperaciones extends ActividadBasica {
 
                     //Log.i(LOG_TAG, pixel + " --> " + nuevoPixel);
                 }
-            }
-        }
-
-        return bitmap;
-
-    }
-
-    private Bitmap hacerCompresionRangoDinamico(int[][] matrizPixeles) {
-
-        int valorMaximo = Integer.MIN_VALUE;
-
-        //Obtengo máximo
-        for (int x = 0; x < matrizPixeles.length; x++) {
-
-            for (int y = 0; y < matrizPixeles[0].length; y++) {
-
-                int pixel = matrizPixeles[x][y];
-
-                if (pixel > valorMaximo) {
-                    valorMaximo = pixel;
-                }
-            }
-        }
-
-        Log.i(LOG_TAG, "Valor máximo: " + valorMaximo);
-
-        Bitmap bitmap = Bitmap.createBitmap(matrizPixeles.length, matrizPixeles[0].length, Bitmap.Config.RGB_565);
-
-        for (int x = 0; x < matrizPixeles.length; x++) {
-
-            for (int y = 0; y < matrizPixeles[0].length; y++) {
-
-                int pixel = matrizPixeles[x][y];
-                int nuevoPixel= (int) ((255/(Math.log(1 + valorMaximo)) * Math.log(1 + pixel)) );
-
-                bitmap.setPixel(x, y, Color.rgb(nuevoPixel, nuevoPixel, nuevoPixel));
-
             }
         }
 

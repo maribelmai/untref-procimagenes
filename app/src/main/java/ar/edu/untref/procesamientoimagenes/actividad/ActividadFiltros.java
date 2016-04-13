@@ -19,6 +19,7 @@ import ar.edu.untref.procesamientoimagenes.modelo.Constante;
 import ar.edu.untref.procesamientoimagenes.tareas.TareaAplicarFiltroGaussiano;
 import ar.edu.untref.procesamientoimagenes.tareas.TareaAplicarFiltroMedia;
 import ar.edu.untref.procesamientoimagenes.tareas.TareaAplicarFiltroMediana;
+import ar.edu.untref.procesamientoimagenes.tareas.TareaAplicarFiltroPasaaltos;
 import butterknife.Bind;
 import butterknife.OnClick;
 
@@ -44,6 +45,9 @@ public class ActividadFiltros extends ActividadBasica {
 
     @Bind(R.id.tamanioMatrizGaussiana)
     EditText tamanioMatrizGaussiana;
+
+    @Bind(R.id.tamanioMatrizPasaaltos)
+    EditText tamanioMatrizPasaaltos;
 
     @Bind(R.id.sigma)
     EditText sigma;
@@ -106,6 +110,25 @@ public class ActividadFiltros extends ActividadBasica {
                 this.progressDialog.show();
             }
             new TareaAplicarFiltroMediana(this, bitmapOriginal, tamanioMascara).execute();
+        }
+    }
+
+    @OnClick(R.id.aplicarFiltroPasaaltos)
+    public void aplicarFiltroPasaaltos() {
+
+        ocultarTeclado();
+        Integer tamanioMascara = Integer.valueOf(tamanioMatrizPasaaltos.getText().toString());
+
+        if (tamanioMascara %2 == 0) {
+
+            Toast.makeText(this, "El tamaño de la máscara debe ser un número impar", Toast.LENGTH_SHORT).show();
+        }
+        else {
+
+            if (!isFinishing()) {
+                this.progressDialog.show();
+            }
+            new TareaAplicarFiltroPasaaltos(this, bitmapOriginal, tamanioMascara).execute();
         }
     }
 
