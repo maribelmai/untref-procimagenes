@@ -57,7 +57,7 @@
             android:layout_marginLeft="16dp">
 
             <RelativeLayout
-                android:id="@+id/layoutRuidoGaussiano"
+                android:id="@+id/layoutFiltroMedia"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content">
 
@@ -75,6 +75,7 @@
                     android:layout_height="wrap_content"
                     android:hint="Tamaño matriz cuadrada"
                     android:inputType="number"
+                    android:textSize="14sp"
                     android:layout_below="@+id/tituloFiltroMedia"/>
 
                 <TextView
@@ -91,6 +92,45 @@
                     android:textStyle="bold"
                     android:background="@drawable/selector_boton"
                     android:layout_below="@+id/tamanioMatrizMedia"/>
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/layoutFiltroMediana"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/tituloFiltroMediana"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Filtro de la mediana"
+                    android:textStyle="bold"
+                    android:layout_marginTop="16dp"/>
+
+                <EditText
+                    android:id="@+id/tamanioMatrizMediana"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:hint="Tamaño matriz cuadrada"
+                    android:inputType="number"
+                    android:textSize="14sp"
+                    android:layout_below="@+id/tituloFiltroMediana"/>
+
+                <TextView
+                    android:id="@+id/aplicarFiltroMediana"
+                    android:layout_width="wrap_content"
+                    android:gravity="center"
+                    android:layout_height="wrap_content"
+                    android:text="Aplicar"
+                    android:padding="8dp"
+                    android:textAllCaps="true"
+                    android:textSize="11sp"
+                    android:layout_marginTop="8dp"
+                    android:textColor="@android:color/white"
+                    android:textStyle="bold"
+                    android:background="@drawable/selector_boton"
+                    android:layout_below="@+id/tamanioMatrizMediana"/>
 
             </RelativeLayout>
 

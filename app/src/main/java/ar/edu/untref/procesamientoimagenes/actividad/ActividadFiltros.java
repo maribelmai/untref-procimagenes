@@ -17,6 +17,7 @@ import java.io.File;
 import ar.edu.untref.procesamientoimagenes.R;
 import ar.edu.untref.procesamientoimagenes.modelo.Constante;
 import ar.edu.untref.procesamientoimagenes.tareas.TareaAplicarFiltroMedia;
+import ar.edu.untref.procesamientoimagenes.tareas.TareaAplicarFiltroMediana;
 import butterknife.Bind;
 import butterknife.OnClick;
 
@@ -36,6 +37,9 @@ public class ActividadFiltros extends ActividadBasica {
 
     @Bind(R.id.tamanioMatrizMedia)
     EditText tamanioMatrizMedia;
+
+    @Bind(R.id.tamanioMatrizMediana)
+    EditText tamanioMatrizMediana;
 
     private Bitmap bitmapOriginal;
 
@@ -79,6 +83,24 @@ public class ActividadFiltros extends ActividadBasica {
         }
     }
 
+    @OnClick(R.id.aplicarFiltroMediana)
+    public void aplicarFiltroMediana() {
+
+        ocultarTeclado();
+        Integer tamanioMascara = Integer.valueOf(tamanioMatrizMediana.getText().toString());
+
+        if (tamanioMascara %2 == 0) {
+
+            Toast.makeText(this, "El tamaño de la máscara debe ser un número impar", Toast.LENGTH_SHORT).show();
+        }
+        else {
+
+            if (!isFinishing()) {
+                this.progressDialog.show();
+            }
+            new TareaAplicarFiltroMediana(this, bitmapOriginal, tamanioMascara).execute();
+        }
+    }
 
     @Override
     protected int getLayout() {
