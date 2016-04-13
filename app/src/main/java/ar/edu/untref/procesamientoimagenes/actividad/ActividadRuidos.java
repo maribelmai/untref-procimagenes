@@ -44,6 +44,9 @@ public class ActividadRuidos extends ActividadBasica {
     @Bind(R.id.phi)
     EditText phi;
 
+    @Bind(R.id.lamda)
+    EditText lamda;
+
     @Bind(R.id.contaminacionSalYPimienta)
     EditText contaminacionSalYPimienta;
 
@@ -146,7 +149,11 @@ public class ActividadRuidos extends ActividadBasica {
                     mutableBitmap.setPixel(x, y, Color.rgb(nuevoColor, nuevoColor, nuevoColor));
                 }
             }
-            imageView.setImageBitmap(mutableBitmap);
+            //if(Float.parseFloat(this.phi.getText().toString()) > 1.0){
+                //imageView.setImageBitmap(hacerTransformacionLinealMultiplicacion(mutableBitmap));
+            //}else {
+                imageView.setImageBitmap(mutableBitmap);
+            //}
         }
         else {
             Toast.makeText(this, "Phi no puede ser vacío", Toast.LENGTH_SHORT).show();
@@ -155,7 +162,30 @@ public class ActividadRuidos extends ActividadBasica {
 
     @OnClick(R.id.ruidoExponencial)
     public void aplicarRuidoExponencial(){
+        ocultarTeclado();
 
+        if (!lamda.getText().toString().trim().isEmpty()) {
+
+            Bitmap mutableBitmap = bitmapOriginal.copy(Bitmap.Config.RGB_565, true);
+
+            for (int x = 0; x < bitmapOriginal.getWidth(); x++) {
+
+                for (int y = 0; y < bitmapOriginal.getHeight(); y++) {
+
+                    double lamda = Double.parseDouble(this.lamda.getText().toString());
+                    double randomCreado = generarAleatorioExponencial(lamda);
+
+                    int pixelOriginal = bitmapOriginal.getPixel(x, y);
+                    int nivelGris = Color.red(pixelOriginal);
+                    int nuevoColor = (int) (nivelGris * randomCreado);
+                    mutableBitmap.setPixel(x, y, Color.rgb(nuevoColor, nuevoColor, nuevoColor));
+                }
+            }
+            imageView.setImageBitmap(mutableBitmap);
+        }
+        else {
+            Toast.makeText(this, "Lamda no puede ser vacío", Toast.LENGTH_SHORT).show();
+        }
     }
 
     @OnClick(R.id.ruidoSalyPimienta)
@@ -207,6 +237,11 @@ public class ActividadRuidos extends ActividadBasica {
 
         y = (float) (Float.valueOf(phi) * (Math.sqrt( (-2) * Math.log10(1-x) ) ));
         return y;
+    }
+
+    private double generarAleatorioExponencial(double a) {
+
+        return -a*Math.log(Math.random());
     }
 
     private Bitmap hacerTransformacionLinealMultiplicacion(Bitmap bitmap1) {
