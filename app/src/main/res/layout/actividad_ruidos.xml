@@ -216,6 +216,30 @@
                     android:textSize="14sp"
                     android:layout_below="@+id/tituloRuidoSalYPimienta"/>
 
+                <LinearLayout
+                    android:id="@+id/p0yp1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/contaminacionSalYPimienta">
+
+                    <EditText
+                        android:id="@+id/p0"
+                        android:layout_width="50dp"
+                        android:layout_height="wrap_content"
+                        android:inputType="numberDecimal"
+                        android:hint="p0"
+                        android:textSize="14sp"/>
+
+                    <EditText
+                        android:id="@+id/p1"
+                        android:layout_width="50dp"
+                        android:layout_height="wrap_content"
+                        android:inputType="numberDecimal"
+                        android:hint="p1"
+                        android:layout_marginLeft="8dp"
+                        android:textSize="14sp"/>
+
+                </LinearLayout>
                 <TextView
                     android:id="@+id/ruidoSalyPimienta"
                     android:layout_width="wrap_content"
@@ -226,7 +250,7 @@
                     android:textSize="11sp"
                     android:textColor="@android:color/white"
                     android:textStyle="bold"
-                    android:layout_below="@id/contaminacionSalYPimienta"
+                    android:layout_below="@id/p0yp1"
                     android:background="@drawable/selector_boton"
                     android:layout_marginTop="8dp"/>
             </RelativeLayout>

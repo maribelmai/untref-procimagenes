@@ -50,6 +50,12 @@ public class ActividadRuidos extends ActividadBasica {
     @Bind(R.id.contaminacionSalYPimienta)
     EditText contaminacionSalYPimienta;
 
+    @Bind(R.id.p0)
+    EditText p0;
+
+    @Bind(R.id.p1)
+    EditText p1;
+
     private Bitmap bitmapOriginal;
     private File imagen;
 
@@ -195,31 +201,47 @@ public class ActividadRuidos extends ActividadBasica {
 
         if (!contaminacionSalYPimienta.getText().toString().trim().isEmpty()) {
 
-            float p0 = 0.3f;
-            float p1 = 0.7f;
+            String p0Text = p0.getText().toString().trim();
+            String p1Text = p1.getText().toString().trim();
 
-            Random generadorRandom = new Random(1);
+            if (p0Text.isEmpty() || p1Text.isEmpty()) {
 
-            long cantidadTotalPixeles = bitmapOriginal.getWidth() * bitmapOriginal.getHeight();
-            int porcentajeContaminacion = Integer.parseInt(contaminacionSalYPimienta.getText().toString());
-            int cantidadPixelesAContaminar = (int) (cantidadTotalPixeles * porcentajeContaminacion / 100);
+                Toast.makeText(this, "Ingrese valor para p0 y p1", Toast.LENGTH_SHORT).show();
+            }
+            else {
 
-            List<Point> pixeles = obtenerPixelesAleatorios(cantidadPixelesAContaminar);
-            Bitmap mutableBitmap = bitmapOriginal.copy(Bitmap.Config.RGB_565, true);
+                float p0 = Float.parseFloat(p0Text);
+                float p1 = Float.parseFloat(p1Text);
 
-            for (Point point: pixeles) {
-
-                float random = generadorRandom.nextFloat();
-
-                if (random >= p1) {
-                    mutableBitmap.setPixel(point.x, point.y, Color.WHITE);
+                if (p0 < 0 || p1 < 0 || p0 > 1 || p1 > 1 || p0 > p1) {
+                    Toast.makeText(this, "Valores no válidos para p1 y p0", Toast.LENGTH_SHORT).show();
                 }
                 else {
-                    mutableBitmap.setPixel(point.x, point.y, Color.BLACK);
+
+                    Random generadorRandom = new Random(1);
+
+                    long cantidadTotalPixeles = bitmapOriginal.getWidth() * bitmapOriginal.getHeight();
+                    int porcentajeContaminacion = Integer.parseInt(contaminacionSalYPimienta.getText().toString());
+                    int cantidadPixelesAContaminar = (int) (cantidadTotalPixeles * porcentajeContaminacion / 100);
+
+                    List<Point> pixeles = obtenerPixelesAleatorios(cantidadPixelesAContaminar);
+                    Bitmap mutableBitmap = bitmapOriginal.copy(Bitmap.Config.RGB_565, true);
+
+                    for (Point point: pixeles) {
+
+                        float random = generadorRandom.nextFloat();
+
+                        if (random >= p1) {
+                            mutableBitmap.setPixel(point.x, point.y, Color.WHITE);
+                        }
+                        else {
+                            mutableBitmap.setPixel(point.x, point.y, Color.BLACK);
+                        }
+                    }
+
+                    imageView.setImageBitmap(mutableBitmap);
                 }
             }
-
-            imageView.setImageBitmap(mutableBitmap);
         }
         else {
             Toast.makeText(this, "Ingrese un nivel de contaminación", Toast.LENGTH_SHORT).show();
