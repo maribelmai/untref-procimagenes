@@ -6,8 +6,12 @@ import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.XAxis;
@@ -20,8 +24,10 @@ import com.github.mikephil.charting.interfaces.dataprovider.LineDataProvider;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 
+import ar.edu.untref.procesamientoimagenes.Aplicacion;
 import ar.edu.untref.procesamientoimagenes.R;
 import ar.edu.untref.procesamientoimagenes.modelo.Constante;
 import butterknife.Bind;
@@ -223,5 +229,39 @@ public class ActividadEcualizar extends ActividadBasica {
     @Override
     protected int getLayout() {
         return R.layout.actividad_ecualizar;
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_guardar, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        switch (item.getItemId()) {
+            case R.id.guardar:
+
+                if (imagenEcualizada.getDrawable() != null) {
+
+                    Bitmap bitmap = ((BitmapDrawable)imagenEcualizada.getDrawable()).getBitmap();
+
+                    try {
+                        String nombre = "ecualizada_" + System.currentTimeMillis() + ".png";
+                        Aplicacion.getContext().guardarArchivo(bitmap, "/", nombre);
+                        Toast.makeText(this, "Guardada correctamente: " + nombre, Toast.LENGTH_SHORT).show();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+                else {
+                    Toast.makeText(this, "Primero ecualiza la imagen", Toast.LENGTH_SHORT).show();
+                }
+                return true;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 }

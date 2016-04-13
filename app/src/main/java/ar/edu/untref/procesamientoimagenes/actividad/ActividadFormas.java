@@ -42,8 +42,8 @@ public class ActividadFormas extends ActividadBasica {
 
     private void generarImagenVacia() {
 
-        int ancho = 200;
-        int alto = 200;
+        int ancho = 100;
+        int alto = 100;
 
         Bitmap bitmapVacio = Bitmap.createBitmap(ancho, alto, Bitmap.Config.RGB_565);
 

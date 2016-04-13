@@ -10,6 +10,9 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -17,6 +20,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.File;
+import java.io.IOException;
 
 import ar.edu.untref.procesamientoimagenes.Aplicacion;
 import ar.edu.untref.procesamientoimagenes.R;
@@ -399,5 +403,40 @@ public class ActividadOperaciones extends ActividadBasica {
             }
         }
         return bitmap;
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_guardar, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        switch (item.getItemId()) {
+            case R.id.guardar:
+
+
+                if ((imagenResultante.getDrawable()) != null) {
+
+                    Bitmap bitmap = ((BitmapDrawable) imagenResultante.getDrawable()).getBitmap();
+
+                    try {
+                        String nombre = "operacion_" + System.currentTimeMillis() + ".png";
+                        Aplicacion.getContext().guardarArchivo(bitmap, "/", nombre);
+                        Toast.makeText(this, "Guardada correctamente: " + nombre, Toast.LENGTH_SHORT).show();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+                else {
+                    Toast.makeText(this, "Primero realiza una operación", Toast.LENGTH_SHORT).show();
+                }
+                return true;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 }
