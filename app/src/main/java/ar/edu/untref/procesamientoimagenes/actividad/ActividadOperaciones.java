@@ -271,13 +271,15 @@ public class ActividadOperaciones extends ActividadBasica {
             }
         }
 
+        double constante = 255 / Math.pow(valorMaximo, gamma);
+
         Bitmap bitmapNuevo = Bitmap.createBitmap(bitmap.getWidth(),bitmap.getHeight(), Bitmap.Config.RGB_565);
 
         for(int x=0; x < bitmap.getWidth(); x++) {
             for(int y=0; y < bitmap.getHeight(); y++) {
 
                 int nivelGris = Color.red(bitmap.getPixel(x,y));
-                int nuevoColor = (int) ((255/valorMaximo)* (Math.pow((nivelGris), gamma)));
+                int nuevoColor = (int) (constante * Math.pow(nivelGris, gamma));
 
                 bitmapNuevo.setPixel(x, y, Color.rgb(nuevoColor,nuevoColor,nuevoColor));
             }
