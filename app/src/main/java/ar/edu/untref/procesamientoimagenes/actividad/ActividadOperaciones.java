@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentTransaction;
 import android.text.InputType;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -235,7 +236,7 @@ public class ActividadOperaciones extends ActividadBasica {
             }
         }
 
-        return hacerTransformacionLinealSuma(matrizPixeles);
+        return hacerTransformacionLineal(matrizPixeles);
     }
 
     private Bitmap restar(Bitmap bitmap1, Bitmap bitmap2) {
@@ -253,7 +254,7 @@ public class ActividadOperaciones extends ActividadBasica {
             }
         }
 
-        return Compresion.hacerCompresionRangoDinamico(matrizPixeles);
+        return hacerTransformacionLineal(matrizPixeles);
     }
 
     private Bitmap potencia(Bitmap bitmap, Float gamma) {
@@ -343,23 +344,48 @@ public class ActividadOperaciones extends ActividadBasica {
         return bitmap;
     }
 
-    private Bitmap hacerTransformacionLinealSuma(int[][] matrizPixeles) {
+    private Bitmap hacerTransformacionLineal(int[][] matrizPixeles) {
 
-        int alto = matrizPixeles.length;
-        int ancho = matrizPixeles[0].length;
+        float minimo;
+        float maximo;
+
+        int ancho = matrizPixeles.length;
+        int alto = matrizPixeles[0].length;
+
+        minimo = 0;
+        maximo = 255;
+
+        for (int x = 0; x < ancho; x++) {
+            for (int y = 0; y < alto; y++) {
+
+                int valorActual = matrizPixeles[x][y];
+
+                if (minimo > valorActual) {
+                    minimo = valorActual;
+                }
+
+                if (maximo < valorActual) {
+                    maximo = valorActual;
+                }
+
+            }
+
+        }
+
+        Log.i(LOG_TAG, "hacerTransformacionLineal: " + minimo + " " + maximo);
 
         Bitmap bitmap = Bitmap.createBitmap(alto, ancho, Bitmap.Config.RGB_565);
 
-        for (int x = 0; x < alto; x++) {
+        for (int x = 0; x < ancho; x++) {
+            for (int y = 0; y < alto; y++) {
 
-            for (int y = 0; y < ancho; y++) {
+                int valorActual = matrizPixeles[x][y];
+                int valorTransformado = (int) ((((255f) / (maximo - minimo)) * valorActual) - ((minimo * 255f) / (maximo - minimo)));
 
-                int pixel = matrizPixeles[x][y];
-                int nuevoPixel = pixel / 2;
-
-                bitmap.setPixel(x, y, Color.rgb(nuevoPixel, nuevoPixel, nuevoPixel));
+                bitmap.setPixel(x,y, Color.rgb(valorTransformado, valorTransformado, valorTransformado));
             }
         }
+
         return bitmap;
     }
 
