@@ -2,11 +2,13 @@ package ar.edu.untref.procesamientoimagenes.actividad;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
@@ -26,6 +28,8 @@ import butterknife.OnClick;
  * Created by maribel on 4/6/16.
  */
 public class ActividadUmbral extends ActividadBasica {
+
+    private static final String LOG_TAG = ActividadUmbral.class.getSimpleName();
 
     @Bind(R.id.imagen)
     ImageView imageView;
@@ -137,6 +141,24 @@ public class ActividadUmbral extends ActividadBasica {
         }
 
         imagenUmbralizada.setImageBitmap(bitmapModificado);
+    }
+
+    @Override
+    public void finish() {
+
+        String nombreOriginal = imagen.getName();
+        File file = null;
+
+        try {
+            file = getAplicacion().guardarArchivo(((BitmapDrawable) imagenUmbralizada.getDrawable()).getBitmap(), "/tmp/", nombreOriginal.substring(0, nombreOriginal.lastIndexOf(".")) + "_" + System.currentTimeMillis() + nombreOriginal.substring(nombreOriginal.lastIndexOf(".")));
+        } catch (Exception e) {
+            Log.e(LOG_TAG, "Temporal no se pudo guardar: " + e);
+        }
+
+        Intent intent = new Intent();
+        intent.putExtra(Constante.EXTRA_IMAGEN, file);
+        setResult(Constante.RESULT_CODE_IMAGEN_MODIFICADA, intent);
+        super.finish();
     }
 
     @Override
