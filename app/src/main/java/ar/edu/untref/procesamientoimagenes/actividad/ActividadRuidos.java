@@ -234,7 +234,7 @@ public class ActividadRuidos extends ActividadBasica {
                         if (random >= p1) {
                             mutableBitmap.setPixel(point.x, point.y, Color.WHITE);
                         }
-                        else {
+                        else if (random <= p0){
                             mutableBitmap.setPixel(point.x, point.y, Color.BLACK);
                         }
                     }
