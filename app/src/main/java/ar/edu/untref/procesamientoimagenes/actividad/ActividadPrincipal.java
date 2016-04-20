@@ -73,6 +73,7 @@ public class ActividadPrincipal extends ActividadBasica {
             copiarRaw(R.raw.lena_gray, directorio.getAbsolutePath() + "/lena_gray.raw");
             copiarRaw(R.raw.lena, directorio.getAbsolutePath() + "/lena.png");
             copiarRaw(R.raw.panoramica, directorio.getAbsolutePath() + "/panoramica.jpg");
+            copiarRaw(R.raw.radiografia_dental, directorio.getAbsolutePath() + "/radiografia_dental.jpg");
 
             FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
             fragmentTransaction.replace(R.id.listaArchivosPlaceholder, fragmentoListaArchivos);
