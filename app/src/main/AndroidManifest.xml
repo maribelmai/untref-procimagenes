@@ -35,6 +35,9 @@
         <activity android:name=".actividad.ActividadOperaciones"
             android:screenOrientation="landscape"/>
 
+        <activity android:name=".actividad.ActividadAumentarContraste"
+            android:screenOrientation="landscape"/>
+
         <activity android:name=".actividad.ActividadHistograma"
             android:screenOrientation="landscape"/>
 

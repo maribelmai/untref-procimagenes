@@ -10,6 +10,7 @@ import android.widget.Toast;
 import java.io.File;
 
 import ar.edu.untref.procesamientoimagenes.R;
+import ar.edu.untref.procesamientoimagenes.actividad.ActividadAumentarContraste;
 import ar.edu.untref.procesamientoimagenes.actividad.ActividadDegrade;
 import ar.edu.untref.procesamientoimagenes.actividad.ActividadFiltros;
 import ar.edu.untref.procesamientoimagenes.actividad.ActividadFormas;
@@ -145,6 +146,17 @@ public class FragmentoEditor extends FragmentoBasico {
         startActivity(intent);
     }
 
+    @OnClick(R.id.contraste)
+    public void aumentarContraste() {
+
+        Intent intent = new Intent(getActivity(), ActividadAumentarContraste.class);
+        if (imagen != null) {
+
+            intent.putExtra(Constante.EXTRA_IMAGEN, imagen);
+        }
+        startActivityForResult(intent, Constante.RESULT_CODE_IMAGEN_MODIFICADA);
+    }
+
     @OnClick(R.id.histograma)
     public void operarConHistograma() {
 
@@ -166,7 +178,7 @@ public class FragmentoEditor extends FragmentoBasico {
 
             Intent intent = new Intent(getActivity(), ActividadUmbral.class);
             intent.putExtra(Constante.EXTRA_IMAGEN, imagen);
-            startActivity(intent);
+            startActivityForResult(intent, Constante.RESULT_CODE_IMAGEN_MODIFICADA);
         }
         else {
             Toast.makeText(getActivity(), R.string.selecciona_una_imagen, Toast.LENGTH_SHORT).show();

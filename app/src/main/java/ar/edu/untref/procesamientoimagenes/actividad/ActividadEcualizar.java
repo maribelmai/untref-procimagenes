@@ -130,7 +130,7 @@ public class ActividadEcualizar extends ActividadBasica {
             acumulado[i] = acumulado[i-1] + probabilidadesDeNivelesDeGris[i];
         }
 
-        //matriz ecualizador
+        //Vector ecualizador
         float[] ecualizador = new float[256];
 
         for (int i = 0; i < 256; i++) {
