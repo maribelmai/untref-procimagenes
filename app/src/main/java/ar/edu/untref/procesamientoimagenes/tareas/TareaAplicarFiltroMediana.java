@@ -66,6 +66,17 @@ public class TareaAplicarFiltroMediana extends AsyncTask<Void, Void, Bitmap> {
             }
         }
 
+        //Pinto los bordes negros
+        for (int x = 0; x < bitmapOriginal.getWidth(); x++) {
+            for (int y = 0 ; y < bitmapOriginal.getHeight(); y ++) {
+
+                if (x < posicionCentralMascara || x >= bitmapOriginal.getWidth() - posicionCentralMascara
+                        || y < posicionCentralMascara || y >= bitmapOriginal.getHeight() - posicionCentralMascara) {
+                    mutableBitmap.setPixel(x,y, Color.rgb(0, 0, 0));
+                }
+            }
+        }
+
         return mutableBitmap;
     }
 
