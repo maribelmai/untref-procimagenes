@@ -62,10 +62,10 @@ public class ActividadAumentarContraste extends ActividadBasica {
                 int nuevoNivelGris;
 
                 if (nivelDeGris >= 127) {
-                    nuevoNivelGris = (nivelDeGris + 5) < 255 ? nivelDeGris + 5 : nivelDeGris;
+                    nuevoNivelGris = (nivelDeGris + 5) <= 255 ? nivelDeGris + 5 : nivelDeGris;
                 }
                 else {
-                    nuevoNivelGris = (nivelDeGris -5) > 0 ? nivelDeGris -5 : nivelDeGris;
+                    nuevoNivelGris = (nivelDeGris -5) >= 0 ? nivelDeGris -5 : nivelDeGris;
                 }
 
                 bitmapNuevo.setPixel(x,y,Color.rgb(nuevoNivelGris, nuevoNivelGris, nuevoNivelGris));
