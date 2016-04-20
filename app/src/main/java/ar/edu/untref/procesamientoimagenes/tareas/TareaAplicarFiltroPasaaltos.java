@@ -29,16 +29,16 @@ public class TareaAplicarFiltroPasaaltos extends AsyncTask<Void, Void, Bitmap> {
 
         Bitmap mutableBitmap = bitmapOriginal.copy(Bitmap.Config.RGB_565, true);
 
-        int[][] matrizFiltroMedia = new int[tamanioMascara][tamanioMascara];
+        int[][] matrizFiltroPasaalto = new int[tamanioMascara][tamanioMascara];
         int posicionCentralMascara = tamanioMascara/2;
 
         for (int x = 0; x < tamanioMascara; x++) {
             for (int y = 0; y < tamanioMascara; y++) {
-                matrizFiltroMedia[x][y] = -1;
+                matrizFiltroPasaalto[x][y] = -1;
             }
         }
 
-        matrizFiltroMedia[posicionCentralMascara][posicionCentralMascara] = (int) (Math.pow(tamanioMascara, 2) - 1);
+        matrizFiltroPasaalto[posicionCentralMascara][posicionCentralMascara] = (int) (Math.pow(tamanioMascara, 2) - 1);
 
         for (int x = posicionCentralMascara; x < bitmapOriginal.getWidth() - posicionCentralMascara; x++) {
             for (int y = posicionCentralMascara; y < bitmapOriginal.getHeight() - posicionCentralMascara; y++) {
@@ -50,7 +50,7 @@ public class TareaAplicarFiltroPasaaltos extends AsyncTask<Void, Void, Bitmap> {
                 for (int xMascaraEnImagen = x - posicionCentralMascara, xMascara = 0; xMascaraEnImagen <= x + posicionCentralMascara; xMascaraEnImagen ++, xMascara ++) {
                     for (int yMascaraEnImagen = y - posicionCentralMascara, yMascara = 0; yMascaraEnImagen <= y + posicionCentralMascara; yMascaraEnImagen ++, yMascara++) {
 
-                        float valorMascara = matrizFiltroMedia[xMascara][yMascara];
+                        float valorMascara = matrizFiltroPasaalto[xMascara][yMascara];
                         int nivelGrisPixel = Color.red(bitmapOriginal.getPixel(xMascaraEnImagen, yMascaraEnImagen));
 
                         float operacion = nivelGrisPixel * valorMascara;

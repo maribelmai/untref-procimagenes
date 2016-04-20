@@ -208,7 +208,6 @@ public class ActividadOperaciones extends ActividadBasica {
             public void onClick(DialogInterface dialog, int which) {
 
                 String valorIngresado = inputEscalar.getText().toString();
-                resultadoOperacion.setText(getString(R.string.resultado_operacion).replace("{operacion}", "(PRODUCTO POR " + valorIngresado + ")"));
                 Bitmap resultante = potencia(bitmap1, Float.valueOf(valorIngresado));
                 imagenResultante.setImageBitmap(resultante);
             }
@@ -239,7 +238,6 @@ public class ActividadOperaciones extends ActividadBasica {
         return hacerTransformacionLinealSuma(matrizPixeles);
     }
 
-
     private Bitmap restar(Bitmap bitmap1, Bitmap bitmap2) {
 
         int[][] matrizPixeles = new int[bitmap1.getWidth()][bitmap2.getHeight()];
@@ -260,7 +258,18 @@ public class ActividadOperaciones extends ActividadBasica {
 
     private Bitmap potencia(Bitmap bitmap, Float gamma) {
 
-        int[] matrizGamma = formarMatrizGamma(gamma);
+        int valorMaximo = Integer.MIN_VALUE;
+
+        for (int x = 0; x < bitmap.getWidth(); x++) {
+            for (int y = 0; y < bitmap.getHeight(); y++) {
+
+                int pixel = (int) Color.red(bitmap.getPixel(x,y));
+                if (pixel > valorMaximo) {
+                    valorMaximo = pixel;
+
+                }
+            }
+        }
 
         Bitmap bitmapNuevo = Bitmap.createBitmap(bitmap.getWidth(),bitmap.getHeight(), Bitmap.Config.RGB_565);
 
@@ -268,24 +277,13 @@ public class ActividadOperaciones extends ActividadBasica {
             for(int y=0; y < bitmap.getHeight(); y++) {
 
                 int nivelGris = Color.red(bitmap.getPixel(x,y));
-                int nuevoColor = matrizGamma[nivelGris];
+                int nuevoColor = (int) ((255/valorMaximo)* (Math.pow((nivelGris), gamma)));
 
                 bitmapNuevo.setPixel(x, y, Color.rgb(nuevoColor,nuevoColor,nuevoColor));
             }
         }
 
         return bitmapNuevo;
-    }
-
-    private int[] formarMatrizGamma(double gamma) {
-
-        int[] matrizGamma = new int[256];
-
-        for(int i=0; i<matrizGamma.length; i++) {
-            matrizGamma[i] = (int) (255 * (Math.pow((double) i / (double) 255, 1 / gamma)));
-        }
-
-        return matrizGamma;
     }
 
     private Bitmap multiplicar(Bitmap bitmap1, Bitmap bitmap2) {
