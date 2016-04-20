@@ -14,14 +14,12 @@ public class TareaAplicarFiltroGaussiano extends AsyncTask<Void, Void, Bitmap> {
     private static final String LOG_TAG = TareaAplicarFiltroGaussiano.class.getSimpleName();
     private ActividadFiltros actividadFiltros;
     private Bitmap bitmapOriginal;
-    private Integer tamanioMascara;
     private Float sigma;
 
-    public TareaAplicarFiltroGaussiano(ActividadFiltros actividadFiltros, Bitmap bitmapOriginal, Integer tamanioMascara, Float sigma) {
+    public TareaAplicarFiltroGaussiano(ActividadFiltros actividadFiltros, Bitmap bitmapOriginal, Float sigma) {
 
         this.actividadFiltros = actividadFiltros;
         this.bitmapOriginal = bitmapOriginal;
-        this.tamanioMascara = tamanioMascara;
         this.sigma = sigma;
     }
 
@@ -29,6 +27,8 @@ public class TareaAplicarFiltroGaussiano extends AsyncTask<Void, Void, Bitmap> {
     protected Bitmap doInBackground(Void... params) {
 
         Bitmap mutableBitmap = bitmapOriginal.copy(Bitmap.Config.RGB_565, true);
+
+        int tamanioMascara = sigma < 1 ? 5 : (int) ((6 * sigma) + 1);
 
         double[][] matrizFiltroGaussiano = new double[tamanioMascara][tamanioMascara];
         int posicionCentralMascara = tamanioMascara/2;

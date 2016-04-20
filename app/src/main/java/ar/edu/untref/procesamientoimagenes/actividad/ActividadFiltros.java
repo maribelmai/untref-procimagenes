@@ -43,9 +43,6 @@ public class ActividadFiltros extends ActividadBasica {
     @Bind(R.id.tamanioMatrizMediana)
     EditText tamanioMatrizMediana;
 
-    @Bind(R.id.tamanioMatrizGaussiana)
-    EditText tamanioMatrizGaussiana;
-
     @Bind(R.id.tamanioMatrizPasaaltos)
     EditText tamanioMatrizPasaaltos;
 
@@ -134,15 +131,16 @@ public class ActividadFiltros extends ActividadBasica {
 
     @OnClick(R.id.aplicarFiltroGaussiano)
     public void aplicarFiltroGaussiano() {
-
-        ocultarTeclado();
-        Integer tamanioMascara = Integer.valueOf(tamanioMatrizGaussiana.getText().toString());
-
-        if (tamanioMascara % 2 == 0) {
-
-            Toast.makeText(this, "El tamaño de la máscara debe ser un número impar", Toast.LENGTH_SHORT).show();
-        }
-        else if (!sigma.getText().toString().trim().isEmpty()){
+//
+//        ocultarTeclado();
+//        Integer tamanioMascara = Integer.valueOf(tamanioMatrizGaussiana.getText().toString());
+//
+//        if (tamanioMascara % 2 == 0) {
+//
+//            Toast.makeText(this, "El tamaño de la máscara debe ser un número impar", Toast.LENGTH_SHORT).show();
+//        }
+//        else
+        if (!sigma.getText().toString().trim().isEmpty()) {
 
             float valorSigma = Float.parseFloat(sigma.getText().toString());
 
@@ -150,11 +148,12 @@ public class ActividadFiltros extends ActividadBasica {
                 this.progressDialog.show();
             }
 
-            new TareaAplicarFiltroGaussiano(this, bitmapOriginal, tamanioMascara, valorSigma).execute();
+            new TareaAplicarFiltroGaussiano(this, bitmapOriginal, valorSigma).execute();
         }
-        else {
-            Toast.makeText(this, "Ingrese un valor de sigma", Toast.LENGTH_SHORT).show();
-        }
+//        }
+//        else {
+//            Toast.makeText(this, "Ingrese un valor de sigma", Toast.LENGTH_SHORT).show();
+//        }
     }
 
     @Override
