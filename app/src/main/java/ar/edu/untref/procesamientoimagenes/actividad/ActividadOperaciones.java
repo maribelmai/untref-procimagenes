@@ -27,7 +27,6 @@ import ar.edu.untref.procesamientoimagenes.Aplicacion;
 import ar.edu.untref.procesamientoimagenes.R;
 import ar.edu.untref.procesamientoimagenes.fragmentos.FragmentoListaArchivos;
 import ar.edu.untref.procesamientoimagenes.modelo.Constante;
-import ar.edu.untref.procesamientoimagenes.util.Compresion;
 import butterknife.Bind;
 import butterknife.OnClick;
 
@@ -304,7 +303,8 @@ public class ActividadOperaciones extends ActividadBasica {
             }
         }
 
-        return Compresion.hacerCompresionRangoDinamico(matrizPixeles);
+        //return Transformacion.hacerCompresionRangoDinamico(matrizPixeles);
+        return null;
     }
 
     private Bitmap multiplicarPorEscalar(Bitmap bitmap1, Integer escalar) {
@@ -321,7 +321,8 @@ public class ActividadOperaciones extends ActividadBasica {
             }
         }
 
-        return Compresion.hacerCompresionRangoDinamico(matrizPixeles);
+        //return Transformacion.hacerCompresionRangoDinamico(matrizPixeles);
+        return null;
     }
 
     private Bitmap negativoDeImagen(Bitmap bitmap1) {

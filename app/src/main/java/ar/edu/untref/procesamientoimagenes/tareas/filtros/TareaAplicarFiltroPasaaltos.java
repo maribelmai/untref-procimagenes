@@ -5,7 +5,7 @@ import android.graphics.Color;
 import android.os.AsyncTask;
 
 import ar.edu.untref.procesamientoimagenes.actividad.ActividadFiltros;
-import ar.edu.untref.procesamientoimagenes.util.Compresion;
+import ar.edu.untref.procesamientoimagenes.util.Transformacion;
 
 /**
  * Created by maribel on 4/10/16.
@@ -81,6 +81,6 @@ public class TareaAplicarFiltroPasaaltos extends AsyncTask<Void, Void, Bitmap> {
     @Override
     protected void onPostExecute(Bitmap bitmapResultante) {
         super.onPostExecute(bitmapResultante);
-        actividadFiltros.filtroAplicado(Compresion.hacerCompresionRangoDinamico(bitmapResultante));
+        actividadFiltros.filtroAplicado(Transformacion.hacerCompresionRangoDinamico(bitmapResultante));
     }
 }

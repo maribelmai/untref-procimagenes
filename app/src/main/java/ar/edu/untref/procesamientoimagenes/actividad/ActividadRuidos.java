@@ -20,6 +20,7 @@ import java.util.Random;
 
 import ar.edu.untref.procesamientoimagenes.R;
 import ar.edu.untref.procesamientoimagenes.modelo.Constante;
+import ar.edu.untref.procesamientoimagenes.util.Transformacion;
 import butterknife.Bind;
 import butterknife.OnClick;
 
@@ -83,7 +84,10 @@ public class ActividadRuidos extends ActividadBasica {
 
         if (!desvio.getText().toString().trim().isEmpty() && !media.getText().toString().trim().isEmpty()) {
 
-            Bitmap mutableBitmap = bitmapOriginal.copy(Bitmap.Config.RGB_565, true);
+            //Bitmap mutableBitmap = bitmapOriginal.copy(Bitmap.Config.RGB_565, true);
+            int[][] matrizPixelesR = new int[bitmapOriginal.getWidth()][bitmapOriginal.getHeight()];
+            int[][] matrizPixelesG = new int[bitmapOriginal.getWidth()][bitmapOriginal.getHeight()];
+            int[][] matrizPixelesB = new int[bitmapOriginal.getWidth()][bitmapOriginal.getHeight()];
 
             double desvio = Double.parseDouble(this.desvio.getText().toString());
             double media = Double.parseDouble(this.media.getText().toString());
@@ -96,13 +100,19 @@ public class ActividadRuidos extends ActividadBasica {
                     double randomCreado = random.nextGaussian() * desvio + media;
 
                     int pixelOriginal = bitmapOriginal.getPixel(x, y);
-                    int nivelGris = Color.red(pixelOriginal);
-                    int nuevoColor = (int) (nivelGris + randomCreado);
-                    mutableBitmap.setPixel(x, y, Color.rgb(nuevoColor, nuevoColor, nuevoColor));
+                    int nivelRojo = Color.red(pixelOriginal);
+                    int nivelVerde = Color.green(pixelOriginal);
+                    int nivelAzul = Color.blue(pixelOriginal);
+                    int nuevoColorR = (int) (nivelRojo + randomCreado);
+                    int nuevoColorG = (int) (nivelVerde + randomCreado);
+                    int nuevoColorB = (int) (nivelAzul + randomCreado);
+                    matrizPixelesR[x][y] = nuevoColorR;
+                    matrizPixelesG[x][y] = nuevoColorG;
+                    matrizPixelesB[x][y] = nuevoColorB;
                 }
             }
 
-            imageView.setImageBitmap(mutableBitmap);
+            imageView.setImageBitmap(Transformacion.hacerTransformacionLineal(matrizPixelesR, matrizPixelesG, matrizPixelesB));
             sufijoGuardar = "gaussD" + desvio + "m" + media;
         }
         else {
@@ -140,7 +150,10 @@ public class ActividadRuidos extends ActividadBasica {
 
         if (!phi.getText().toString().trim().isEmpty()) {
 
-            Bitmap mutableBitmap = bitmapOriginal.copy(Bitmap.Config.RGB_565, true);
+            //Bitmap mutableBitmap = bitmapOriginal.copy(Bitmap.Config.RGB_565, true);
+            int[][] matrizPixelesR = new int[bitmapOriginal.getWidth()][bitmapOriginal.getHeight()];
+            int[][] matrizPixelesG = new int[bitmapOriginal.getWidth()][bitmapOriginal.getHeight()];
+            int[][] matrizPixelesB = new int[bitmapOriginal.getWidth()][bitmapOriginal.getHeight()];
 
             for (int x = 0; x < bitmapOriginal.getWidth(); x++) {
 
@@ -150,16 +163,18 @@ public class ActividadRuidos extends ActividadBasica {
                     double randomCreado = generarAleatorioRayleigh(phi);
 
                     int pixelOriginal = bitmapOriginal.getPixel(x, y);
-                    int nivelGris = Color.red(pixelOriginal);
-                    int nuevoColor = (int) (nivelGris * randomCreado);
-                    mutableBitmap.setPixel(x, y, Color.rgb(nuevoColor, nuevoColor, nuevoColor));
+                    int nivelRojo = Color.red(pixelOriginal);
+                    int nivelVerde = Color.green(pixelOriginal);
+                    int nivelAzul = Color.blue(pixelOriginal);
+                    int nuevoColorR = (int) (nivelRojo * randomCreado);
+                    int nuevoColorG = (int) (nivelVerde * randomCreado);
+                    int nuevoColorB = (int) (nivelAzul * randomCreado);
+                    matrizPixelesR[x][y] = nuevoColorR;
+                    matrizPixelesG[x][y] = nuevoColorG;
+                    matrizPixelesB[x][y] = nuevoColorB;
                 }
             }
-            //if(Float.parseFloat(this.phi.getText().toString()) > 1.0){
-                //imageView.setImageBitmap(hacerTransformacionLinealMultiplicacion(mutableBitmap));
-            //}else {
-                imageView.setImageBitmap(mutableBitmap);
-            //}
+                imageView.setImageBitmap(Transformacion.hacerCompresionRangoDinamico(matrizPixelesR, matrizPixelesG, matrizPixelesB));
         }
         else {
             Toast.makeText(this, "Phi no puede ser vacío", Toast.LENGTH_SHORT).show();
@@ -172,7 +187,10 @@ public class ActividadRuidos extends ActividadBasica {
 
         if (!lamda.getText().toString().trim().isEmpty()) {
 
-            Bitmap mutableBitmap = bitmapOriginal.copy(Bitmap.Config.RGB_565, true);
+            //Bitmap mutableBitmap = bitmapOriginal.copy(Bitmap.Config.RGB_565, true);
+            int[][] matrizPixelesR = new int[bitmapOriginal.getWidth()][bitmapOriginal.getHeight()];
+            int[][] matrizPixelesG = new int[bitmapOriginal.getWidth()][bitmapOriginal.getHeight()];
+            int[][] matrizPixelesB = new int[bitmapOriginal.getWidth()][bitmapOriginal.getHeight()];
 
             for (int x = 0; x < bitmapOriginal.getWidth(); x++) {
 
@@ -182,12 +200,18 @@ public class ActividadRuidos extends ActividadBasica {
                     double randomCreado = generarAleatorioExponencial(lamda);
 
                     int pixelOriginal = bitmapOriginal.getPixel(x, y);
-                    int nivelGris = Color.red(pixelOriginal);
-                    int nuevoColor = (int) (nivelGris * randomCreado);
-                    mutableBitmap.setPixel(x, y, Color.rgb(nuevoColor, nuevoColor, nuevoColor));
+                    int nivelRojo = Color.red(pixelOriginal);
+                    int nivelVerde = Color.green(pixelOriginal);
+                    int nivelAzul = Color.blue(pixelOriginal);
+                    int nuevoColorR = (int) (nivelRojo * randomCreado);
+                    int nuevoColorG = (int) (nivelVerde * randomCreado);
+                    int nuevoColorB = (int) (nivelAzul * randomCreado);
+                    matrizPixelesR[x][y] = nuevoColorR;
+                    matrizPixelesG[x][y] = nuevoColorG;
+                    matrizPixelesB[x][y] = nuevoColorB;
                 }
             }
-            imageView.setImageBitmap(mutableBitmap);
+            imageView.setImageBitmap(Transformacion.hacerCompresionRangoDinamico(matrizPixelesR, matrizPixelesG, matrizPixelesB));
         }
         else {
             Toast.makeText(this, "Lamda no puede ser vacío", Toast.LENGTH_SHORT).show();
