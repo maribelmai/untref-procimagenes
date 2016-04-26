@@ -1,4 +1,4 @@
-package ar.edu.untref.procesamientoimagenes.tareas;
+package ar.edu.untref.procesamientoimagenes.tareas.filtros;
 
 import android.graphics.Bitmap;
 import android.graphics.Color;

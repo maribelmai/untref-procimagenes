@@ -16,10 +16,10 @@ import java.io.File;
 
 import ar.edu.untref.procesamientoimagenes.R;
 import ar.edu.untref.procesamientoimagenes.modelo.Constante;
-import ar.edu.untref.procesamientoimagenes.tareas.TareaAplicarFiltroGaussiano;
-import ar.edu.untref.procesamientoimagenes.tareas.TareaAplicarFiltroMedia;
-import ar.edu.untref.procesamientoimagenes.tareas.TareaAplicarFiltroMediana;
-import ar.edu.untref.procesamientoimagenes.tareas.TareaAplicarFiltroPasaaltos;
+import ar.edu.untref.procesamientoimagenes.tareas.filtros.TareaAplicarFiltroGaussiano;
+import ar.edu.untref.procesamientoimagenes.tareas.filtros.TareaAplicarFiltroMedia;
+import ar.edu.untref.procesamientoimagenes.tareas.filtros.TareaAplicarFiltroMediana;
+import ar.edu.untref.procesamientoimagenes.tareas.filtros.TareaAplicarFiltroPasaaltos;
 import butterknife.Bind;
 import butterknife.OnClick;
 
@@ -131,15 +131,7 @@ public class ActividadFiltros extends ActividadBasica {
 
     @OnClick(R.id.aplicarFiltroGaussiano)
     public void aplicarFiltroGaussiano() {
-//
-//        ocultarTeclado();
-//        Integer tamanioMascara = Integer.valueOf(tamanioMatrizGaussiana.getText().toString());
-//
-//        if (tamanioMascara % 2 == 0) {
-//
-//            Toast.makeText(this, "El tamaño de la máscara debe ser un número impar", Toast.LENGTH_SHORT).show();
-//        }
-//        else
+
         if (!sigma.getText().toString().trim().isEmpty()) {
 
             float valorSigma = Float.parseFloat(sigma.getText().toString());
@@ -150,10 +142,6 @@ public class ActividadFiltros extends ActividadBasica {
 
             new TareaAplicarFiltroGaussiano(this, bitmapOriginal, valorSigma).execute();
         }
-//        }
-//        else {
-//            Toast.makeText(this, "Ingrese un valor de sigma", Toast.LENGTH_SHORT).show();
-//        }
     }
 
     @Override

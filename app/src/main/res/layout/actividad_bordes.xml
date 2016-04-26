@@ -35,6 +35,14 @@
                 android:adjustViewBounds="true"
                 android:layout_gravity="center"
                 android:layout_marginTop="16dp"/>
+
+            <TextView
+                android:id="@+id/deteccionFinalizada"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:visibility="invisible"
+                android:text="Detección finalizada. Seleccione un umbral para mostrar los bordes."/>
         </LinearLayout>
 
     </ScrollView>
@@ -56,45 +64,59 @@
             android:orientation="vertical"
             android:layout_marginLeft="16dp">
 
-
-            <RelativeLayout
+            <TextView
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:text="UMBRAL"
+                android:textStyle="bold"
+                android:layout_marginTop="16dp" />
 
-                <TextView
-                    android:id="@+id/bordePrewitt"
-                    android:layout_width="wrap_content"
-                    android:gravity="center"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/phi"
-                    android:text="PREWITT"
-                    android:padding="8dp"
-                    android:textColor="@android:color/white"
-                    android:textStyle="bold"
-                    android:textSize="11sp"
-                    android:layout_marginTop="8dp"
-                    android:background="@drawable/selector_boton"/>
-            </RelativeLayout>
+            <SeekBar
+                android:id="@+id/seleccionUmbralSeekbar"
+                android:layout_width="256dp"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="16dp" />
 
-            <RelativeLayout
+            <TextView
+                android:id="@+id/bordePrewittHorizontal"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
+                android:gravity="center"
+                android:layout_height="wrap_content"
+                android:text="PREWITT (BORDES HORIZONTALES)"
+                android:padding="8dp"
+                android:textColor="@android:color/white"
+                android:textStyle="bold"
+                android:textSize="11sp"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/selector_boton"/>
 
-                <TextView
-                    android:id="@+id/bordeSobel"
-                    android:layout_width="wrap_content"
-                    android:gravity="center"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/phi"
-                    android:text="SOBEL"
-                    android:padding="8dp"
-                    android:textColor="@android:color/white"
-                    android:textStyle="bold"
-                    android:textSize="11sp"
-                    android:layout_marginTop="8dp"
-                    android:background="@drawable/selector_boton"/>
-            </RelativeLayout>
+            <TextView
+                android:id="@+id/bordePrewittVertical"
+                android:layout_width="wrap_content"
+                android:gravity="center"
+                android:layout_height="wrap_content"
+                android:text="PREWITT (BORDES VERTICALES)"
+                android:padding="8dp"
+                android:textColor="@android:color/white"
+                android:textStyle="bold"
+                android:textSize="11sp"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/selector_boton"/>
 
+            <TextView
+                android:id="@+id/bordeSobel"
+                android:layout_width="wrap_content"
+                android:gravity="center"
+                android:layout_height="wrap_content"
+                android:text="SOBEL"
+                android:padding="8dp"
+                android:textColor="@android:color/white"
+                android:textStyle="bold"
+                android:textSize="11sp"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/selector_boton"/>
         </LinearLayout>
 
     </ScrollView>

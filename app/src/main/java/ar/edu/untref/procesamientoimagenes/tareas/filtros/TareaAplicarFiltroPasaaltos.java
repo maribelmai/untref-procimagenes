@@ -1,26 +1,27 @@
-package ar.edu.untref.procesamientoimagenes.tareas;
+package ar.edu.untref.procesamientoimagenes.tareas.filtros;
 
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.AsyncTask;
 
 import ar.edu.untref.procesamientoimagenes.actividad.ActividadFiltros;
+import ar.edu.untref.procesamientoimagenes.util.Compresion;
 
 /**
  * Created by maribel on 4/10/16.
  */
-public class TareaAplicarFiltroGaussiano extends AsyncTask<Void, Void, Bitmap> {
+public class TareaAplicarFiltroPasaaltos extends AsyncTask<Void, Void, Bitmap> {
 
-    private static final String LOG_TAG = TareaAplicarFiltroGaussiano.class.getSimpleName();
+    private static final String LOG_TAG = TareaAplicarFiltroPasaaltos.class.getSimpleName();
     private ActividadFiltros actividadFiltros;
     private Bitmap bitmapOriginal;
-    private Float sigma;
+    private Integer tamanioMascara;
 
-    public TareaAplicarFiltroGaussiano(ActividadFiltros actividadFiltros, Bitmap bitmapOriginal, Float sigma) {
+    public TareaAplicarFiltroPasaaltos(ActividadFiltros actividadFiltros, Bitmap bitmapOriginal, Integer tamanioMascara) {
 
         this.actividadFiltros = actividadFiltros;
         this.bitmapOriginal = bitmapOriginal;
-        this.sigma = sigma;
+        this.tamanioMascara = tamanioMascara;
     }
 
     @Override
@@ -28,38 +29,37 @@ public class TareaAplicarFiltroGaussiano extends AsyncTask<Void, Void, Bitmap> {
 
         Bitmap mutableBitmap = bitmapOriginal.copy(Bitmap.Config.RGB_565, true);
 
-        int tamanioMascara = sigma < 1 ? 5 : (int) ((6 * sigma) + 1);
-
-        double[][] matrizFiltroGaussiano = new double[tamanioMascara][tamanioMascara];
+        int[][] matrizFiltroPasaalto = new int[tamanioMascara][tamanioMascara];
         int posicionCentralMascara = tamanioMascara/2;
 
         for (int x = 0; x < tamanioMascara; x++) {
-
             for (int y = 0; y < tamanioMascara; y++) {
-                matrizFiltroGaussiano[x][y] = obtenerGaussiano(x,y, posicionCentralMascara);
-                System.out.print(matrizFiltroGaussiano[x][y]);
+                matrizFiltroPasaalto[x][y] = -1;
             }
-            System.out.println("");
         }
+
+        matrizFiltroPasaalto[posicionCentralMascara][posicionCentralMascara] = (int) (Math.pow(tamanioMascara, 2) - 1);
 
         for (int x = posicionCentralMascara; x < bitmapOriginal.getWidth() - posicionCentralMascara; x++) {
             for (int y = posicionCentralMascara; y < bitmapOriginal.getHeight() - posicionCentralMascara; y++) {
 
                 //Para cada pixel, recorro la máscara alrededor de ese pixel para calcular el valor resultado
+
                 float valorResultado = 0F;
 
                 for (int xMascaraEnImagen = x - posicionCentralMascara, xMascara = 0; xMascaraEnImagen <= x + posicionCentralMascara; xMascaraEnImagen ++, xMascara ++) {
                     for (int yMascaraEnImagen = y - posicionCentralMascara, yMascara = 0; yMascaraEnImagen <= y + posicionCentralMascara; yMascaraEnImagen ++, yMascara++) {
 
-                        double valorMascara = matrizFiltroGaussiano[xMascara][yMascara];
+                        float valorMascara = matrizFiltroPasaalto[xMascara][yMascara];
                         int nivelGrisPixel = Color.red(bitmapOriginal.getPixel(xMascaraEnImagen, yMascaraEnImagen));
 
-                        double operacion = nivelGrisPixel * valorMascara;
+                        float operacion = nivelGrisPixel * valorMascara;
                         valorResultado += operacion;
                     }
                 }
 
                 int valorEntero = (int) valorResultado;
+
                 mutableBitmap.setPixel(x,y, Color.rgb(valorEntero, valorEntero, valorEntero));
             }
         }
@@ -78,19 +78,9 @@ public class TareaAplicarFiltroGaussiano extends AsyncTask<Void, Void, Bitmap> {
         return mutableBitmap;
     }
 
-    private double obtenerGaussiano(int x, int y, int posicionCentralMascara) {
-
-        int xEnMascara = x-posicionCentralMascara;
-        int yEnMascara = y-posicionCentralMascara;
-        return (1/
-                (2 * Math.PI * Math.pow(sigma,2)))
-                * Math.exp(-((Math.pow(xEnMascara,2) + Math.pow(yEnMascara,2))/(2 * Math.pow(sigma,2)))) ;
-    }
-
     @Override
     protected void onPostExecute(Bitmap bitmapResultante) {
         super.onPostExecute(bitmapResultante);
-
-        actividadFiltros.filtroAplicado(bitmapResultante);
+        actividadFiltros.filtroAplicado(Compresion.hacerCompresionRangoDinamico(bitmapResultante));
     }
 }
