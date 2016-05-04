@@ -27,6 +27,7 @@ import ar.edu.untref.procesamientoimagenes.Aplicacion;
 import ar.edu.untref.procesamientoimagenes.R;
 import ar.edu.untref.procesamientoimagenes.fragmentos.FragmentoListaArchivos;
 import ar.edu.untref.procesamientoimagenes.modelo.Constante;
+import ar.edu.untref.procesamientoimagenes.util.Transformacion;
 import butterknife.Bind;
 import butterknife.OnClick;
 
@@ -309,20 +310,22 @@ public class ActividadOperaciones extends ActividadBasica {
 
     private Bitmap multiplicarPorEscalar(Bitmap bitmap1, Integer escalar) {
 
-        int[][] matrizPixeles = new int[bitmap1.getWidth()][bitmap1.getHeight()];
+        //int[][] matrizPixeles = new int[bitmap1.getWidth()][bitmap1.getHeight()];
+        Bitmap bitmap = Bitmap.createBitmap(bitmap1.getWidth(), bitmap1.getHeight(), Bitmap.Config.RGB_565);
 
         for (int x = 0; x < bitmap1.getWidth(); x++) {
 
             for (int y = 0; y < bitmap1.getHeight(); y++) {
 
                 int valorPixelBitmap1 = Color.red(bitmap1.getPixel(x, y));
-
-                matrizPixeles[x][y] = valorPixelBitmap1 * escalar;
+                //matrizPixeles[x][y] = valorPixelBitmap1 * escalar;
+                int nuevoPixel= valorPixelBitmap1 * escalar;
+                bitmap.setPixel(x, y, Color.rgb(nuevoPixel, nuevoPixel, nuevoPixel));
             }
         }
 
-        //return Transformacion.hacerCompresionRangoDinamico(matrizPixeles);
-        return null;
+        return Transformacion.hacerCompresionRangoDinamico(bitmap);
+        //return null;
     }
 
     private Bitmap negativoDeImagen(Bitmap bitmap1) {
