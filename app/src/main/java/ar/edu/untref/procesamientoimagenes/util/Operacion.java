@@ -54,7 +54,7 @@ public class Operacion {
 
         }
 
-        Bitmap bitmap = Bitmap.createBitmap(alto, ancho, Bitmap.Config.RGB_565);
+        Bitmap bitmap = Bitmap.createBitmap(ancho, alto, Bitmap.Config.RGB_565);
 
         for (int x = 0; x < ancho; x++) {
             for (int y = 0; y < alto; y++) {
