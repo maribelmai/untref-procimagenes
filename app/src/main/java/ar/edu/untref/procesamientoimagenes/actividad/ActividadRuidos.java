@@ -122,18 +122,19 @@ public class ActividadRuidos extends ActividadBasica {
 
     private List<Point> obtenerPixelesAleatorios(int cantidad) {
 
+        Random random = new Random();
         List<Point> pixeles= new ArrayList<>();
 
         for(int i = 0; i<cantidad; i++){
 
-            int xRandom = new Random().nextInt(bitmapOriginal.getWidth());
-            int yRandom = new Random().nextInt(bitmapOriginal.getHeight());
+            int xRandom = random.nextInt(bitmapOriginal.getWidth());
+            int yRandom = random.nextInt(bitmapOriginal.getHeight());
 
             Point pixel = new Point(xRandom, yRandom);
 
             while (pixeles.contains(pixel)) {
-                xRandom = new Random().nextInt(bitmapOriginal.getWidth());
-                yRandom = new Random().nextInt(bitmapOriginal.getHeight());
+                xRandom = random.nextInt(bitmapOriginal.getWidth());
+                yRandom = random.nextInt(bitmapOriginal.getHeight());
                 pixel = new Point(xRandom, yRandom);
             }
 
