@@ -19,6 +19,7 @@ import ar.edu.untref.procesamientoimagenes.tareas.bordes.TareaAplicarBordesGener
 import ar.edu.untref.procesamientoimagenes.tareas.bordes.TareaAplicarBordesKirsh;
 import ar.edu.untref.procesamientoimagenes.tareas.bordes.TareaAplicarBordesPrewitt;
 import ar.edu.untref.procesamientoimagenes.tareas.bordes.TareaAplicarBordesSobel;
+import ar.edu.untref.procesamientoimagenes.tareas.bordes.TareaAplicarMetodoDelLaplaciano;
 import butterknife.Bind;
 import butterknife.OnClick;
 
@@ -228,6 +229,17 @@ public class ActividadBordes extends ActividadBasica {
             this.progressDialog.show();
         }
         new TareaAplicarBordesGenerico(this, bitmapOriginal, TipoBorde.DIAGONAL_IZQUIERDA).execute();
+    }
+
+    //LAPLACIANO
+
+    @OnClick(R.id.bordeMetodoDelLaplaciano)
+    public void detectarBordeMetodoLaplaciano() {
+
+        if (!isFinishing()) {
+            this.progressDialog.show();
+        }
+        new TareaAplicarMetodoDelLaplaciano(this, bitmapOriginal).execute();
     }
 
     @Override
