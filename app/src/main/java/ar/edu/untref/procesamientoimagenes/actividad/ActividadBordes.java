@@ -15,6 +15,7 @@ import java.io.File;
 import ar.edu.untref.procesamientoimagenes.R;
 import ar.edu.untref.procesamientoimagenes.modelo.Constante;
 import ar.edu.untref.procesamientoimagenes.modelo.TipoBorde;
+import ar.edu.untref.procesamientoimagenes.tareas.bordes.TareaAplicarBordesGenerico;
 import ar.edu.untref.procesamientoimagenes.tareas.bordes.TareaAplicarBordesKirsh;
 import ar.edu.untref.procesamientoimagenes.tareas.bordes.TareaAplicarBordesPrewitt;
 import ar.edu.untref.procesamientoimagenes.tareas.bordes.TareaAplicarBordesSobel;
@@ -190,6 +191,43 @@ public class ActividadBordes extends ActividadBasica {
             this.progressDialog.show();
         }
         new TareaAplicarBordesKirsh(this, bitmapOriginal, TipoBorde.DIAGONAL_IZQUIERDA).execute();
+    }
+
+    //GENERICO SIN NOMBRE PUNTO A)
+    @OnClick(R.id.bordeHorizontal)
+    public void detectarBordeHorizontal() {
+
+        if (!isFinishing()) {
+            this.progressDialog.show();
+        }
+        new TareaAplicarBordesGenerico(this, bitmapOriginal, TipoBorde.HORIZONTAL).execute();
+    }
+
+    @OnClick(R.id.bordeVertical)
+    public void detectarBordeVertical() {
+
+        if (!isFinishing()) {
+            this.progressDialog.show();
+        }
+        new TareaAplicarBordesGenerico(this, bitmapOriginal, TipoBorde.VERTICAL).execute();
+    }
+
+    @OnClick(R.id.bordeDiagonalDerecha)
+    public void detectarBordeDiagonalDerecha() {
+
+        if (!isFinishing()) {
+            this.progressDialog.show();
+        }
+        new TareaAplicarBordesGenerico(this, bitmapOriginal, TipoBorde.DIAGONAL_DERECHA).execute();
+    }
+
+    @OnClick(R.id.bordeDiagonalIzquierda)
+    public void detectarBordeDiagonalIzquierda() {
+
+        if (!isFinishing()) {
+            this.progressDialog.show();
+        }
+        new TareaAplicarBordesGenerico(this, bitmapOriginal, TipoBorde.DIAGONAL_IZQUIERDA).execute();
     }
 
     @Override
