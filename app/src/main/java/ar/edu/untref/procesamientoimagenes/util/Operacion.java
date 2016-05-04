@@ -109,4 +109,23 @@ public class Operacion {
         int grisTransformado = (int) ((((255f) / (grisMax - grisMin)) * grisActual) - ((grisMin * 255f) / (grisMax - grisMin)));
         return grisTransformado;
     }
+
+    public static boolean hayCambioDeSignoPorFila(int[][] matriz, int x, int y) {
+
+        boolean hayCambio = false;
+
+        if (y - 1 >= 0) {
+
+            int valorActual = matriz[x][y];
+            int valorAnterior = matriz[x][y - 1];
+
+            if (valorAnterior == 0 && y - 2 >= 0) {
+                valorAnterior = matriz[x][y - 2];
+            }
+
+            hayCambio = (valorAnterior < 0 && valorActual > 0)
+                    || (valorAnterior > 0 && valorActual < 0);
+        }
+        return hayCambio;
+    }
 }

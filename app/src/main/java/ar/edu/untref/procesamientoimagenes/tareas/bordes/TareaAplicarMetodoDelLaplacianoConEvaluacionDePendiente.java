@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.os.AsyncTask;
 
 import ar.edu.untref.procesamientoimagenes.actividad.ActividadBordes;
+import ar.edu.untref.procesamientoimagenes.util.Operacion;
 
 /**
  * Created by maribel on 4/10/16.
@@ -32,7 +33,7 @@ public class TareaAplicarMetodoDelLaplacianoConEvaluacionDePendiente extends Asy
         for (int i = 0; i < bitmapOriginal.getWidth(); i++) {
             for (int j = 0; j < bitmapOriginal.getHeight(); j++) {
 
-                if (hayCambioDeSignoPorFila(matrizGradiente, i, j)) {
+                if (Operacion.hayCambioDeSignoPorFila(matrizGradiente, i, j)) {
                     matrizCrucePorCero[i][j] = 255;
                 } else {
                     matrizCrucePorCero[i][j] = 0;
@@ -89,25 +90,6 @@ public class TareaAplicarMetodoDelLaplacianoConEvaluacionDePendiente extends Asy
         }
 
         return matrizGradiente;
-    }
-
-    private boolean hayCambioDeSignoPorFila(int[][] matriz, int x, int y) {
-
-        boolean hayCambio = false;
-
-        if (y - 1 >= 0) {
-
-            int valorActual = matriz[x][y];
-            int valorAnterior = matriz[x][y - 1];
-
-            if (valorAnterior == 0 && y - 2 >= 0) {
-                valorAnterior = matriz[x][y - 2];
-            }
-
-            hayCambio = (valorAnterior < 0 && valorActual > 0)
-                    || (valorAnterior > 0 && valorActual < 0);
-        }
-        return hayCambio;
     }
 
     @Override

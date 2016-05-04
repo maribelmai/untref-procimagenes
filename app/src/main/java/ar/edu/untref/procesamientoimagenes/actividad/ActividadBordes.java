@@ -7,6 +7,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.util.Log;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -21,6 +22,7 @@ import ar.edu.untref.procesamientoimagenes.tareas.bordes.TareaAplicarBordesPrewi
 import ar.edu.untref.procesamientoimagenes.tareas.bordes.TareaAplicarBordesSobel;
 import ar.edu.untref.procesamientoimagenes.tareas.bordes.TareaAplicarMetodoDelLaplaciano;
 import ar.edu.untref.procesamientoimagenes.tareas.bordes.TareaAplicarMetodoDelLaplacianoConEvaluacionDePendiente;
+import ar.edu.untref.procesamientoimagenes.tareas.bordes.TareaAplicarMetodoDelLaplacianoDelGaussiano;
 import butterknife.Bind;
 import butterknife.OnClick;
 
@@ -38,8 +40,10 @@ public class ActividadBordes extends ActividadBasica {
     @Bind(R.id.imagen)
     ImageView imageView;
 
-    private Bitmap bitmapOriginal;
+    @Bind(R.id.sigma)
+    EditText sigma;
 
+    private Bitmap bitmapOriginal;
     private ProgressDialog progressDialog;
 
     @Override
@@ -250,6 +254,21 @@ public class ActividadBordes extends ActividadBasica {
             this.progressDialog.show();
         }
         new TareaAplicarMetodoDelLaplacianoConEvaluacionDePendiente(this, bitmapOriginal).execute();
+    }
+
+    @OnClick(R.id.bordeMetodoDelLaplacianoDelGaussiano)
+    public void detectarBordeMetodoLaplacianoDelGaussiano() {
+
+        if (!sigma.getText().toString().trim().isEmpty()) {
+
+            float valorSigma = Float.parseFloat(sigma.getText().toString());
+
+            if (!isFinishing()) {
+                this.progressDialog.show();
+            }
+
+            new TareaAplicarMetodoDelLaplacianoDelGaussiano(valorSigma, this, bitmapOriginal).execute();
+        }
     }
 
     @Override
