@@ -15,6 +15,7 @@ import java.io.File;
 import ar.edu.untref.procesamientoimagenes.R;
 import ar.edu.untref.procesamientoimagenes.modelo.Constante;
 import ar.edu.untref.procesamientoimagenes.modelo.TipoBorde;
+import ar.edu.untref.procesamientoimagenes.tareas.bordes.TareaAplicarBordesKirsh;
 import ar.edu.untref.procesamientoimagenes.tareas.bordes.TareaAplicarBordesPrewitt;
 import ar.edu.untref.procesamientoimagenes.tareas.bordes.TareaAplicarBordesSobel;
 import butterknife.Bind;
@@ -62,6 +63,7 @@ public class ActividadBordes extends ActividadBasica {
         return R.layout.actividad_bordes;
     }
 
+    //PREWITT
     @OnClick(R.id.bordePrewittCompleto)
     public void detectarBorderPrewittCompleto() {
 
@@ -107,6 +109,7 @@ public class ActividadBordes extends ActividadBasica {
         new TareaAplicarBordesPrewitt(this, bitmapOriginal, TipoBorde.DIAGONAL_IZQUIERDA).execute();
     }
 
+    //SOBEL
     @OnClick(R.id.bordeSobelCompleto)
     public void detectarBordeSobelCompleto() {
 
@@ -150,6 +153,26 @@ public class ActividadBordes extends ActividadBasica {
             this.progressDialog.show();
         }
         new TareaAplicarBordesSobel(this, bitmapOriginal, TipoBorde.DIAGONAL_IZQUIERDA).execute();
+    }
+
+    //KIRSH
+    @OnClick(R.id.bordeKirshHorizontal)
+    public void detectarBordeKirshHorizontal() {
+
+        if (!isFinishing()) {
+            this.progressDialog.show();
+        }
+        new TareaAplicarBordesKirsh(this, bitmapOriginal, TipoBorde.HORIZONTAL).execute();
+    }
+
+    //KIRSH
+    @OnClick(R.id.bordeKirshVertical)
+    public void detectarBordeKirshVertical() {
+
+        if (!isFinishing()) {
+            this.progressDialog.show();
+        }
+        new TareaAplicarBordesKirsh(this, bitmapOriginal, TipoBorde.VERTICAL).execute();
     }
 
     @Override
