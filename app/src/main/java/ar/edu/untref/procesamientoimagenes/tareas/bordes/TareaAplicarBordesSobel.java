@@ -28,12 +28,38 @@ public class TareaAplicarBordesSobel extends AsyncTask<Void, Void, Bitmap> {
     @Override
     protected Bitmap doInBackground(Void... params) {
 
-        int[][] matrizGradiente = new int[bitmapOriginal.getWidth()][bitmapOriginal.getHeight()];
+        if (tipoBorde != TipoBorde.COMPLETO) {
+
+            int[][] matrizGradiente = generarMatrizGradientes(tipoBorde);
+            return Operacion.obtenerBitmapDesdeMagnitudes(bitmapOriginal, matrizGradiente);
+        }
+        else {
+
+            int[][] matrizGradienteHorizontal = generarMatrizGradientes(TipoBorde.HORIZONTAL);
+            int[][] matrizGradienteVertical = generarMatrizGradientes(TipoBorde.VERTICAL);
+            int[][] matrizGradienteDiagonalDerecha = generarMatrizGradientes(TipoBorde.DIAGONAL_DERECHA);
+            int[][] matrizGradienteDiagonalIzquierda = generarMatrizGradientes(TipoBorde.DIAGONAL_IZQUIERDA);
+
+            Bitmap horizontal = Operacion.obtenerBitmapDesdeMagnitudes(bitmapOriginal, matrizGradienteHorizontal);
+            Bitmap vertical = Operacion.obtenerBitmapDesdeMagnitudes(bitmapOriginal, matrizGradienteVertical);
+            Bitmap suma = Operacion.sumar(horizontal, vertical);
+            horizontal.recycle();
+            vertical.recycle();
+
+            Bitmap diagonalDerecha = Operacion.obtenerBitmapDesdeMagnitudes(bitmapOriginal, matrizGradienteDiagonalDerecha);
+            suma = Operacion.sumar(suma, diagonalDerecha);
+
+            Bitmap diagonalIzquierda = Operacion.obtenerBitmapDesdeMagnitudes(bitmapOriginal, matrizGradienteDiagonalIzquierda);
+            suma = Operacion.sumar(suma, diagonalIzquierda);
+            return suma;
+        }
+    }
+
+    private int[][] generarMatrizGradientes(TipoBorde tipoBordeElegido) {
 
         int[][] matrizBordesSobel = new int[3][3];
-        int posicionCentralMascara = 3/2;
 
-        if (tipoBorde == TipoBorde.HORIZONTAL) {
+        if (tipoBordeElegido == TipoBorde.HORIZONTAL) {
 
             matrizBordesSobel[0][0] = -1;
             matrizBordesSobel[0][1] =  0;
@@ -47,7 +73,7 @@ public class TareaAplicarBordesSobel extends AsyncTask<Void, Void, Bitmap> {
             matrizBordesSobel[2][1] =  0;
             matrizBordesSobel[2][2] =  1;
         }
-        else if (tipoBorde == TipoBorde.VERTICAL) {
+        else if (tipoBordeElegido == TipoBorde.VERTICAL) {
 
             matrizBordesSobel[0][0] = -1;
             matrizBordesSobel[0][1] = -2;
@@ -61,7 +87,7 @@ public class TareaAplicarBordesSobel extends AsyncTask<Void, Void, Bitmap> {
             matrizBordesSobel[2][1] = 2;
             matrizBordesSobel[2][2] = 1;
         }
-        else if (tipoBorde == TipoBorde.DIAGONAL_DERECHA) {
+        else if (tipoBordeElegido == TipoBorde.DIAGONAL_DERECHA) {
 
             matrizBordesSobel[0][0] = 0;
             matrizBordesSobel[0][1] = 1;
@@ -76,7 +102,7 @@ public class TareaAplicarBordesSobel extends AsyncTask<Void, Void, Bitmap> {
             matrizBordesSobel[2][2] =  0;
 
         }
-        else if (tipoBorde == TipoBorde.DIAGONAL_IZQUIERDA) {
+        else if (tipoBordeElegido == TipoBorde.DIAGONAL_IZQUIERDA) {
 
             matrizBordesSobel[0][0] = -2;
             matrizBordesSobel[0][1] = -1;
@@ -90,6 +116,9 @@ public class TareaAplicarBordesSobel extends AsyncTask<Void, Void, Bitmap> {
             matrizBordesSobel[2][1] = 1;
             matrizBordesSobel[2][2] = 2;
         }
+
+        int[][] matrizGradiente = new int[bitmapOriginal.getWidth()][bitmapOriginal.getHeight()];
+        int posicionCentralMascara = 3/2;
 
         for (int x = posicionCentralMascara; x < bitmapOriginal.getWidth() - posicionCentralMascara; x++) {
             for (int y = posicionCentralMascara; y < bitmapOriginal.getHeight() - posicionCentralMascara; y++) {
@@ -113,7 +142,7 @@ public class TareaAplicarBordesSobel extends AsyncTask<Void, Void, Bitmap> {
             }
         }
 
-        return Operacion.obtenerBitmapDesdeMagnitudes(bitmapOriginal, matrizGradiente);
+        return matrizGradiente;
     }
 
     @Override

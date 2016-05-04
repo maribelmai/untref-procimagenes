@@ -107,8 +107,17 @@ public class ActividadBordes extends ActividadBasica {
         new TareaAplicarBordesPrewitt(this, bitmapOriginal, TipoBorde.DIAGONAL_IZQUIERDA).execute();
     }
 
+    @OnClick(R.id.bordeSobelCompleto)
+    public void detectarBordeSobelCompleto() {
+
+        if (!isFinishing()) {
+            this.progressDialog.show();
+        }
+        new TareaAplicarBordesSobel(this, bitmapOriginal, TipoBorde.COMPLETO).execute();
+    }
+
     @OnClick(R.id.bordeSobelHorizontal)
-    public void detectarBorderSobelHorizontal() {
+    public void detectarBordeSobelHorizontal() {
 
         if (!isFinishing()) {
             this.progressDialog.show();
@@ -117,7 +126,7 @@ public class ActividadBordes extends ActividadBasica {
     }
 
     @OnClick(R.id.bordeSobelVertical)
-    public void detectarBorderSobelVertical() {
+    public void detectarBordeSobelVertical() {
 
         if (!isFinishing()) {
             this.progressDialog.show();
@@ -126,7 +135,7 @@ public class ActividadBordes extends ActividadBasica {
     }
 
     @OnClick(R.id.bordeSobelDiagonalDerecha)
-    public void detectarBorderSobelDiagonalDerecha() {
+    public void detectarBordeSobelDiagonalDerecha() {
 
         if (!isFinishing()) {
             this.progressDialog.show();
@@ -135,7 +144,7 @@ public class ActividadBordes extends ActividadBasica {
     }
 
     @OnClick(R.id.bordeSobelDiagonalIzquierda)
-    public void detectarBorderSobelDiagonalIzquierda() {
+    public void detectarBordeSobelDiagonalIzquierda() {
 
         if (!isFinishing()) {
             this.progressDialog.show();
