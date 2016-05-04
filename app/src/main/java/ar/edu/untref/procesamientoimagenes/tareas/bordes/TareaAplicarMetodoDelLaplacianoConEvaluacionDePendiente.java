@@ -5,18 +5,16 @@ import android.graphics.Color;
 import android.os.AsyncTask;
 
 import ar.edu.untref.procesamientoimagenes.actividad.ActividadBordes;
-import ar.edu.untref.procesamientoimagenes.util.Operacion;
 
 /**
  * Created by maribel on 4/10/16.
  */
-public class TareaAplicarMetodoDelLaplaciano extends AsyncTask<Void, Void, Bitmap> {
+public class TareaAplicarMetodoDelLaplacianoConEvaluacionDePendiente extends AsyncTask<Void, Void, Bitmap> {
 
-    private static final String LOG_TAG = TareaAplicarMetodoDelLaplaciano.class.getSimpleName();
     private ActividadBordes actividadBordes;
     private Bitmap bitmapOriginal;
 
-    public TareaAplicarMetodoDelLaplaciano(ActividadBordes actividadBordes, Bitmap bitmapOriginal) {
+    public TareaAplicarMetodoDelLaplacianoConEvaluacionDePendiente(ActividadBordes actividadBordes, Bitmap bitmapOriginal) {
 
         this.actividadBordes = actividadBordes;
         this.bitmapOriginal = bitmapOriginal;
@@ -26,7 +24,27 @@ public class TareaAplicarMetodoDelLaplaciano extends AsyncTask<Void, Void, Bitma
     protected Bitmap doInBackground(Void... params) {
 
         int[][] matrizGradiente = generarMatrizGradientes();
-        return Operacion.obtenerBitmapDesdeMagnitudes(bitmapOriginal, matrizGradiente);
+
+        //Busco los cruces por cero
+        int[][] matrizCrucePorCero = new int[bitmapOriginal.getWidth()][bitmapOriginal.getHeight()];
+        Bitmap mutableBitmap = bitmapOriginal.copy(Bitmap.Config.RGB_565, true);
+
+        for (int i = 0; i < bitmapOriginal.getWidth(); i++) {
+            for (int j = 0; j < bitmapOriginal.getHeight(); j++) {
+
+                if (hayCambioDeSignoPorFila(matrizGradiente, i, j)) {
+                    matrizCrucePorCero[i][j] = 255;
+                } else {
+                    matrizCrucePorCero[i][j] = 0;
+                }
+
+                int alpha = Color.alpha(bitmapOriginal.getPixel(i,j));
+                int colorPixel = matrizCrucePorCero[i][j];
+                mutableBitmap.setPixel(i, j, Color.argb(alpha, colorPixel, colorPixel, colorPixel));
+            }
+        }
+
+        return mutableBitmap;
     }
 
     private int[][] generarMatrizGradientes() {
@@ -71,6 +89,25 @@ public class TareaAplicarMetodoDelLaplaciano extends AsyncTask<Void, Void, Bitma
         }
 
         return matrizGradiente;
+    }
+
+    private boolean hayCambioDeSignoPorFila(int[][] matriz, int x, int y) {
+
+        boolean hayCambio = false;
+
+        if (y - 1 >= 0) {
+
+            int valorActual = matriz[x][y];
+            int valorAnterior = matriz[x][y - 1];
+
+            if (valorAnterior == 0 && y - 2 >= 0) {
+                valorAnterior = matriz[x][y - 2];
+            }
+
+            hayCambio = (valorAnterior < 0 && valorActual > 0)
+                    || (valorAnterior > 0 && valorActual < 0);
+        }
+        return hayCambio;
     }
 
     @Override

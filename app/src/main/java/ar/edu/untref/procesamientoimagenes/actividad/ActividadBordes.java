@@ -20,6 +20,7 @@ import ar.edu.untref.procesamientoimagenes.tareas.bordes.TareaAplicarBordesKirsh
 import ar.edu.untref.procesamientoimagenes.tareas.bordes.TareaAplicarBordesPrewitt;
 import ar.edu.untref.procesamientoimagenes.tareas.bordes.TareaAplicarBordesSobel;
 import ar.edu.untref.procesamientoimagenes.tareas.bordes.TareaAplicarMetodoDelLaplaciano;
+import ar.edu.untref.procesamientoimagenes.tareas.bordes.TareaAplicarMetodoDelLaplacianoConEvaluacionDePendiente;
 import butterknife.Bind;
 import butterknife.OnClick;
 
@@ -240,6 +241,15 @@ public class ActividadBordes extends ActividadBasica {
             this.progressDialog.show();
         }
         new TareaAplicarMetodoDelLaplaciano(this, bitmapOriginal).execute();
+    }
+
+    @OnClick(R.id.bordeMetodoDelLaplacianoCrucesPorCero)
+    public void detectarBordeMetodoLaplacianoCrucesPorCero() {
+
+        if (!isFinishing()) {
+            this.progressDialog.show();
+        }
+        new TareaAplicarMetodoDelLaplacianoConEvaluacionDePendiente(this, bitmapOriginal).execute();
     }
 
     @Override
