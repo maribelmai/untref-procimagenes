@@ -36,6 +36,9 @@ public class ActividadRuidos extends ActividadBasica {
     @Bind(R.id.nombreImagen)
     TextView nombreImagen;
 
+    @Bind(R.id.contaminacionRuidoGaussiano)
+    EditText contaminacionRuidoGaussiano;
+
     @Bind(R.id.valorDesvio)
     EditText desvio;
 
@@ -82,9 +85,9 @@ public class ActividadRuidos extends ActividadBasica {
 
         ocultarTeclado();
 
-        if (!desvio.getText().toString().trim().isEmpty() && !media.getText().toString().trim().isEmpty()) {
+        if (!desvio.getText().toString().trim().isEmpty() && !media.getText().toString().trim().isEmpty()
+                && !contaminacionRuidoGaussiano.getText().toString().trim().isEmpty()) {
 
-            //Bitmap mutableBitmap = bitmapOriginal.copy(Bitmap.Config.RGB_565, true);
             int[][] matrizPixelesR = new int[bitmapOriginal.getWidth()][bitmapOriginal.getHeight()];
             int[][] matrizPixelesG = new int[bitmapOriginal.getWidth()][bitmapOriginal.getHeight()];
             int[][] matrizPixelesB = new int[bitmapOriginal.getWidth()][bitmapOriginal.getHeight()];
@@ -92,23 +95,45 @@ public class ActividadRuidos extends ActividadBasica {
             double desvio = Double.parseDouble(this.desvio.getText().toString());
             double media = Double.parseDouble(this.media.getText().toString());
 
+            long cantidadTotalPixeles = bitmapOriginal.getWidth() * bitmapOriginal.getHeight();
+            int porcentajeContaminacion = Integer.parseInt(contaminacionRuidoGaussiano.getText().toString());
+            int cantidadPixelesAContaminar = (int) (cantidadTotalPixeles * porcentajeContaminacion / 100);
+
+            boolean necesarioContaminarPorcentaje = porcentajeContaminacion < 100;
+
+            List<Point> pixeles = new ArrayList<>();
+            if (necesarioContaminarPorcentaje) {
+                pixeles = obtenerPixelesAleatorios(cantidadPixelesAContaminar);
+            }
             Random random = new Random();
 
             for (int x = 0; x < bitmapOriginal.getWidth(); x++) {
 
                 for (int y = 0; y < bitmapOriginal.getHeight(); y++) {
-                    double randomCreado = random.nextGaussian() * desvio + media;
+
+                    Point p = new Point(x,y);
 
                     int pixelOriginal = bitmapOriginal.getPixel(x, y);
                     int nivelRojo = Color.red(pixelOriginal);
                     int nivelVerde = Color.green(pixelOriginal);
                     int nivelAzul = Color.blue(pixelOriginal);
-                    int nuevoColorR = (int) (nivelRojo + randomCreado);
-                    int nuevoColorG = (int) (nivelVerde + randomCreado);
-                    int nuevoColorB = (int) (nivelAzul + randomCreado);
-                    matrizPixelesR[x][y] = nuevoColorR;
-                    matrizPixelesG[x][y] = nuevoColorG;
-                    matrizPixelesB[x][y] = nuevoColorB;
+
+                    int nuevoNivelRojo = nivelRojo;
+                    int nuevoNivelVerde = nivelAzul;
+                    int nuevoNivelAzul = nivelVerde;
+
+                    if (necesarioContaminarPorcentaje && pixeles.contains(p) || !necesarioContaminarPorcentaje) {
+
+                        double randomCreado = random.nextGaussian() * desvio + media;
+
+                        nuevoNivelRojo = (int) (nivelRojo + randomCreado);
+                        nuevoNivelVerde = (int) (nivelVerde + randomCreado);
+                        nuevoNivelAzul = (int) (nivelAzul + randomCreado);
+                    }
+
+                    matrizPixelesR[x][y] = nuevoNivelRojo;
+                    matrizPixelesG[x][y] = nuevoNivelVerde;
+                    matrizPixelesB[x][y] = nuevoNivelAzul;
                 }
             }
 
@@ -151,7 +176,6 @@ public class ActividadRuidos extends ActividadBasica {
 
         if (!phi.getText().toString().trim().isEmpty()) {
 
-            //Bitmap mutableBitmap = bitmapOriginal.copy(Bitmap.Config.RGB_565, true);
             int[][] matrizPixelesR = new int[bitmapOriginal.getWidth()][bitmapOriginal.getHeight()];
             int[][] matrizPixelesG = new int[bitmapOriginal.getWidth()][bitmapOriginal.getHeight()];
             int[][] matrizPixelesB = new int[bitmapOriginal.getWidth()][bitmapOriginal.getHeight()];
@@ -188,7 +212,6 @@ public class ActividadRuidos extends ActividadBasica {
 
         if (!lamda.getText().toString().trim().isEmpty()) {
 
-            //Bitmap mutableBitmap = bitmapOriginal.copy(Bitmap.Config.RGB_565, true);
             int[][] matrizPixelesR = new int[bitmapOriginal.getWidth()][bitmapOriginal.getHeight()];
             int[][] matrizPixelesG = new int[bitmapOriginal.getWidth()][bitmapOriginal.getHeight()];
             int[][] matrizPixelesB = new int[bitmapOriginal.getWidth()][bitmapOriginal.getHeight()];

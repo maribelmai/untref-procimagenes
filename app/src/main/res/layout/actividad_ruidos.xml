@@ -70,13 +70,22 @@
                     android:layout_marginTop="16dp"/>
 
                 <EditText
+                    android:id="@+id/contaminacionRuidoGaussiano"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:inputType="number"
+                    android:hint="% contaminación"
+                    android:textSize="14sp"
+                    android:layout_below="@+id/tituloRuidoGaussiano"/>
+
+                <EditText
                     android:id="@+id/valorDesvio"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:hint="Desvío"
                     android:textSize="14sp"
                     android:inputType="numberDecimal"
-                    android:layout_below="@+id/tituloRuidoGaussiano"/>
+                    android:layout_below="@+id/contaminacionRuidoGaussiano"/>
 
                 <EditText
                     android:id="@+id/valorMedia"

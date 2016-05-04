@@ -102,7 +102,7 @@ public class TareaAplicarMetodoDelLaplacianoDelGaussiano extends AsyncTask<Void,
     }
 
     private double obtenerLoG(int x, int y, int posicionCentralMascara) {
-//
+
         int xEnMascara = x-posicionCentralMascara;
         int yEnMascara = y-posicionCentralMascara;
 
