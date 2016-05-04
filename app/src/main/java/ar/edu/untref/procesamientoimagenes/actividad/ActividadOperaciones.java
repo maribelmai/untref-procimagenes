@@ -9,7 +9,6 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentTransaction;
 import android.text.InputType;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -27,6 +26,7 @@ import ar.edu.untref.procesamientoimagenes.Aplicacion;
 import ar.edu.untref.procesamientoimagenes.R;
 import ar.edu.untref.procesamientoimagenes.fragmentos.FragmentoListaArchivos;
 import ar.edu.untref.procesamientoimagenes.modelo.Constante;
+import ar.edu.untref.procesamientoimagenes.util.Operacion;
 import ar.edu.untref.procesamientoimagenes.util.Transformacion;
 import butterknife.Bind;
 import butterknife.OnClick;
@@ -150,7 +150,7 @@ public class ActividadOperaciones extends ActividadBasica {
 
                 if (view.getId() == R.id.sumar) {
                     this.resultadoOperacion.setText(getString(R.string.resultado_operacion).replace("{operacion}", "(SUMA)"));
-                    resultante = sumar(bitmap1, bitmap2);
+                    resultante = Operacion.sumar(bitmap1, bitmap2);
                 } else if (view.getId() == R.id.restar) {
                     this.resultadoOperacion.setText(getString(R.string.resultado_operacion).replace("{operacion}", "(RESTA)"));
                     resultante = restar(bitmap1, bitmap2);
@@ -221,24 +221,6 @@ public class ActividadOperaciones extends ActividadBasica {
         builder.show();
     }
 
-    private Bitmap sumar(Bitmap bitmap1, Bitmap bitmap2) {
-
-        int[][] matrizPixeles = new int[bitmap1.getWidth()][bitmap2.getHeight()];
-
-        for (int x = 0; x < bitmap1.getWidth(); x++) {
-
-            for (int y = 0; y < bitmap1.getHeight(); y++) {
-
-                int valorPixelBitmap1 = Color.red(bitmap1.getPixel(x, y));
-                int valorPixelBitmap2 = Color.red(bitmap2.getPixel(x, y));
-
-                matrizPixeles[x][y] = valorPixelBitmap1 + valorPixelBitmap2;
-            }
-        }
-
-        return hacerTransformacionLineal(matrizPixeles);
-    }
-
     private Bitmap restar(Bitmap bitmap1, Bitmap bitmap2) {
 
         int[][] matrizPixeles = new int[bitmap1.getWidth()][bitmap2.getHeight()];
@@ -254,7 +236,7 @@ public class ActividadOperaciones extends ActividadBasica {
             }
         }
 
-        return hacerTransformacionLineal(matrizPixeles);
+        return Operacion.hacerTransformacionLineal(matrizPixeles);
     }
 
     private Bitmap potencia(Bitmap bitmap, Float gamma) {
@@ -342,51 +324,6 @@ public class ActividadOperaciones extends ActividadBasica {
                 int nuevoPixel = 255 - valorPixelBitmap1;
 
                 bitmap.setPixel(x, y, Color.rgb(nuevoPixel, nuevoPixel, nuevoPixel));
-            }
-        }
-
-        return bitmap;
-    }
-
-    private Bitmap hacerTransformacionLineal(int[][] matrizPixeles) {
-
-        float minimo;
-        float maximo;
-
-        int ancho = matrizPixeles.length;
-        int alto = matrizPixeles[0].length;
-
-        minimo = 0;
-        maximo = 255;
-
-        for (int x = 0; x < ancho; x++) {
-            for (int y = 0; y < alto; y++) {
-
-                int valorActual = matrizPixeles[x][y];
-
-                if (minimo > valorActual) {
-                    minimo = valorActual;
-                }
-
-                if (maximo < valorActual) {
-                    maximo = valorActual;
-                }
-
-            }
-
-        }
-
-        Log.i(LOG_TAG, "hacerTransformacionLineal: " + minimo + " " + maximo);
-
-        Bitmap bitmap = Bitmap.createBitmap(alto, ancho, Bitmap.Config.RGB_565);
-
-        for (int x = 0; x < ancho; x++) {
-            for (int y = 0; y < alto; y++) {
-
-                int valorActual = matrizPixeles[x][y];
-                int valorTransformado = (int) ((((255f) / (maximo - minimo)) * valorActual) - ((minimo * 255f) / (maximo - minimo)));
-
-                bitmap.setPixel(x,y, Color.rgb(valorTransformado, valorTransformado, valorTransformado));
             }
         }
 

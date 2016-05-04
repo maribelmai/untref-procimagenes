@@ -6,11 +6,12 @@ import android.os.AsyncTask;
 
 import ar.edu.untref.procesamientoimagenes.actividad.ActividadBordes;
 import ar.edu.untref.procesamientoimagenes.modelo.TipoBorde;
+import ar.edu.untref.procesamientoimagenes.util.Operacion;
 
 /**
  * Created by maribel on 4/10/16.
  */
-public class TareaAplicarBordesSobel extends AsyncTask<Void, Void, int[][]> {
+public class TareaAplicarBordesSobel extends AsyncTask<Void, Void, Bitmap> {
 
     private static final String LOG_TAG = TareaAplicarBordesSobel.class.getSimpleName();
     private ActividadBordes actividadBordes;
@@ -25,7 +26,7 @@ public class TareaAplicarBordesSobel extends AsyncTask<Void, Void, int[][]> {
     }
 
     @Override
-    protected int[][] doInBackground(Void... params) {
+    protected Bitmap doInBackground(Void... params) {
 
         int[][] matrizGradiente = new int[bitmapOriginal.getWidth()][bitmapOriginal.getHeight()];
 
@@ -112,12 +113,12 @@ public class TareaAplicarBordesSobel extends AsyncTask<Void, Void, int[][]> {
             }
         }
 
-        return matrizGradiente;
+        return Operacion.obtenerBitmapDesdeMagnitudes(bitmapOriginal, matrizGradiente);
     }
 
     @Override
-    protected void onPostExecute(int[][] magnitudes) {
-        super.onPostExecute(magnitudes);
-        actividadBordes.bordesDetectados(magnitudes);
+    protected void onPostExecute(Bitmap bitmap) {
+        super.onPostExecute(bitmap);
+        actividadBordes.bordesDetectados(bitmap);
     }
 }
