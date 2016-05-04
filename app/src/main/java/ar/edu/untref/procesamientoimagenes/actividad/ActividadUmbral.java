@@ -146,18 +146,18 @@ public class ActividadUmbral extends ActividadBasica {
     @Override
     public void finish() {
 
+        Intent intent = new Intent();
         String nombreOriginal = imagen.getName();
         File file = null;
 
         try {
             file = getAplicacion().guardarArchivo(((BitmapDrawable) imagenUmbralizada.getDrawable()).getBitmap(), "/tmp/", nombreOriginal.substring(0, nombreOriginal.lastIndexOf(".")) + "_" + System.currentTimeMillis() + nombreOriginal.substring(nombreOriginal.lastIndexOf(".")));
+            intent.putExtra(Constante.EXTRA_IMAGEN, file);
+            setResult(Constante.RESULT_CODE_IMAGEN_MODIFICADA, intent);
         } catch (Exception e) {
             Log.e(LOG_TAG, "Temporal no se pudo guardar: " + e);
         }
 
-        Intent intent = new Intent();
-        intent.putExtra(Constante.EXTRA_IMAGEN, file);
-        setResult(Constante.RESULT_CODE_IMAGEN_MODIFICADA, intent);
         super.finish();
     }
 

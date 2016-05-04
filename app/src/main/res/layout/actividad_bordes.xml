@@ -232,6 +232,38 @@
                 android:textSize="11sp"
                 android:layout_marginTop="8dp"
                 android:background="@drawable/selector_boton"/>
+
+            <TextView
+                android:id="@+id/bordeKirshDiagonalDerecha"
+                android:layout_width="wrap_content"
+                android:gravity="center"
+                android:layout_height="wrap_content"
+                android:text="KIRSH (BORDES DIAGONALES DERECHA)"
+                android:padding="8dp"
+                android:textColor="@android:color/white"
+                android:textStyle="bold"
+                android:textSize="11sp"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/selector_boton"/>
+
+            <TextView
+                android:id="@+id/bordeKirshDiagonalIzquierda"
+                android:layout_width="wrap_content"
+                android:gravity="center"
+                android:layout_height="wrap_content"
+                android:text="KIRSH (BORDES DIAGONALES IZQUIERDA)"
+                android:padding="8dp"
+                android:textColor="@android:color/white"
+                android:textStyle="bold"
+                android:textSize="11sp"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/selector_boton"/>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:background="@color/gris"
+                android:layout_margin="16dp"/>
         </LinearLayout>
 
     </ScrollView>

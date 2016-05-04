@@ -165,7 +165,6 @@ public class ActividadBordes extends ActividadBasica {
         new TareaAplicarBordesKirsh(this, bitmapOriginal, TipoBorde.HORIZONTAL).execute();
     }
 
-    //KIRSH
     @OnClick(R.id.bordeKirshVertical)
     public void detectarBordeKirshVertical() {
 
@@ -173,6 +172,24 @@ public class ActividadBordes extends ActividadBasica {
             this.progressDialog.show();
         }
         new TareaAplicarBordesKirsh(this, bitmapOriginal, TipoBorde.VERTICAL).execute();
+    }
+
+    @OnClick(R.id.bordeKirshDiagonalDerecha)
+    public void detectarBordeKirshDiagonalDerecha() {
+
+        if (!isFinishing()) {
+            this.progressDialog.show();
+        }
+        new TareaAplicarBordesKirsh(this, bitmapOriginal, TipoBorde.DIAGONAL_DERECHA).execute();
+    }
+
+    @OnClick(R.id.bordeKirshDiagonalIzquierda)
+    public void detectarBordeKirshDiagonalIzquierda() {
+
+        if (!isFinishing()) {
+            this.progressDialog.show();
+        }
+        new TareaAplicarBordesKirsh(this, bitmapOriginal, TipoBorde.DIAGONAL_IZQUIERDA).execute();
     }
 
     @Override

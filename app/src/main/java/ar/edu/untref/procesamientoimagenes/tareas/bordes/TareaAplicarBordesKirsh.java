@@ -89,32 +89,32 @@ public class TareaAplicarBordesKirsh extends AsyncTask<Void, Void, Bitmap> {
         }
         else if (tipoBordeElegido == TipoBorde.DIAGONAL_DERECHA) {
 
-            matrizBordesKirsh[0][0] = 0;
-            matrizBordesKirsh[0][1] = 1;
-            matrizBordesKirsh[0][2] = 2;
+            matrizBordesKirsh[0][0] = -3;
+            matrizBordesKirsh[0][1] = -3;
+            matrizBordesKirsh[0][2] = -3;
 
-            matrizBordesKirsh[1][0] = -1;
+            matrizBordesKirsh[1][0] = 5;
             matrizBordesKirsh[1][1] = 0;
-            matrizBordesKirsh[1][2] = 1;
+            matrizBordesKirsh[1][2] = -3;
 
-            matrizBordesKirsh[2][0] = -2;
-            matrizBordesKirsh[2][1] = -1;
-            matrizBordesKirsh[2][2] =  0;
+            matrizBordesKirsh[2][0] = 5;
+            matrizBordesKirsh[2][1] = 5;
+            matrizBordesKirsh[2][2] = -3;
 
         }
         else if (tipoBordeElegido == TipoBorde.DIAGONAL_IZQUIERDA) {
 
-            matrizBordesKirsh[0][0] = -2;
-            matrizBordesKirsh[0][1] = -1;
-            matrizBordesKirsh[0][2] = 0;
+            matrizBordesKirsh[0][0] = 5;
+            matrizBordesKirsh[0][1] = 5;
+            matrizBordesKirsh[0][2] = -3;
 
-            matrizBordesKirsh[1][0] = -1;
+            matrizBordesKirsh[1][0] = 5;
             matrizBordesKirsh[1][1] = 0;
-            matrizBordesKirsh[1][2] = 1;
+            matrizBordesKirsh[1][2] = -3;
 
-            matrizBordesKirsh[2][0] = 0;
-            matrizBordesKirsh[2][1] = 1;
-            matrizBordesKirsh[2][2] = 2;
+            matrizBordesKirsh[2][0] = -3;
+            matrizBordesKirsh[2][1] = -3;
+            matrizBordesKirsh[2][2] = -3;
         }
 
         int[][] matrizGradiente = new int[bitmapOriginal.getWidth()][bitmapOriginal.getHeight()];
