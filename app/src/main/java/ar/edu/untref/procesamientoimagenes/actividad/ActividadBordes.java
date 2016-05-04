@@ -17,6 +17,7 @@ import java.io.File;
 import ar.edu.untref.procesamientoimagenes.R;
 import ar.edu.untref.procesamientoimagenes.modelo.Constante;
 import ar.edu.untref.procesamientoimagenes.tareas.bordes.TareaAplicarBordesPrewitt;
+import ar.edu.untref.procesamientoimagenes.tareas.bordes.TareaAplicarBordesSobel;
 import butterknife.Bind;
 import butterknife.OnClick;
 
@@ -72,6 +73,18 @@ public class ActividadBordes extends ActividadBasica {
     public void detectarBorderPrewittVertical() {
 
         new TareaAplicarBordesPrewitt(this, bitmapOriginal, TareaAplicarBordesPrewitt.TipoBorde.VERTICAL).execute();
+    }
+
+    @OnClick(R.id.bordeSobelHorizontal)
+    public void detectarBorderSobelHorizontal() {
+
+        new TareaAplicarBordesSobel(this, bitmapOriginal, TareaAplicarBordesSobel.TipoBorde.HORIZONTAL).execute();
+    }
+
+    @OnClick(R.id.bordeSobelVertical)
+    public void detectarBorderSobelVertical() {
+
+        new TareaAplicarBordesSobel(this, bitmapOriginal, TareaAplicarBordesSobel.TipoBorde.VERTICAL).execute();
     }
 
     @Override

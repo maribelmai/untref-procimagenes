@@ -106,11 +106,24 @@
                 android:background="@drawable/selector_boton"/>
 
             <TextView
-                android:id="@+id/bordeSobel"
+                android:id="@+id/bordeSobelHorizontal"
                 android:layout_width="wrap_content"
                 android:gravity="center"
                 android:layout_height="wrap_content"
-                android:text="SOBEL"
+                android:text="SOBEL (BORDES HORIZONTALES)"
+                android:padding="8dp"
+                android:textColor="@android:color/white"
+                android:textStyle="bold"
+                android:textSize="11sp"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/selector_boton"/>
+
+            <TextView
+                android:id="@+id/bordeSobelVertical"
+                android:layout_width="wrap_content"
+                android:gravity="center"
+                android:layout_height="wrap_content"
+                android:text="SOBEL (BORDES VERTICALES)"
                 android:padding="8dp"
                 android:textColor="@android:color/white"
                 android:textStyle="bold"
