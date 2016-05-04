@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.os.AsyncTask;
 
 import ar.edu.untref.procesamientoimagenes.actividad.ActividadBordes;
+import ar.edu.untref.procesamientoimagenes.modelo.TipoBorde;
 
 /**
  * Created by maribel on 4/10/16.
@@ -47,17 +48,46 @@ public class TareaAplicarBordesSobel extends AsyncTask<Void, Void, int[][]> {
         }
         else if (tipoBorde == TipoBorde.VERTICAL) {
 
-            matrizBordesSobel[0][0] = 1;
-            matrizBordesSobel[0][1] = 2;
-            matrizBordesSobel[0][2] = 1;
+            matrizBordesSobel[0][0] = -1;
+            matrizBordesSobel[0][1] = -2;
+            matrizBordesSobel[0][2] = -1;
 
             matrizBordesSobel[1][0] = 0;
             matrizBordesSobel[1][1] = 0;
             matrizBordesSobel[1][2] = 0;
 
-            matrizBordesSobel[2][0] = -1;
-            matrizBordesSobel[2][1] = -2;
-            matrizBordesSobel[2][2] = -1;
+            matrizBordesSobel[2][0] = 1;
+            matrizBordesSobel[2][1] = 2;
+            matrizBordesSobel[2][2] = 1;
+        }
+        else if (tipoBorde == TipoBorde.DIAGONAL_DERECHA) {
+
+            matrizBordesSobel[0][0] = 0;
+            matrizBordesSobel[0][1] = 1;
+            matrizBordesSobel[0][2] = 2;
+
+            matrizBordesSobel[1][0] = -1;
+            matrizBordesSobel[1][1] = 0;
+            matrizBordesSobel[1][2] = 1;
+
+            matrizBordesSobel[2][0] = -2;
+            matrizBordesSobel[2][1] = -1;
+            matrizBordesSobel[2][2] =  0;
+
+        }
+        else if (tipoBorde == TipoBorde.DIAGONAL_IZQUIERDA) {
+
+            matrizBordesSobel[0][0] = -2;
+            matrizBordesSobel[0][1] = -1;
+            matrizBordesSobel[0][2] = 0;
+
+            matrizBordesSobel[1][0] = -1;
+            matrizBordesSobel[1][1] = 0;
+            matrizBordesSobel[1][2] = 1;
+
+            matrizBordesSobel[2][0] = 0;
+            matrizBordesSobel[2][1] = 1;
+            matrizBordesSobel[2][2] = 2;
         }
 
         for (int x = posicionCentralMascara; x < bitmapOriginal.getWidth() - posicionCentralMascara; x++) {
@@ -89,11 +119,5 @@ public class TareaAplicarBordesSobel extends AsyncTask<Void, Void, int[][]> {
     protected void onPostExecute(int[][] magnitudes) {
         super.onPostExecute(magnitudes);
         actividadBordes.bordesDetectados(magnitudes);
-    }
-
-    public enum TipoBorde {
-
-        VERTICAL,
-        HORIZONTAL
     }
 }

@@ -3,9 +3,9 @@ package ar.edu.untref.procesamientoimagenes.tareas.bordes;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.AsyncTask;
-import android.widget.TextView;
 
 import ar.edu.untref.procesamientoimagenes.actividad.ActividadBordes;
+import ar.edu.untref.procesamientoimagenes.modelo.TipoBorde;
 
 /**
  * Created by maribel on 4/10/16.
@@ -34,17 +34,17 @@ public class TareaAplicarBordesPrewitt extends AsyncTask<Void, Void, int[][]> {
 
         if (tipoBorde == TipoBorde.HORIZONTAL) {
 
-            matrizBordesPrewitt[0][0] = -1;
+            matrizBordesPrewitt[0][0] =  1;
             matrizBordesPrewitt[0][1] =  0;
-            matrizBordesPrewitt[0][2] =  1;
+            matrizBordesPrewitt[0][2] = -1;
 
-            matrizBordesPrewitt[1][0] = -1;
+            matrizBordesPrewitt[1][0] =  1;
             matrizBordesPrewitt[1][1] =  0;
-            matrizBordesPrewitt[1][2] =  1;
+            matrizBordesPrewitt[1][2] = -1;
 
-            matrizBordesPrewitt[2][0] = -1;
+            matrizBordesPrewitt[2][0] =  1;
             matrizBordesPrewitt[2][1] =  0;
-            matrizBordesPrewitt[2][2] =  1;
+            matrizBordesPrewitt[2][2] = -1;
         }
         else if (tipoBorde == TipoBorde.VERTICAL) {
 
@@ -57,6 +57,36 @@ public class TareaAplicarBordesPrewitt extends AsyncTask<Void, Void, int[][]> {
             matrizBordesPrewitt[1][2] = 0;
 
             matrizBordesPrewitt[2][0] = -1;
+            matrizBordesPrewitt[2][1] = -1;
+            matrizBordesPrewitt[2][2] = -1;
+        }
+        else if (tipoBorde == TipoBorde.DIAGONAL_DERECHA) {
+
+            matrizBordesPrewitt[0][0] = 0;
+            matrizBordesPrewitt[0][1] = 1;
+            matrizBordesPrewitt[0][2] = 1;
+
+            matrizBordesPrewitt[1][0] = -1;
+            matrizBordesPrewitt[1][1] = 0;
+            matrizBordesPrewitt[1][2] = 1;
+
+            matrizBordesPrewitt[2][0] = -1;
+            matrizBordesPrewitt[2][1] = -1;
+            matrizBordesPrewitt[2][2] = 0;
+
+
+        }
+        else if (tipoBorde == TipoBorde.DIAGONAL_IZQUIERDA) {
+
+            matrizBordesPrewitt[0][0] = 1;
+            matrizBordesPrewitt[0][1] = 1;
+            matrizBordesPrewitt[0][2] = 0;
+
+            matrizBordesPrewitt[1][0] = 1;
+            matrizBordesPrewitt[1][1] = 0;
+            matrizBordesPrewitt[1][2] = -1;
+
+            matrizBordesPrewitt[2][0] = 0;
             matrizBordesPrewitt[2][1] = -1;
             matrizBordesPrewitt[2][2] = -1;
         }
@@ -90,11 +120,5 @@ public class TareaAplicarBordesPrewitt extends AsyncTask<Void, Void, int[][]> {
     protected void onPostExecute(int[][] magnitudes) {
         super.onPostExecute(magnitudes);
         actividadBordes.bordesDetectados(magnitudes);
-    }
-
-    public enum TipoBorde {
-
-        VERTICAL,
-        HORIZONTAL
     }
 }

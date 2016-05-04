@@ -16,6 +16,7 @@ import java.io.File;
 
 import ar.edu.untref.procesamientoimagenes.R;
 import ar.edu.untref.procesamientoimagenes.modelo.Constante;
+import ar.edu.untref.procesamientoimagenes.modelo.TipoBorde;
 import ar.edu.untref.procesamientoimagenes.tareas.bordes.TareaAplicarBordesPrewitt;
 import ar.edu.untref.procesamientoimagenes.tareas.bordes.TareaAplicarBordesSobel;
 import butterknife.Bind;
@@ -66,25 +67,49 @@ public class ActividadBordes extends ActividadBasica {
     @OnClick(R.id.bordePrewittHorizontal)
     public void detectarBorderPrewittHorizontal() {
 
-        new TareaAplicarBordesPrewitt(this, bitmapOriginal, TareaAplicarBordesPrewitt.TipoBorde.HORIZONTAL).execute();
+        new TareaAplicarBordesPrewitt(this, bitmapOriginal, TipoBorde.HORIZONTAL).execute();
     }
 
     @OnClick(R.id.bordePrewittVertical)
     public void detectarBorderPrewittVertical() {
 
-        new TareaAplicarBordesPrewitt(this, bitmapOriginal, TareaAplicarBordesPrewitt.TipoBorde.VERTICAL).execute();
+        new TareaAplicarBordesPrewitt(this, bitmapOriginal, TipoBorde.VERTICAL).execute();
+    }
+
+    @OnClick(R.id.bordePrewittDiagonalDerecha)
+    public void detectarBorderPrewittDiagonalDerecha() {
+
+        new TareaAplicarBordesPrewitt(this, bitmapOriginal, TipoBorde.DIAGONAL_DERECHA).execute();
+    }
+
+    @OnClick(R.id.bordePrewittDiagonalIzquierda)
+    public void detectarBorderPrewittDiagonalIzquierda() {
+
+        new TareaAplicarBordesPrewitt(this, bitmapOriginal, TipoBorde.DIAGONAL_IZQUIERDA).execute();
     }
 
     @OnClick(R.id.bordeSobelHorizontal)
     public void detectarBorderSobelHorizontal() {
 
-        new TareaAplicarBordesSobel(this, bitmapOriginal, TareaAplicarBordesSobel.TipoBorde.HORIZONTAL).execute();
+        new TareaAplicarBordesSobel(this, bitmapOriginal, TipoBorde.HORIZONTAL).execute();
     }
 
     @OnClick(R.id.bordeSobelVertical)
     public void detectarBorderSobelVertical() {
 
-        new TareaAplicarBordesSobel(this, bitmapOriginal, TareaAplicarBordesSobel.TipoBorde.VERTICAL).execute();
+        new TareaAplicarBordesSobel(this, bitmapOriginal, TipoBorde.VERTICAL).execute();
+    }
+
+    @OnClick(R.id.bordeSobelDiagonalDerecha)
+    public void detectarBorderSobelDiagonalDerecha() {
+
+        new TareaAplicarBordesSobel(this, bitmapOriginal, TipoBorde.DIAGONAL_DERECHA).execute();
+    }
+
+    @OnClick(R.id.bordeSobelDiagonalIzquierda)
+    public void detectarBorderSobelDiagonalIzquierda() {
+
+        new TareaAplicarBordesSobel(this, bitmapOriginal, TipoBorde.DIAGONAL_IZQUIERDA).execute();
     }
 
     @Override
