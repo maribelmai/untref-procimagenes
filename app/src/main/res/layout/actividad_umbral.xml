@@ -99,6 +99,54 @@
                     android:layout_marginLeft="16dp"/>
             </RelativeLayout>
 
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical">
+
+                <TextView
+                    android:id="@+id/resultadoGlobal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Resultado"
+                    android:textStyle="bold"
+                    android:layout_marginBottom="16dp"
+                    android:layout_marginRight="16dp"/>
+
+                <TextView
+                    android:id="@+id/umbralizarGlobal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="UMBRAL GLOBAL"
+                    android:textStyle="bold"
+                    android:padding="8dp"
+                    android:textSize="10sp"
+                    android:background="@drawable/selector_boton"
+                    android:textColor="@android:color/white"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginLeft="300dp"
+                    android:layout_centerVertical="true"
+                    android:layout_toRightOf="@+id/muestraColor"/>
+
+                <TextView
+                    android:id="@+id/umbralGlobal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    tools:text="255"
+                    android:textSize="12sp"
+                    android:layout_toRightOf="@+id/umbralGlobal"
+                    android:layout_marginLeft="16dp"
+                    android:layout_centerVertical="true"/>
+
+                <View
+                    android:id="@+id/muestraColor"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_toRightOf="@+id/umbralSeleccionado"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="16dp"/>
+            </RelativeLayout>
+
             <ImageView
                 android:id="@+id/imagenUmbralizada"
                 android:layout_width="wrap_content"
