@@ -108,7 +108,7 @@
                     android:id="@+id/resultadoGlobal"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Resultado"
+                    android:text="@string/resultado_Global"
                     android:textStyle="bold"
                     android:layout_marginBottom="16dp"
                     android:layout_marginRight="16dp"/>
@@ -124,7 +124,7 @@
                     android:background="@drawable/selector_boton"
                     android:textColor="@android:color/white"
                     android:layout_marginTop="16dp"
-                    android:layout_marginLeft="300dp"
+                    android:layout_marginLeft="250dp"
                     android:layout_centerVertical="true"
                     android:layout_toRightOf="@+id/muestraColor"/>
 

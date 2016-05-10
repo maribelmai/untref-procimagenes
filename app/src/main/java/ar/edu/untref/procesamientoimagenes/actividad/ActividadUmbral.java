@@ -90,6 +90,7 @@ public class ActividadUmbral extends ActividadBasica {
         this.imagen = (File) getIntent().getSerializableExtra(Constante.EXTRA_IMAGEN);
         this.nombreImagen.setText(this.imagen.getName());
         getAplicacion().mostrarImagen(imagen, imageView);
+        this.resultadoGlobal.setText(getString(R.string.resultado_Global).replace("{umbralGlobal}",""));
     }
 
     @OnClick(R.id.umbralizar)
@@ -197,8 +198,7 @@ public class ActividadUmbral extends ActividadBasica {
             }
         }
         umbralizar(umbral);
-        //imagenUmbralizada.setImageBitmap(bitmap);
-        //return null;
+        this.resultadoGlobal.setText(getString(R.string.resultado_Global).replace("{umbralGlobal}", umbral.toString()));
     }
 
     @Override
