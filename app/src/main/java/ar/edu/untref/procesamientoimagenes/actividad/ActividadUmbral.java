@@ -196,7 +196,7 @@ public class ActividadUmbral extends ActividadBasica {
                 continuar = false;
             }
         }
-        umbralizar(mediaGrupoUno);
+        umbralizar(umbral);
         //imagenUmbralizada.setImageBitmap(bitmap);
         //return null;
     }
