@@ -57,6 +57,9 @@ public class ActividadUmbral extends ActividadBasica {
     @Bind(R.id.resultadoGlobal)
     TextView resultadoGlobal;
 
+    @Bind(R.id.resultadoOtsu)
+    TextView resultadoOtsu;
+
     private File imagen;
     private SeekBar.OnSeekBarChangeListener valorSeleccionado = new SeekBar.OnSeekBarChangeListener() {
         @Override
@@ -91,6 +94,7 @@ public class ActividadUmbral extends ActividadBasica {
         this.nombreImagen.setText(this.imagen.getName());
         getAplicacion().mostrarImagen(imagen, imageView);
         this.resultadoGlobal.setText(getString(R.string.resultado_Global).replace("{umbralGlobal}",""));
+        this.resultadoOtsu.setText(getString(R.string.resultado_Otsu).replace("{umbralOtsu}",""));
     }
 
     @OnClick(R.id.umbralizar)
@@ -200,7 +204,60 @@ public class ActividadUmbral extends ActividadBasica {
             }
         }
         umbralizar(umbral);
-        this.resultadoGlobal.setText(getString(R.string.resultado_Global).replace("{umbralGlobal}", umbral.toString()+". Cantidad de Iteraciones: " + cantidadIteraciones.toString()));
+        this.resultadoGlobal.setText(getString(R.string.resultado_Global).replace("{umbralGlobal}", umbral.toString()+" Cantidad de Iteraciones: " + cantidadIteraciones.toString()));
+    }
+
+
+    @OnClick(R.id.umbralizarOtsu)
+    public void umbralizarOtsu() {
+
+        Bitmap bitmap1 = ((BitmapDrawable) imageView.getDrawable()).getBitmap();
+        List<Integer> pixelesGrupoUno = new ArrayList<>();
+        List<Integer> pixelesGrupoDos = new ArrayList<>();
+        Integer umbral= 128;
+        int numeroAux=0 ;
+        int mediaGrupoUno= 0;
+        int mediaGrupoDos= 0;
+        Integer cantidadIteraciones=0;
+
+        boolean continuar= true;
+
+        while (continuar){
+            cantidadIteraciones= cantidadIteraciones +1;
+            for (int x = 0; x < bitmap1.getWidth(); x++) {
+                for (int y = 0; y < bitmap1.getHeight(); y++) {
+
+                    Integer valorPixelBitmap1 = Color.red(bitmap1.getPixel(x, y));
+                    if(valorPixelBitmap1 >= umbral) {
+                        pixelesGrupoUno.add(valorPixelBitmap1);
+                    }
+                    else {
+                        pixelesGrupoDos.add(valorPixelBitmap1);
+                    }
+
+                }
+            }
+
+            numeroAux=0;
+            for (int i=0; i<pixelesGrupoUno.size();i++){
+                numeroAux= numeroAux + pixelesGrupoUno.get(i);
+            }
+
+            mediaGrupoUno= numeroAux /pixelesGrupoDos.size();
+            numeroAux=0;
+            for (int i=0; i<pixelesGrupoDos.size();i++){
+                numeroAux= numeroAux + pixelesGrupoDos.get(i);
+            }
+            mediaGrupoDos= numeroAux /pixelesGrupoDos.size();
+
+            int umbralAnterior= umbral;
+            umbral=( mediaGrupoUno + mediaGrupoDos)/2;
+            if (umbralAnterior==umbral) {
+                continuar = false;
+            }
+        }
+        umbralizar(umbral);
+        this.resultadoOtsu.setText(getString(R.string.resultado_Otsu).replace("{umbralOtsu}", umbral.toString()+" Cantidad de Iteraciones: " + cantidadIteraciones.toString()));
     }
 
     @Override
