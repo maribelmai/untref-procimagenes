@@ -15,7 +15,7 @@
     <string name="aceptar">Aceptar</string>
     <string name="cancelar">Cancelar</string>
     <string name="resultado_operacion">RESULTADO {operacion}</string>
-    <string name="resultado_Global">RESULTADO UMBRAL: {umbralGlobal}</string>
+    <string name="resultado_Global">RESULTADO GLOBAL: {umbralGlobal}</string>
     <string name="resultado_Otsu">RESULTADO OTSU: {umbralOtsu}</string>
     <string name="multiplicacion_por_escalar">Multiplicación por un escalar</string>
     <string name="umbralizar">Umbralizar</string>

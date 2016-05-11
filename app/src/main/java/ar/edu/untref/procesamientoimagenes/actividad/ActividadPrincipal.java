@@ -75,6 +75,8 @@ public class ActividadPrincipal extends ActividadBasica {
             copiarRaw(R.raw.radiografia_dental, directorio.getAbsolutePath() + "/radiografia_dental.jpg");
             copiarRaw(R.raw.lena_color, directorio.getAbsolutePath() + "/lena_color.jpg");
             copiarRaw(R.raw.herramientas, directorio.getAbsolutePath() + "/herramientas.png");
+            copiarRaw(R.raw.mateovalengray, directorio.getAbsolutePath() + "/mateovalengray.png");
+            copiarRaw(R.raw.mateovalengraysinbordes, directorio.getAbsolutePath() + "/mateovalengraysinbordes.png");
 
             FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
             fragmentTransaction.replace(R.id.listaArchivosPlaceholder, fragmentoListaArchivos);
