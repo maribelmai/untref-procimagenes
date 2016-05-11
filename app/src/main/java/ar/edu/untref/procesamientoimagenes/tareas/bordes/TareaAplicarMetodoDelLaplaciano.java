@@ -26,7 +26,7 @@ public class TareaAplicarMetodoDelLaplaciano extends AsyncTask<Void, Void, Bitma
     protected Bitmap doInBackground(Void... params) {
 
         int[][] matrizGradiente = generarMatrizGradientes();
-        return Operacion.obtenerBitmapDesdeMagnitudes(bitmapOriginal, matrizGradiente);
+        return Operacion.hacerTransformacionLineal(matrizGradiente);
     }
 
     private int[][] generarMatrizGradientes() {
