@@ -14,11 +14,13 @@ public class TareaAplicarMetodoDelLaplacianoConEvaluacionDePendiente extends Asy
 
     private ActividadBordes actividadBordes;
     private Bitmap bitmapOriginal;
+    private int pendiente;
 
-    public TareaAplicarMetodoDelLaplacianoConEvaluacionDePendiente(ActividadBordes actividadBordes, Bitmap bitmapOriginal) {
+    public TareaAplicarMetodoDelLaplacianoConEvaluacionDePendiente(ActividadBordes actividadBordes, Bitmap bitmapOriginal, int pendiente) {
 
         this.actividadBordes = actividadBordes;
         this.bitmapOriginal = bitmapOriginal;
+        this.pendiente = pendiente;
     }
 
     @Override
@@ -33,7 +35,7 @@ public class TareaAplicarMetodoDelLaplacianoConEvaluacionDePendiente extends Asy
         for (int i = 0; i < bitmapOriginal.getWidth(); i++) {
             for (int j = 0; j < bitmapOriginal.getHeight(); j++) {
 
-                if (Operacion.hayCambioDeSignoPorFila(matrizGradiente, i, j)) {
+                if (Operacion.hayCambioDeSignoPorFila(matrizGradiente, i, j, pendiente) || Operacion.hayCambioDeSignoPorColumna(matrizGradiente, i, j, pendiente)) {
                     matrizCrucePorCero[i][j] = 255;
                 } else {
                     matrizCrucePorCero[i][j] = 0;

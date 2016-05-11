@@ -32,17 +32,8 @@ public class TareaAplicarMetodoDelLaplacianoDelGaussiano extends AsyncTask<Void,
         //Genero la máscara en base a la fórmula del Laplaciano del Gaussiano
         int tamanioMascara = sigma < 1 ? 5 : (int) ((3 * sigma) + 1);
 
-        double[][] mascaraLoG = new double[tamanioMascara][tamanioMascara];
-        int posicionCentralMascara = tamanioMascara/2;
-
-        for (int x = 0; x < tamanioMascara; x++) {
-
-            for (int y = 0; y < tamanioMascara; y++) {
-                mascaraLoG[x][y] = obtenerLoG(x,y, posicionCentralMascara);
-                System.out.print(mascaraLoG[x][y]);
-            }
-            System.out.println("");
-        }
+        double[][] mascaraLoG = generarMascaraLaplacianoDelGaussiano();
+        int posicionCentralMascara = mascaraLoG.length / 2;
 
         //Paso la máscara
 
@@ -64,52 +55,43 @@ public class TareaAplicarMetodoDelLaplacianoDelGaussiano extends AsyncTask<Void,
                 }
 
                 int valorEntero = (int) valorResultado;
-                matrizPixelesLoG[x][y] = Color.rgb(valorEntero, valorEntero, valorEntero);
+                matrizPixelesLoG[x][y] = valorEntero;
             }
         }
 
-        //Pinto los bordes negros
+        Bitmap bitmap = Bitmap.createBitmap(bitmapOriginal.getWidth(), bitmapOriginal.getHeight(), Bitmap.Config.RGB_565);
+
         for (int x = 0; x < bitmapOriginal.getWidth(); x++) {
-            for (int y = 0 ; y < bitmapOriginal.getHeight(); y ++) {
+            for (int y = 0; y < bitmapOriginal.getHeight(); y++) {
 
-                if (x < posicionCentralMascara || x >= bitmapOriginal.getWidth() - posicionCentralMascara
-                        || y < posicionCentralMascara || y >= bitmapOriginal.getHeight() - posicionCentralMascara) {
-                    matrizPixelesLoG[x][y] = Color.rgb(0, 0, 0);
-                }
-            }
-        }
-
-        //Busco los cruces por cero
-        int[][] matrizCrucePorCero = new int[bitmapOriginal.getWidth()][bitmapOriginal.getHeight()];
-        Bitmap mutableBitmap = bitmapOriginal.copy(Bitmap.Config.RGB_565, true);
-
-        for (int i = 0; i < bitmapOriginal.getWidth(); i++) {
-            for (int j = 0; j < bitmapOriginal.getHeight(); j++) {
-
-                if (Operacion.hayCambioDeSignoPorFila(matrizPixelesLoG, i, j)) {
-                    matrizCrucePorCero[i][j] = 255;
+                if (Operacion.hayCambioDeSignoPorFila(matrizPixelesLoG, x, y) || Operacion.hayCambioDeSignoPorColumna(matrizPixelesLoG,x,y)) {
+                    bitmap.setPixel(x,y,Color.WHITE);
                 } else {
-                    matrizCrucePorCero[i][j] = 0;
+                    bitmap.setPixel(x,y,Color.BLACK);
                 }
-
-                int alpha = Color.alpha(bitmapOriginal.getPixel(i,j));
-                int colorPixel = matrizCrucePorCero[i][j];
-                mutableBitmap.setPixel(i, j, Color.argb(alpha, colorPixel, colorPixel, colorPixel));
             }
         }
 
-        return mutableBitmap;
+        return bitmap;
     }
 
-    private double obtenerLoG(int x, int y, int posicionCentralMascara) {
+    private double[][] generarMascaraLaplacianoDelGaussiano() {
 
-        int xEnMascara = x-posicionCentralMascara;
-        int yEnMascara = y-posicionCentralMascara;
+        int posibleTamanio = (int) ((3 * sigma) % 2 == 0 ?  3 * sigma : (3 * sigma) + 1);
+        int tamanioMascara = sigma < 1 ? 5 : posibleTamanio + 1;
+        double[][] matrizDeLaplacianoDelGaussiano = new double[tamanioMascara][tamanioMascara];
 
-        return (-1) *
-                ( 1 / (Math.sqrt( 2 * Math.PI) * Math.pow(sigma, 3))) *
-                ( 2 - ((Math.pow(xEnMascara, 2) + Math.pow(yEnMascara, 2)) / Math.pow(sigma, 2))) *
-                Math.exp(-((Math.pow(xEnMascara,2) + Math.pow(yEnMascara,2))/(2 * Math.pow(sigma,2)))) ;
+        double primerTermino = -1.0 * (Math.sqrt(2 * Math.PI) * Math.pow(sigma, 3.0));
+
+        for (int x = 0; x < tamanioMascara; x++) {
+            for (int y = 0; y < tamanioMascara; y++) {
+
+                double segundoTermino = (Math.pow(x, 2.0) + Math.pow(y, 2.0)) / Math.pow(sigma, 2.0);
+                matrizDeLaplacianoDelGaussiano[x][y] = primerTermino * (2 - segundoTermino) * Math.exp((-0.5) * segundoTermino);
+            }
+        }
+
+        return matrizDeLaplacianoDelGaussiano;
     }
 
     @Override
