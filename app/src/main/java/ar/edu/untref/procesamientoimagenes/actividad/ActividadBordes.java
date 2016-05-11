@@ -1,12 +1,16 @@
 package ar.edu.untref.procesamientoimagenes.actividad;
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -253,7 +257,37 @@ public class ActividadBordes extends ActividadBasica {
         if (!isFinishing()) {
             this.progressDialog.show();
         }
-        new TareaAplicarMetodoDelLaplacianoConEvaluacionDePendiente(this, bitmapOriginal).execute();
+        new TareaAplicarMetodoDelLaplacianoConEvaluacionDePendiente(this, bitmapOriginal, 0).execute();
+    }
+
+    @OnClick(R.id.bordeMetodoDelLaplacianoEvaluacionPendiente)
+    public void detectarBordeMetodoLaplacianoEvaluacionPendiente() {
+
+        View view = LayoutInflater.from(this).inflate(R.layout.view_seleccion_valor, null);
+        final EditText inputEscalar = (EditText) view.findViewById(R.id.valor);
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setView(view);
+        builder.setTitle("Evaluación de la pendiente");
+        builder.setPositiveButton(R.string.aceptar, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+                String valorIngresado = inputEscalar.getText().toString();
+                Integer valorEntero = Integer.valueOf(valorIngresado);
+
+                if (!isFinishing()) {
+                    progressDialog.show();
+                }
+                new TareaAplicarMetodoDelLaplacianoConEvaluacionDePendiente(ActividadBordes.this, bitmapOriginal, valorEntero).execute();
+            }
+        });
+        builder.setNegativeButton(R.string.cancelar, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+            }
+        });
+        builder.show();
     }
 
     @OnClick(R.id.bordeMetodoDelLaplacianoDelGaussiano)
