@@ -5,9 +5,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
-import android.graphics.Point;
 import android.graphics.drawable.BitmapDrawable;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.util.Log;
@@ -19,15 +17,12 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 import java.io.File;
-import java.util.ArrayList;
 import java.util.List;
 
 import ar.edu.untref.procesamientoimagenes.R;
 import ar.edu.untref.procesamientoimagenes.modelo.Constante;
 import butterknife.Bind;
 import butterknife.OnClick;
-
-import static ar.edu.untref.procesamientoimagenes.R.id.umbralizarGlobal;
 
 /**
  * Created by maribel on 4/6/16.
@@ -160,15 +155,14 @@ public class ActividadUmbral extends ActividadBasica {
     @OnClick(R.id.umbralizarGlobal)
     public void umbralizarGlobal() {
 
-        int deltaPermitido=1;
         Bitmap bitmap1 = ((BitmapDrawable) imageView.getDrawable()).getBitmap();
         int cantidadDePixeles= bitmap1.getWidth() * bitmap1.getHeight();
-        int umbral= 128;
+        int[] histograma= calcularHistograma(bitmap1);
+        int umbral= calcularPromedioUmbral(histograma);
+
         float mediaGrupoUno= 0;
         float mediaGrupoDos= 0;
         Integer cantidadIteraciones=0;
-        int[] histograma= calcularCantidades(bitmap1);
-
         boolean continuar= true;
 
         while (continuar){
@@ -199,6 +193,21 @@ public class ActividadUmbral extends ActividadBasica {
         }
         umbralizar(umbral);
         this.resultadoGlobal.setText(getString(R.string.resultado_Global).replace("{umbralGlobal}", String.valueOf(umbral)+" Cantidad de Iteraciones: " + cantidadIteraciones.toString()));
+    }
+
+    private int calcularPromedioUmbral(int[] histograma) {
+
+        int cantidadPixeles=0;
+        int acumuladoColor=0;
+        int mediaGrupo=0;
+
+        for (int i=0; i< 256;i++){
+            cantidadPixeles= cantidadPixeles + histograma[i];
+            acumuladoColor= acumuladoColor+( histograma[i]*i);
+        }
+
+        mediaGrupo= acumuladoColor/ cantidadPixeles;
+        return mediaGrupo;
     }
 
     @OnClick(R.id.umbralizarOtsu)
@@ -257,14 +266,18 @@ public class ActividadUmbral extends ActividadBasica {
     private float[] calcularProbabilidades(Bitmap bitmap) {
 
         int cantidadTotalPixeles= bitmap.getHeight() * bitmap.getWidth();
+        int cantidadTotalPixeles2=0;
         float [] probabilidadPorColor = new float[256];
+
+        // Calculo el histograma, pero en float
         for (int x = 0; x < bitmap.getWidth() ; x++) {
             for (int y = 0; y < bitmap.getHeight(); y++) {
                 int valorGris = Color.red(bitmap.getPixel(x,y));
                 probabilidadPorColor[valorGris] ++;
+                cantidadTotalPixeles2 ++;
             }
         }
-
+        // Divido el histograma por la cantidad total de pixeles
         for (int i = 0; i < 256 ; i++) {
             float aux= probabilidadPorColor[i] / cantidadTotalPixeles;
             probabilidadPorColor[i]= aux;
@@ -272,18 +285,18 @@ public class ActividadUmbral extends ActividadBasica {
         return probabilidadPorColor;
     }
 
-    private int[] calcularCantidades(Bitmap bitmap) {
+    private int[] calcularHistograma(Bitmap bitmap) {
 
-        int[] probabilidadPorColor = new int[256];
+        int[] histograma = new int[256];
         for (int x = 0; x < bitmap.getWidth() ; x++) {
 
             for (int y = 0; y < bitmap.getHeight(); y++) {
 
                 int valorGris = Color.red(bitmap.getPixel(x,y));
-                probabilidadPorColor[valorGris] ++;
+                histograma[valorGris] ++;
             }
         }
-        return probabilidadPorColor;
+        return histograma;
     }
 
 
