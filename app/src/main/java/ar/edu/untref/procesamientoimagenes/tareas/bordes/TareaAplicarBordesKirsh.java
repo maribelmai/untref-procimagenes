@@ -31,7 +31,7 @@ public class TareaAplicarBordesKirsh extends AsyncTask<Void, Void, Bitmap> {
         if (tipoBorde != TipoBorde.COMPLETO) {
 
             int[][] matrizGradiente = generarMatrizGradientes(tipoBorde);
-            return Operacion.obtenerBitmapDesdeMagnitudes(bitmapOriginal, matrizGradiente);
+            return Operacion.hacerTransformacionLineal(matrizGradiente);
         }
         else {
 
@@ -40,16 +40,16 @@ public class TareaAplicarBordesKirsh extends AsyncTask<Void, Void, Bitmap> {
             int[][] matrizGradienteDiagonalDerecha = generarMatrizGradientes(TipoBorde.DIAGONAL_DERECHA);
             int[][] matrizGradienteDiagonalIzquierda = generarMatrizGradientes(TipoBorde.DIAGONAL_IZQUIERDA);
 
-            Bitmap horizontal = Operacion.obtenerBitmapDesdeMagnitudes(bitmapOriginal, matrizGradienteHorizontal);
-            Bitmap vertical = Operacion.obtenerBitmapDesdeMagnitudes(bitmapOriginal, matrizGradienteVertical);
+            Bitmap horizontal = Operacion.hacerTransformacionLineal(matrizGradienteHorizontal);
+            Bitmap vertical = Operacion.hacerTransformacionLineal(matrizGradienteVertical);
             Bitmap suma = Operacion.sumar(horizontal, vertical);
             horizontal.recycle();
             vertical.recycle();
 
-            Bitmap diagonalDerecha = Operacion.obtenerBitmapDesdeMagnitudes(bitmapOriginal, matrizGradienteDiagonalDerecha);
+            Bitmap diagonalDerecha = Operacion.hacerTransformacionLineal(matrizGradienteDiagonalDerecha);
             suma = Operacion.sumar(suma, diagonalDerecha);
 
-            Bitmap diagonalIzquierda = Operacion.obtenerBitmapDesdeMagnitudes(bitmapOriginal, matrizGradienteDiagonalIzquierda);
+            Bitmap diagonalIzquierda = Operacion.hacerTransformacionLineal(matrizGradienteDiagonalIzquierda);
             suma = Operacion.sumar(suma, diagonalIzquierda);
             return suma;
         }

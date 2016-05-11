@@ -8,6 +8,8 @@ import android.graphics.Color;
  */
 public class Operacion {
 
+    private static final String TAG = Operacion.class.getSimpleName();
+
     public static Bitmap sumar (Bitmap bitmap1, Bitmap bitmap2) {
 
         int[][] matrizPixeles = new int[bitmap1.getWidth()][bitmap2.getHeight()];
@@ -69,47 +71,6 @@ public class Operacion {
         return bitmap;
     }
 
-    public static Bitmap obtenerBitmapDesdeMagnitudes(Bitmap bitmapOriginal, int[][] magnitudes) {
-
-        int ancho = magnitudes.length;
-        int alto = magnitudes[0].length;
-
-        int minimo = Integer.MAX_VALUE;
-        int maximo = Integer.MIN_VALUE;
-
-        for (int x = 0; x < ancho; x++) {
-            for (int y = 0; y < alto; y++) {
-
-                int valorActual = magnitudes[x][y];
-
-                if (minimo > valorActual) {
-                    minimo = valorActual;
-                }
-
-                if (maximo < valorActual) {
-                    maximo = valorActual;
-                }
-            }
-        }
-
-        Bitmap mutableBitmap = bitmapOriginal.copy(Bitmap.Config.RGB_565, true);
-
-        for (int i = 1; i < mutableBitmap.getWidth() - 1; i++) {
-            for (int j = 1; j < mutableBitmap.getHeight() - 1; j++) {
-                int nuevoPixel = getPixelTransformado(maximo, minimo, magnitudes[i][j]);
-                mutableBitmap.setPixel(i, j, Color.rgb(nuevoPixel, nuevoPixel, nuevoPixel));
-            }
-        }
-
-        return mutableBitmap;
-    }
-
-    public static int getPixelTransformado(int grisMax, int grisMin, int grisActual) {
-
-        int grisTransformado = (int) ((((255f) / (grisMax - grisMin)) * grisActual) - ((grisMin * 255f) / (grisMax - grisMin)));
-        return grisTransformado;
-    }
-
     public static boolean hayCambioDeSignoPorFila(int[][] matriz, int x, int y) {
 
         boolean hayCambio = false;
@@ -127,5 +88,23 @@ public class Operacion {
                     || (valorAnterior > 0 && valorActual < 0);
         }
         return hayCambio;
+    }
+
+    public static Bitmap obtenerBitmapMagnitudGradiente(int[][] horizontal, int[][] vertical) {
+
+        int ancho = horizontal.length;
+        int alto = horizontal[0].length;
+
+        int[][] magnitudes = new int[ancho][alto];
+
+        for (int x = 0; x < ancho; x++) {
+            for (int y = 0; y < alto; y++) {
+
+                int magnitud = (int) Math.sqrt(Math.pow(horizontal[x][y], 2) + Math.pow(vertical[x][y], 2));
+                magnitudes[x][y] = magnitud;
+            }
+        }
+
+        return hacerTransformacionLineal(magnitudes);
     }
 }
