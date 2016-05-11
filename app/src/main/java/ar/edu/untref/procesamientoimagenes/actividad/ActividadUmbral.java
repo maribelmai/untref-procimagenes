@@ -160,40 +160,40 @@ public class ActividadUmbral extends ActividadBasica {
     @OnClick(R.id.umbralizarGlobal)
     public void umbralizarGlobal() {
 
+        int deltaPermitido=1;
         Bitmap bitmap1 = ((BitmapDrawable) imageView.getDrawable()).getBitmap();
         int cantidadDePixeles= bitmap1.getWidth() * bitmap1.getHeight();
-        List<Integer> pixelesGrupoUno = new ArrayList<>();
-        List<Integer> pixelesGrupoDos = new ArrayList<>();
         int umbral= 128;
-        int mediaGrupoUno= 0;
-        int mediaGrupoDos= 0;
+        float mediaGrupoUno= 0;
+        float mediaGrupoDos= 0;
         Integer cantidadIteraciones=0;
         int[] histograma= calcularCantidades(bitmap1);
 
         boolean continuar= true;
 
         while (continuar){
-            int cantidadColorGrupo1=0 ;
-            int cantidadColorGrupo2=0 ;
+            int cantidadPixelesGrupo1=0 ;
+            int cantidadPixelesGrupo2=0 ;
             int acumuladoColorGrupo1= 0;
             int acumuladoColorGrupo2= 0;
 
             cantidadIteraciones= cantidadIteraciones +1;
             for (int i = 0; i <=umbral; i++) {
-                cantidadColorGrupo1= cantidadColorGrupo1 + histograma[i];
+                cantidadPixelesGrupo1= cantidadPixelesGrupo1 + histograma[i];
                 acumuladoColorGrupo1= acumuladoColorGrupo1+( histograma[i]*i);
             }
 
             for (int i=umbral+1; i< 256;i++){
-                cantidadColorGrupo2= cantidadColorGrupo2 + histograma[i];
+                cantidadPixelesGrupo2= cantidadPixelesGrupo2 + histograma[i];
                 acumuladoColorGrupo2= acumuladoColorGrupo2+( histograma[i]*i);
             }
 
-            mediaGrupoUno= acumuladoColorGrupo1/ cantidadColorGrupo1;
-            mediaGrupoDos= acumuladoColorGrupo2/ cantidadColorGrupo2;
+            mediaGrupoUno= acumuladoColorGrupo1/ cantidadPixelesGrupo1;
+            mediaGrupoDos= acumuladoColorGrupo2/ cantidadPixelesGrupo2;
             int umbralAnterior= umbral;
-            umbral=( mediaGrupoUno + mediaGrupoDos)/2;
-            if (umbralAnterior==umbral) {
+            umbral=(int)( mediaGrupoUno + mediaGrupoDos)/2;
+            //if ((umbralAnterior==umbral) | ((umbralAnterior-umbral)<= 1) | ((umbral-umbralAnterior)<= 1)) {
+            if ((umbralAnterior==umbral)) {
                 continuar = false;
             }
         }
