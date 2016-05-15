@@ -159,6 +159,7 @@ public class ActividadUmbral extends ActividadBasica {
         int cantidadDePixeles= bitmap1.getWidth() * bitmap1.getHeight();
         int[] histograma= calcularHistograma(bitmap1);
         int umbral= calcularPromedioUmbral(histograma);
+        //int umbral= 128;
 
         float mediaGrupoUno= 0;
         float mediaGrupoDos= 0;
@@ -186,8 +187,10 @@ public class ActividadUmbral extends ActividadBasica {
             mediaGrupoDos= acumuladoColorGrupo2/ cantidadPixelesGrupo2;
             int umbralAnterior= umbral;
             umbral=(int)( mediaGrupoUno + mediaGrupoDos)/2;
-            //if ((umbralAnterior==umbral) | ((umbralAnterior-umbral)<= 1) | ((umbral-umbralAnterior)<= 1)) {
-            if ((umbralAnterior==umbral)) {
+            int aux1= Math.abs(umbralAnterior-umbral);
+            int aux2= Math.abs(umbral-umbralAnterior);
+            if ((umbralAnterior==umbral) || (Math.abs(umbralAnterior-umbral)<= 1)) {
+            //if ((umbralAnterior==umbral)) {
                 continuar = false;
             }
         }
