@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_weight="1"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
+    android:descendantFocusability="beforeDescendants">
+
+    <ScrollView
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="0.7"
+        android:fillViewport="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/nombreImagen"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="ppp.png"
+                android:textStyle="bold"
+                android:padding="16dp"
+                android:layout_marginTop="16dp"/>
+
+            <ImageView
+                android:id="@+id/imagen"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:adjustViewBounds="true"
+                android:layout_gravity="center"
+                android:layout_marginTop="16dp"/>
+
+            <TextView
+                android:id="@+id/deteccionFinalizada"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:visibility="invisible"
+                android:text="Detección finalizada. Seleccione un umbral para mostrar los bordes."/>
+        </LinearLayout>
+
+    </ScrollView>
+
+    <View
+        android:layout_width="0.5dp"
+        android:layout_height="match_parent"
+        android:background="@color/grisClaro"/>
+
+
+    <ScrollView
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="0.3">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <EditText
+                android:id="@+id/sigma"
+                android:hint="Sigma"
+                android:inputType="numberDecimal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <EditText
+                android:id="@+id/repeticiones"
+                android:hint="# de repeticiones"
+                android:inputType="number"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:id="@+id/isotropica"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="DIFUSIÓN ISOTRÓPICA"
+                android:textStyle="bold"
+                android:padding="8dp"
+                android:textSize="10sp"
+                android:background="@drawable/selector_boton"
+                android:textColor="@android:color/white"
+                android:layout_marginTop="16dp"
+                android:layout_marginRight="16dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true" />
+
+            <TextView
+                android:id="@+id/anisotropica"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="DIFUSIÓN ANISOTRÓPICA"
+                android:textStyle="bold"
+                android:padding="8dp"
+                android:textSize="10sp"
+                android:background="@drawable/selector_boton"
+                android:textColor="@android:color/white"
+                android:layout_marginTop="16dp"
+                android:layout_marginRight="16dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true" />
+        </LinearLayout>
+
+    </ScrollView>
+</LinearLayout>

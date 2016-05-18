@@ -97,6 +97,6 @@ public class TareaAplicarMetodoDelLaplacianoDelGaussiano extends AsyncTask<Void,
     @Override
     protected void onPostExecute(Bitmap bitmap) {
         super.onPostExecute(bitmap);
-        actividadBordes.bordesDetectados(bitmap);
+        actividadBordes.bordesDetectados(bitmap, null);
     }
 }

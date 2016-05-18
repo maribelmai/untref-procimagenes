@@ -5,6 +5,7 @@ import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -13,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.SeekBar;
 import android.widget.TextView;
 
 import java.io.File;
@@ -46,6 +48,18 @@ public class ActividadBordes extends ActividadBasica {
 
     @Bind(R.id.sigma)
     EditText sigma;
+
+    @Bind(R.id.layoutImagenUmbralizada)
+    View layoutImagenUmbralizada;
+
+    @Bind(R.id.imagenUmbralizada)
+    ImageView imagenUmbralizada;
+
+    @Bind(R.id.deteccionFinalizada)
+    View deteccionFinalizada;
+
+    @Bind(R.id.seleccionUmbralSeekbar)
+    SeekBar seleccionarUmbralSeekBar;
 
     private Bitmap bitmapOriginal;
     private ProgressDialog progressDialog;
@@ -81,6 +95,7 @@ public class ActividadBordes extends ActividadBasica {
         if (!isFinishing()) {
             this.progressDialog.show();
         }
+        ocultarImagenUmbralizada();
         new TareaAplicarBordesPrewitt(this, bitmapOriginal, TipoBorde.COMPLETO).execute();
     }
 
@@ -90,6 +105,7 @@ public class ActividadBordes extends ActividadBasica {
         if (!isFinishing()) {
             this.progressDialog.show();
         }
+        ocultarImagenUmbralizada();
         new TareaAplicarBordesPrewitt(this, bitmapOriginal, TipoBorde.HORIZONTAL).execute();
     }
 
@@ -99,6 +115,7 @@ public class ActividadBordes extends ActividadBasica {
         if (!isFinishing()) {
             this.progressDialog.show();
         }
+        ocultarImagenUmbralizada();
         new TareaAplicarBordesPrewitt(this, bitmapOriginal, TipoBorde.VERTICAL).execute();
     }
 
@@ -108,6 +125,7 @@ public class ActividadBordes extends ActividadBasica {
         if (!isFinishing()) {
             this.progressDialog.show();
         }
+        ocultarImagenUmbralizada();
         new TareaAplicarBordesPrewitt(this, bitmapOriginal, TipoBorde.DIAGONAL_DERECHA).execute();
     }
 
@@ -117,6 +135,7 @@ public class ActividadBordes extends ActividadBasica {
         if (!isFinishing()) {
             this.progressDialog.show();
         }
+        ocultarImagenUmbralizada();
         new TareaAplicarBordesPrewitt(this, bitmapOriginal, TipoBorde.DIAGONAL_IZQUIERDA).execute();
     }
 
@@ -127,6 +146,7 @@ public class ActividadBordes extends ActividadBasica {
         if (!isFinishing()) {
             this.progressDialog.show();
         }
+        ocultarImagenUmbralizada();
         new TareaAplicarBordesSobel(this, bitmapOriginal, TipoBorde.COMPLETO).execute();
     }
 
@@ -136,6 +156,7 @@ public class ActividadBordes extends ActividadBasica {
         if (!isFinishing()) {
             this.progressDialog.show();
         }
+        ocultarImagenUmbralizada();
         new TareaAplicarBordesSobel(this, bitmapOriginal, TipoBorde.HORIZONTAL).execute();
     }
 
@@ -145,6 +166,7 @@ public class ActividadBordes extends ActividadBasica {
         if (!isFinishing()) {
             this.progressDialog.show();
         }
+        ocultarImagenUmbralizada();
         new TareaAplicarBordesSobel(this, bitmapOriginal, TipoBorde.VERTICAL).execute();
     }
 
@@ -154,6 +176,7 @@ public class ActividadBordes extends ActividadBasica {
         if (!isFinishing()) {
             this.progressDialog.show();
         }
+        ocultarImagenUmbralizada();
         new TareaAplicarBordesSobel(this, bitmapOriginal, TipoBorde.DIAGONAL_DERECHA).execute();
     }
 
@@ -163,6 +186,7 @@ public class ActividadBordes extends ActividadBasica {
         if (!isFinishing()) {
             this.progressDialog.show();
         }
+        ocultarImagenUmbralizada();
         new TareaAplicarBordesSobel(this, bitmapOriginal, TipoBorde.DIAGONAL_IZQUIERDA).execute();
     }
 
@@ -173,6 +197,7 @@ public class ActividadBordes extends ActividadBasica {
         if (!isFinishing()) {
             this.progressDialog.show();
         }
+        ocultarImagenUmbralizada();
         new TareaAplicarBordesKirsh(this, bitmapOriginal, TipoBorde.HORIZONTAL).execute();
     }
 
@@ -182,6 +207,7 @@ public class ActividadBordes extends ActividadBasica {
         if (!isFinishing()) {
             this.progressDialog.show();
         }
+        ocultarImagenUmbralizada();
         new TareaAplicarBordesKirsh(this, bitmapOriginal, TipoBorde.VERTICAL).execute();
     }
 
@@ -191,6 +217,7 @@ public class ActividadBordes extends ActividadBasica {
         if (!isFinishing()) {
             this.progressDialog.show();
         }
+        ocultarImagenUmbralizada();
         new TareaAplicarBordesKirsh(this, bitmapOriginal, TipoBorde.DIAGONAL_DERECHA).execute();
     }
 
@@ -200,6 +227,7 @@ public class ActividadBordes extends ActividadBasica {
         if (!isFinishing()) {
             this.progressDialog.show();
         }
+        ocultarImagenUmbralizada();
         new TareaAplicarBordesKirsh(this, bitmapOriginal, TipoBorde.DIAGONAL_IZQUIERDA).execute();
     }
 
@@ -210,6 +238,7 @@ public class ActividadBordes extends ActividadBasica {
         if (!isFinishing()) {
             this.progressDialog.show();
         }
+        ocultarImagenUmbralizada();
         new TareaAplicarBordesGenerico(this, bitmapOriginal, TipoBorde.HORIZONTAL).execute();
     }
 
@@ -219,6 +248,7 @@ public class ActividadBordes extends ActividadBasica {
         if (!isFinishing()) {
             this.progressDialog.show();
         }
+        ocultarImagenUmbralizada();
         new TareaAplicarBordesGenerico(this, bitmapOriginal, TipoBorde.VERTICAL).execute();
     }
 
@@ -228,6 +258,7 @@ public class ActividadBordes extends ActividadBasica {
         if (!isFinishing()) {
             this.progressDialog.show();
         }
+        ocultarImagenUmbralizada();
         new TareaAplicarBordesGenerico(this, bitmapOriginal, TipoBorde.DIAGONAL_DERECHA).execute();
     }
 
@@ -237,6 +268,7 @@ public class ActividadBordes extends ActividadBasica {
         if (!isFinishing()) {
             this.progressDialog.show();
         }
+        ocultarImagenUmbralizada();
         new TareaAplicarBordesGenerico(this, bitmapOriginal, TipoBorde.DIAGONAL_IZQUIERDA).execute();
     }
 
@@ -248,6 +280,7 @@ public class ActividadBordes extends ActividadBasica {
         if (!isFinishing()) {
             this.progressDialog.show();
         }
+        ocultarImagenUmbralizada();
         new TareaAplicarMetodoDelLaplaciano(this, bitmapOriginal).execute();
     }
 
@@ -257,6 +290,7 @@ public class ActividadBordes extends ActividadBasica {
         if (!isFinishing()) {
             this.progressDialog.show();
         }
+        ocultarImagenUmbralizada();
         new TareaAplicarMetodoDelLaplacianoConEvaluacionDePendiente(this, bitmapOriginal, 0).execute();
     }
 
@@ -279,6 +313,7 @@ public class ActividadBordes extends ActividadBasica {
                 if (!isFinishing()) {
                     progressDialog.show();
                 }
+                ocultarImagenUmbralizada();
                 new TareaAplicarMetodoDelLaplacianoConEvaluacionDePendiente(ActividadBordes.this, bitmapOriginal, valorEntero).execute();
             }
         });
@@ -301,6 +336,7 @@ public class ActividadBordes extends ActividadBasica {
                 this.progressDialog.show();
             }
 
+            ocultarImagenUmbralizada();
             new TareaAplicarMetodoDelLaplacianoDelGaussiano(valorSigma, this, bitmapOriginal).execute();
         }
     }
@@ -323,12 +359,86 @@ public class ActividadBordes extends ActividadBasica {
         super.finish();
     }
 
-    public void bordesDetectados(Bitmap bitmap) {
+    public void bordesDetectados(Bitmap bitmap, int[][] matrizGradientes) {
 
         if (!isFinishing()){
             this.progressDialog.hide();
         }
         imageView.setImageBitmap(bitmap);
+
+        if (matrizGradientes != null) {
+            configurarSeleccionUmbral(matrizGradientes);
+        }
     }
 
+    private void configurarSeleccionUmbral(final int[][] matrizGradientes) {
+
+        int ancho = matrizGradientes.length;
+        int alto = matrizGradientes[0].length;
+
+        int minimo = Integer.MAX_VALUE;
+        int maximo = Integer.MIN_VALUE;
+
+        for (int x = 0; x < ancho; x++) {
+            for (int y = 0; y < alto; y++) {
+
+                int valorActual = matrizGradientes[x][y];
+
+                if (minimo > valorActual) {
+                    minimo = valorActual;
+                }
+
+                if (maximo < valorActual) {
+                    maximo = valorActual;
+                }
+
+            }
+
+        }
+
+        seleccionarUmbralSeekBar.setProgress((maximo - minimo)/2);
+        seleccionarUmbralSeekBar.setMax(maximo - minimo);
+        seleccionarUmbralSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+                deteccionFinalizada.setVisibility(View.INVISIBLE);
+                imagenUmbralizada.setVisibility(View.VISIBLE);
+
+                int umbral = seekBar.getProgress();
+                Bitmap mutableBitmap = bitmapOriginal.copy(Bitmap.Config.RGB_565, true);
+
+                for (int x = 0; x < bitmapOriginal.getWidth(); x++) {
+                    for (int y = 0 ; y < bitmapOriginal.getHeight(); y ++) {
+
+                        if (matrizGradientes[x][y] < umbral) {
+                            mutableBitmap.setPixel(x,y, Color.BLACK);
+                        }
+                        else {
+                            mutableBitmap.setPixel(x,y, Color.WHITE);
+                        }
+                    }
+                }
+
+                imagenUmbralizada.setImageBitmap(mutableBitmap);
+            }
+        });
+
+        layoutImagenUmbralizada.setVisibility(View.VISIBLE);
+        deteccionFinalizada.setVisibility(View.VISIBLE);
+    }
+
+    private void ocultarImagenUmbralizada() {
+        layoutImagenUmbralizada.setVisibility(View.INVISIBLE);
+        deteccionFinalizada.setVisibility(View.INVISIBLE);
+        imagenUmbralizada.setVisibility(View.INVISIBLE);
+    }
 }

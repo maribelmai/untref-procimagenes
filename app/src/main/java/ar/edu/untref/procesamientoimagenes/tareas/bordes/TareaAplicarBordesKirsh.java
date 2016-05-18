@@ -17,6 +17,7 @@ public class TareaAplicarBordesKirsh extends AsyncTask<Void, Void, Bitmap> {
     private ActividadBordes actividadBordes;
     private Bitmap bitmapOriginal;
     private TipoBorde tipoBorde;
+    private int[][] matrizGradiente;
 
     public TareaAplicarBordesKirsh(ActividadBordes actividadBordes, Bitmap bitmapOriginal, TipoBorde tipoBorde) {
 
@@ -30,28 +31,18 @@ public class TareaAplicarBordesKirsh extends AsyncTask<Void, Void, Bitmap> {
 
         if (tipoBorde != TipoBorde.COMPLETO) {
 
-            int[][] matrizGradiente = generarMatrizGradientes(tipoBorde);
+            matrizGradiente = generarMatrizGradientes(tipoBorde);
             return Operacion.hacerTransformacionLineal(matrizGradiente);
         }
         else {
 
             int[][] matrizGradienteHorizontal = generarMatrizGradientes(TipoBorde.HORIZONTAL);
             int[][] matrizGradienteVertical = generarMatrizGradientes(TipoBorde.VERTICAL);
-            int[][] matrizGradienteDiagonalDerecha = generarMatrizGradientes(TipoBorde.DIAGONAL_DERECHA);
-            int[][] matrizGradienteDiagonalIzquierda = generarMatrizGradientes(TipoBorde.DIAGONAL_IZQUIERDA);
 
-            Bitmap horizontal = Operacion.hacerTransformacionLineal(matrizGradienteHorizontal);
-            Bitmap vertical = Operacion.hacerTransformacionLineal(matrizGradienteVertical);
-            Bitmap suma = Operacion.sumar(horizontal, vertical);
-            horizontal.recycle();
-            vertical.recycle();
+            matrizGradiente = Operacion.obtenerMatrizMagnitudGradiente(matrizGradienteHorizontal, matrizGradienteVertical);
+            Bitmap bitmap = Operacion.hacerTransformacionLineal(matrizGradiente);
 
-            Bitmap diagonalDerecha = Operacion.hacerTransformacionLineal(matrizGradienteDiagonalDerecha);
-            suma = Operacion.sumar(suma, diagonalDerecha);
-
-            Bitmap diagonalIzquierda = Operacion.hacerTransformacionLineal(matrizGradienteDiagonalIzquierda);
-            suma = Operacion.sumar(suma, diagonalIzquierda);
-            return suma;
+            return bitmap;
         }
     }
 
@@ -148,6 +139,6 @@ public class TareaAplicarBordesKirsh extends AsyncTask<Void, Void, Bitmap> {
     @Override
     protected void onPostExecute(Bitmap bitmap) {
         super.onPostExecute(bitmap);
-        actividadBordes.bordesDetectados(bitmap);
+        actividadBordes.bordesDetectados(bitmap, matrizGradiente);
     }
 }

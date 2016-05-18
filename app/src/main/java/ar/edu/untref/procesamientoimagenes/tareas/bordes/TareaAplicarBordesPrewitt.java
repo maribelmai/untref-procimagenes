@@ -18,6 +18,7 @@ public class TareaAplicarBordesPrewitt extends AsyncTask<Void, Void, Bitmap> {
     private ActividadBordes actividadBordes;
     private Bitmap bitmapOriginal;
     private TipoBorde tipoBorde;
+    private int[][] matrizGradiente;
 
     public TareaAplicarBordesPrewitt(ActividadBordes actividadBordes, Bitmap bitmapOriginal, TipoBorde tipoBorde) {
 
@@ -39,7 +40,8 @@ public class TareaAplicarBordesPrewitt extends AsyncTask<Void, Void, Bitmap> {
             int[][] matrizGradienteHorizontal = generarMatrizGradientes(TipoBorde.HORIZONTAL);
             int[][] matrizGradienteVertical = generarMatrizGradientes(TipoBorde.VERTICAL);
 
-            Bitmap magnitudGradiente = Operacion.obtenerBitmapMagnitudGradiente(matrizGradienteHorizontal, matrizGradienteVertical);
+            matrizGradiente = Operacion.obtenerMatrizMagnitudGradiente(matrizGradienteHorizontal, matrizGradienteVertical);
+            Bitmap magnitudGradiente = Operacion.hacerTransformacionLineal(matrizGradiente);
             return magnitudGradiente;
         }
     }
@@ -141,6 +143,6 @@ public class TareaAplicarBordesPrewitt extends AsyncTask<Void, Void, Bitmap> {
     @Override
     protected void onPostExecute(Bitmap bitmap) {
         super.onPostExecute(bitmap);
-        actividadBordes.bordesDetectados(bitmap);
+        actividadBordes.bordesDetectados(bitmap, matrizGradiente);
     }
 }

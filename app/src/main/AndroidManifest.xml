@@ -56,6 +56,9 @@
         <activity android:name=".actividad.ActividadBordes"
             android:screenOrientation="landscape"/>
 
+        <activity android:name=".actividad.ActividadDifusion"
+            android:screenOrientation="landscape"/>
+
     </application>
 
 </manifest>

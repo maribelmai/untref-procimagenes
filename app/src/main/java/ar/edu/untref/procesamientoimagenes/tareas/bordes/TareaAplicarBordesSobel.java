@@ -17,6 +17,7 @@ public class TareaAplicarBordesSobel extends AsyncTask<Void, Void, Bitmap> {
     private ActividadBordes actividadBordes;
     private Bitmap bitmapOriginal;
     private TipoBorde tipoBorde;
+    private int[][] matrizGradientes;
 
     public TareaAplicarBordesSobel(ActividadBordes actividadBordes, Bitmap bitmapOriginal, TipoBorde tipoBorde) {
 
@@ -37,7 +38,9 @@ public class TareaAplicarBordesSobel extends AsyncTask<Void, Void, Bitmap> {
 
             int[][] matrizGradienteHorizontal = generarMatrizGradientes(TipoBorde.HORIZONTAL);
             int[][] matrizGradienteVertical = generarMatrizGradientes(TipoBorde.VERTICAL);
-            Bitmap magnitudGradiente = Operacion.obtenerBitmapMagnitudGradiente(matrizGradienteHorizontal, matrizGradienteVertical);
+
+            matrizGradientes = Operacion.obtenerMatrizMagnitudGradiente(matrizGradienteHorizontal, matrizGradienteVertical);
+            Bitmap magnitudGradiente = Operacion.hacerTransformacionLineal(matrizGradientes);
 
             return magnitudGradiente;
         }
@@ -136,6 +139,6 @@ public class TareaAplicarBordesSobel extends AsyncTask<Void, Void, Bitmap> {
     @Override
     protected void onPostExecute(Bitmap bitmap) {
         super.onPostExecute(bitmap);
-        actividadBordes.bordesDetectados(bitmap);
+        actividadBordes.bordesDetectados(bitmap, matrizGradientes);
     }
 }

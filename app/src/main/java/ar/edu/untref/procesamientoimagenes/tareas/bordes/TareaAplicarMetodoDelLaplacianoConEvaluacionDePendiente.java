@@ -97,6 +97,6 @@ public class TareaAplicarMetodoDelLaplacianoConEvaluacionDePendiente extends Asy
     @Override
     protected void onPostExecute(Bitmap bitmap) {
         super.onPostExecute(bitmap);
-        actividadBordes.bordesDetectados(bitmap);
+        actividadBordes.bordesDetectados(bitmap, null);
     }
 }

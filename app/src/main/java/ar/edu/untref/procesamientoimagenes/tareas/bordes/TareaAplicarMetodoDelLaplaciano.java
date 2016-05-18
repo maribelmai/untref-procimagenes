@@ -15,6 +15,7 @@ public class TareaAplicarMetodoDelLaplaciano extends AsyncTask<Void, Void, Bitma
     private static final String LOG_TAG = TareaAplicarMetodoDelLaplaciano.class.getSimpleName();
     private ActividadBordes actividadBordes;
     private Bitmap bitmapOriginal;
+    private int[][] matrizGradiente;
 
     public TareaAplicarMetodoDelLaplaciano(ActividadBordes actividadBordes, Bitmap bitmapOriginal) {
 
@@ -25,7 +26,7 @@ public class TareaAplicarMetodoDelLaplaciano extends AsyncTask<Void, Void, Bitma
     @Override
     protected Bitmap doInBackground(Void... params) {
 
-        int[][] matrizGradiente = generarMatrizGradientes();
+        matrizGradiente = generarMatrizGradientes();
         return Operacion.hacerTransformacionLineal(matrizGradiente);
     }
 
@@ -76,6 +77,6 @@ public class TareaAplicarMetodoDelLaplaciano extends AsyncTask<Void, Void, Bitma
     @Override
     protected void onPostExecute(Bitmap bitmap) {
         super.onPostExecute(bitmap);
-        actividadBordes.bordesDetectados(bitmap);
+        actividadBordes.bordesDetectados(bitmap, matrizGradiente);
     }
 }
