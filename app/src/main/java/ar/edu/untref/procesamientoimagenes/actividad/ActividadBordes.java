@@ -16,6 +16,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.io.File;
 
@@ -55,14 +56,15 @@ public class ActividadBordes extends ActividadBasica {
     @Bind(R.id.imagenUmbralizada)
     ImageView imagenUmbralizada;
 
-    @Bind(R.id.deteccionFinalizada)
-    View deteccionFinalizada;
-
     @Bind(R.id.seleccionUmbralSeekbar)
     SeekBar seleccionarUmbralSeekBar;
 
+    @Bind(R.id.guardar)
+    View guardar;
+
     private Bitmap bitmapOriginal;
     private ProgressDialog progressDialog;
+    private String sufijo = "";
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -96,6 +98,7 @@ public class ActividadBordes extends ActividadBasica {
             this.progressDialog.show();
         }
         ocultarImagenUmbralizada();
+        this.sufijo = "Prewitt";
         new TareaAplicarBordesPrewitt(this, bitmapOriginal, TipoBorde.COMPLETO).execute();
     }
 
@@ -147,6 +150,7 @@ public class ActividadBordes extends ActividadBasica {
             this.progressDialog.show();
         }
         ocultarImagenUmbralizada();
+        this.sufijo = "Sobel";
         new TareaAplicarBordesSobel(this, bitmapOriginal, TipoBorde.COMPLETO).execute();
     }
 
@@ -198,6 +202,7 @@ public class ActividadBordes extends ActividadBasica {
             this.progressDialog.show();
         }
         ocultarImagenUmbralizada();
+        this.sufijo = "KirshHorizontal";
         new TareaAplicarBordesKirsh(this, bitmapOriginal, TipoBorde.HORIZONTAL).execute();
     }
 
@@ -208,6 +213,7 @@ public class ActividadBordes extends ActividadBasica {
             this.progressDialog.show();
         }
         ocultarImagenUmbralizada();
+        this.sufijo = "KirshVertical";
         new TareaAplicarBordesKirsh(this, bitmapOriginal, TipoBorde.VERTICAL).execute();
     }
 
@@ -218,6 +224,7 @@ public class ActividadBordes extends ActividadBasica {
             this.progressDialog.show();
         }
         ocultarImagenUmbralizada();
+        this.sufijo = "KirshDiagonalDerecha";
         new TareaAplicarBordesKirsh(this, bitmapOriginal, TipoBorde.DIAGONAL_DERECHA).execute();
     }
 
@@ -228,6 +235,7 @@ public class ActividadBordes extends ActividadBasica {
             this.progressDialog.show();
         }
         ocultarImagenUmbralizada();
+        this.sufijo = "KirshDiagonalIzquierda";
         new TareaAplicarBordesKirsh(this, bitmapOriginal, TipoBorde.DIAGONAL_IZQUIERDA).execute();
     }
 
@@ -239,6 +247,7 @@ public class ActividadBordes extends ActividadBasica {
             this.progressDialog.show();
         }
         ocultarImagenUmbralizada();
+        this.sufijo = "GenericoHorizontal";
         new TareaAplicarBordesGenerico(this, bitmapOriginal, TipoBorde.HORIZONTAL).execute();
     }
 
@@ -249,6 +258,7 @@ public class ActividadBordes extends ActividadBasica {
             this.progressDialog.show();
         }
         ocultarImagenUmbralizada();
+        this.sufijo = "GenericoVertical";
         new TareaAplicarBordesGenerico(this, bitmapOriginal, TipoBorde.VERTICAL).execute();
     }
 
@@ -259,6 +269,7 @@ public class ActividadBordes extends ActividadBasica {
             this.progressDialog.show();
         }
         ocultarImagenUmbralizada();
+        this.sufijo = "GenericoDiagonalDerecha";
         new TareaAplicarBordesGenerico(this, bitmapOriginal, TipoBorde.DIAGONAL_DERECHA).execute();
     }
 
@@ -269,6 +280,7 @@ public class ActividadBordes extends ActividadBasica {
             this.progressDialog.show();
         }
         ocultarImagenUmbralizada();
+        this.sufijo = "GenericoDiagonalIzquierda";
         new TareaAplicarBordesGenerico(this, bitmapOriginal, TipoBorde.DIAGONAL_IZQUIERDA).execute();
     }
 
@@ -281,6 +293,7 @@ public class ActividadBordes extends ActividadBasica {
             this.progressDialog.show();
         }
         ocultarImagenUmbralizada();
+        this.sufijo = "Laplaciano";
         new TareaAplicarMetodoDelLaplaciano(this, bitmapOriginal).execute();
     }
 
@@ -291,6 +304,7 @@ public class ActividadBordes extends ActividadBasica {
             this.progressDialog.show();
         }
         ocultarImagenUmbralizada();
+        this.sufijo = "LaplacianoCrucesPorCero";
         new TareaAplicarMetodoDelLaplacianoConEvaluacionDePendiente(this, bitmapOriginal, 0).execute();
     }
 
@@ -314,6 +328,7 @@ public class ActividadBordes extends ActividadBasica {
                     progressDialog.show();
                 }
                 ocultarImagenUmbralizada();
+                sufijo = "LaplacianoEvaluacionPendiente";
                 new TareaAplicarMetodoDelLaplacianoConEvaluacionDePendiente(ActividadBordes.this, bitmapOriginal, valorEntero).execute();
             }
         });
@@ -337,6 +352,7 @@ public class ActividadBordes extends ActividadBasica {
             }
 
             ocultarImagenUmbralizada();
+            this.sufijo = "LoG";
             new TareaAplicarMetodoDelLaplacianoDelGaussiano(valorSigma, this, bitmapOriginal).execute();
         }
     }
@@ -396,8 +412,16 @@ public class ActividadBordes extends ActividadBasica {
 
         }
 
-        seleccionarUmbralSeekBar.setProgress((maximo - minimo)/2);
         seleccionarUmbralSeekBar.setMax(maximo - minimo);
+
+        if (seleccionarUmbralSeekBar.getMax() >= 100) {
+            seleccionarUmbralSeekBar.setProgress(100);
+        }
+        else {
+            seleccionarUmbralSeekBar.setProgress((maximo - minimo) / 2);
+        }
+        mostrarImagenUmbralizada(seleccionarUmbralSeekBar, matrizGradientes);
+
         seleccionarUmbralSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
@@ -409,36 +433,53 @@ public class ActividadBordes extends ActividadBasica {
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-
-                deteccionFinalizada.setVisibility(View.INVISIBLE);
-                imagenUmbralizada.setVisibility(View.VISIBLE);
-
-                int umbral = seekBar.getProgress();
-                Bitmap mutableBitmap = bitmapOriginal.copy(Bitmap.Config.RGB_565, true);
-
-                for (int x = 0; x < bitmapOriginal.getWidth(); x++) {
-                    for (int y = 0 ; y < bitmapOriginal.getHeight(); y ++) {
-
-                        if (matrizGradientes[x][y] < umbral) {
-                            mutableBitmap.setPixel(x,y, Color.BLACK);
-                        }
-                        else {
-                            mutableBitmap.setPixel(x,y, Color.WHITE);
-                        }
-                    }
-                }
-
-                imagenUmbralizada.setImageBitmap(mutableBitmap);
+                mostrarImagenUmbralizada(seekBar, matrizGradientes);
             }
         });
 
         layoutImagenUmbralizada.setVisibility(View.VISIBLE);
-        deteccionFinalizada.setVisibility(View.VISIBLE);
+    }
+
+    private void mostrarImagenUmbralizada(SeekBar seekBar, int[][] matrizGradientes) {
+
+        imagenUmbralizada.setVisibility(View.VISIBLE);
+
+        int umbral = seekBar.getProgress();
+        Bitmap mutableBitmap = bitmapOriginal.copy(Bitmap.Config.RGB_565, true);
+
+        for (int x = 0; x < bitmapOriginal.getWidth(); x++) {
+            for (int y = 0 ; y < bitmapOriginal.getHeight(); y ++) {
+
+                if (matrizGradientes[x][y] < umbral) {
+                    mutableBitmap.setPixel(x,y, Color.BLACK);
+                }
+                else {
+                    mutableBitmap.setPixel(x,y, Color.WHITE);
+                }
+            }
+        }
+
+        imagenUmbralizada.setImageBitmap(mutableBitmap);
+        guardar.setVisibility(View.VISIBLE);
+    }
+
+    @OnClick(R.id.guardar)
+    public void guardar() {
+
+        String nombreOriginal = imagen.getName();
+        try {
+            String nuevoNombre = nombreOriginal.substring(0, nombreOriginal.lastIndexOf(".")) + "_" + sufijo + "_" + System.currentTimeMillis() + nombreOriginal.substring(nombreOriginal.lastIndexOf("."));
+            getAplicacion().guardarArchivo(((BitmapDrawable) imagenUmbralizada.getDrawable()).getBitmap(), "/", nuevoNombre);
+            Toast.makeText(this, nuevoNombre + " guardado correctamente", Toast.LENGTH_SHORT).show();
+        } catch (Exception e) {
+            Toast.makeText(this, "Ocurrió un error guardando el archivo", Toast.LENGTH_SHORT).show();
+        }
     }
 
     private void ocultarImagenUmbralizada() {
+
         layoutImagenUmbralizada.setVisibility(View.INVISIBLE);
-        deteccionFinalizada.setVisibility(View.INVISIBLE);
         imagenUmbralizada.setVisibility(View.INVISIBLE);
+        guardar.setVisibility(View.GONE);
     }
 }

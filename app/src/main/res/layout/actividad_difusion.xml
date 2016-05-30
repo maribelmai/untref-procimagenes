@@ -65,13 +65,6 @@
             android:padding="16dp">
 
             <EditText
-                android:id="@+id/sigma"
-                android:hint="Sigma"
-                android:inputType="numberDecimal"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-
-            <EditText
                 android:id="@+id/repeticiones"
                 android:hint="# de repeticiones"
                 android:inputType="number"
@@ -88,10 +81,16 @@
                 android:textSize="10sp"
                 android:background="@drawable/selector_boton"
                 android:textColor="@android:color/white"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="8dp"
                 android:layout_marginRight="16dp"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:layout_marginTop="16dp"
+                android:background="@color/gris"/>
 
             <TextView
                 android:id="@+id/anisotropica"
@@ -107,6 +106,34 @@
                 android:layout_marginRight="16dp"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true" />
+
+            <EditText
+                android:id="@+id/sigma"
+                android:hint="Sigma"
+                android:layout_marginTop="8dp"
+                android:inputType="numberDecimal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <RadioGroup
+                android:id="@+id/coeficiente"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp">
+
+                <RadioButton
+                    android:id="@+id/lorentz"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="true"
+                    android:text="Lorentz"/>
+
+                <RadioButton
+                    android:id="@+id/leclerc"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Leclerc"/>
+            </RadioGroup>
         </LinearLayout>
 
     </ScrollView>
