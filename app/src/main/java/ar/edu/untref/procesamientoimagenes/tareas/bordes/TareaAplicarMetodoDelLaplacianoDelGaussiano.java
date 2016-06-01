@@ -19,13 +19,15 @@ public class TareaAplicarMetodoDelLaplacianoDelGaussiano extends AsyncTask<Void,
     private ActividadBordes actividadBordes;
     private Bitmap bitmapOriginal;
     private TipoImagen tipoImagen;
+    private Integer pendiente;
 
-    public TareaAplicarMetodoDelLaplacianoDelGaussiano(Float sigma, ActividadBordes actividadBordes, Bitmap bitmapOriginal, TipoImagen tipoImagen) {
+    public TareaAplicarMetodoDelLaplacianoDelGaussiano(Float sigma, ActividadBordes actividadBordes, Bitmap bitmapOriginal, TipoImagen tipoImagen, Integer pendiente) {
 
         this.sigma = sigma;
         this.actividadBordes = actividadBordes;
         this.bitmapOriginal = bitmapOriginal;
         this.tipoImagen = tipoImagen;
+        this.pendiente = pendiente;
     }
 
     @Override
@@ -38,8 +40,6 @@ public class TareaAplicarMetodoDelLaplacianoDelGaussiano extends AsyncTask<Void,
         int [][] matrizPixelesLoG = new int[bitmapOriginal.getWidth()] [bitmapOriginal.getHeight()];
 
         //Genero la máscara en base a la fórmula del Laplaciano del Gaussiano
-        int tamanioMascara = sigma < 1 ? 5 : (int) ((3 * sigma) + 1);
-
         double[][] mascaraLoG = generarMascaraLaplacianoDelGaussiano();
         int posicionCentralMascara = mascaraLoG.length / 2;
 
@@ -72,7 +72,7 @@ public class TareaAplicarMetodoDelLaplacianoDelGaussiano extends AsyncTask<Void,
         for (int x = 0; x < bitmapOriginal.getWidth(); x++) {
             for (int y = 0; y < bitmapOriginal.getHeight(); y++) {
 
-                if (Operacion.hayCambioDeSignoPorFila(matrizPixelesLoG, x, y) || Operacion.hayCambioDeSignoPorColumna(matrizPixelesLoG,x,y)) {
+                if (Operacion.hayCambioDeSignoPorFila(matrizPixelesLoG, x, y, pendiente) || Operacion.hayCambioDeSignoPorColumna(matrizPixelesLoG,x,y, pendiente)) {
                     bitmap.setPixel(x,y,Color.WHITE);
                 } else {
                     bitmap.setPixel(x,y,Color.BLACK);

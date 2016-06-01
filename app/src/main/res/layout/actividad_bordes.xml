@@ -456,6 +456,13 @@ android:layout_weight="0.3">
         android:textSize="14sp"
         android:layout_below="@+id/tituloLaplacianoGaussiano"/>
 
+    <EditText
+        android:id="@+id/pendienteLoG"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="Pendiente (0 por defecto)"
+        android:inputType="number"
+        android:textSize="14sp"/>
 
     <TextView
         android:id="@+id/bordeMetodoDelLaplacianoDelGaussiano"

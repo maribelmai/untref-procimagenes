@@ -376,7 +376,10 @@ public class ActividadBordes extends ActividadBasica {
 
             ocultarImagenUmbralizada();
             this.sufijo = "LoG";
-            new TareaAplicarMetodoDelLaplacianoDelGaussiano(valorSigma, this, bitmapOriginal, tipoImagen).execute();
+
+            String pendienteSeleccionada = TextView.class.cast(findViewById(R.id.pendienteLoG)).getText().toString();
+            int pendiente = pendienteSeleccionada.isEmpty() ? 0 : Integer.parseInt(pendienteSeleccionada);
+            new TareaAplicarMetodoDelLaplacianoDelGaussiano(valorSigma, this, bitmapOriginal, tipoImagen, pendiente).execute();
         }
     }
 
