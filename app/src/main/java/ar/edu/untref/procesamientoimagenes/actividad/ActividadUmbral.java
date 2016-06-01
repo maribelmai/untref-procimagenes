@@ -156,19 +156,25 @@ public class ActividadUmbral extends ActividadBasica {
     @OnClick(R.id.umbralizarGlobal)
     public void umbralizarGlobal() {
 
-        View view = LayoutInflater.from(this).inflate(R.layout.view_seleccion_valor, null);
+        View view = LayoutInflater.from(this).inflate(R.layout.view_seleccion_dos_valores, null);
         final EditText inputDelta = (EditText) view.findViewById(R.id.valor);
+        final EditText inputUmbralInicial = (EditText) view.findViewById(R.id.valor2);
+
+        inputDelta.setHint("Delta");
+        inputUmbralInicial.setHint("Umbral inicial (por defecto el color promedio)");
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setView(view);
-        builder.setTitle("Delta");
+        builder.setTitle("Seleccione");
         builder.setPositiveButton(R.string.aceptar, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
 
                 String valorIngresado = inputDelta.getText().toString();
-                Integer delta = Integer.valueOf(valorIngresado);
-                hacerUmbralizarGlobal(delta);
+                String valor2Ingresado = inputUmbralInicial.getText().toString();
+                Integer delta = valorIngresado.isEmpty()? 0 : Integer.valueOf(valorIngresado);
+                Integer umbralInicial = valor2Ingresado.isEmpty()? null : Integer.valueOf(valor2Ingresado);
+                hacerUmbralizarGlobal(delta, umbralInicial);
             }
         });
         builder.setNegativeButton(R.string.cancelar, new DialogInterface.OnClickListener() {
@@ -179,52 +185,58 @@ public class ActividadUmbral extends ActividadBasica {
         builder.show();
     }
 
-    private void hacerUmbralizarGlobal(Integer delta) {
+    private void hacerUmbralizarGlobal(Integer delta, Integer umbralInicial) {
 
         Bitmap bitmap = ((BitmapDrawable) imageView.getDrawable()).getBitmap();
-
         int[] histograma= calcularHistograma(bitmap);
-        int umbralInicial = calcularColorPromedio(histograma);
-        int cantidadIteraciones= 0;
-        int umbralAnterior = umbralInicial;
+        int umbralAnterior = umbralInicial == null ? calcularColorPromedio(histograma) : umbralInicial;
+        int umbralCalculado = umbralAnterior;
 
-        boolean continuar= true;
+        int cantidadPixelesGrupo1 = 0;
+        int cantidadPixelesGrupo2 = 0;
+        int sumaColoresGrupo1 = 0;
+        int sumaColoresGrupo2 = 0;
 
-        while (continuar) {
+        int iteraciones = 0;
 
-            cantidadIteraciones++;
-            int cantidadGrupo1 = 0;
-            int cantidadGrupo2 = 0;
-            int acumuladoColorGrupo1 = 0;
-            int acumuladoColorGrupo2 = 0;
+        do {
 
-            int umbral = umbralAnterior;
+            umbralAnterior = umbralCalculado;
 
-            for (int i = 0; i < histograma.length; i++) {
+            for (int x = 0; x < bitmap.getWidth(); x++) {
+                for (int y = 0; y < bitmap.getHeight(); y++) {
 
-                if (i <= umbral) {
-                    cantidadGrupo1 += histograma[i];
-                    acumuladoColorGrupo1 += (histograma[i] * i);
-                }
-                else {
-                    cantidadGrupo2  += histograma[i];
-                    acumuladoColorGrupo2 += (histograma[i] * i);
+                    int pixel = Color.red(bitmap.getPixel(x, y));
+
+                    if (pixel >= umbralAnterior) {
+                        cantidadPixelesGrupo1++;
+                        sumaColoresGrupo1 += pixel;
+                    } else {
+                        cantidadPixelesGrupo2++;
+                        sumaColoresGrupo2 += pixel;
+                    }
                 }
             }
 
-            int colorPromedioGrupo1 = acumuladoColorGrupo1 / cantidadGrupo1;
-            int colorPromedioGrupo2 = acumuladoColorGrupo2 / cantidadGrupo2;
+            int colorPromedioGrupo1 = sumaColoresGrupo1 / cantidadPixelesGrupo1;
+            int colorPromedioGrupo2 = sumaColoresGrupo2 / cantidadPixelesGrupo2;
 
-            int nuevoUmbral = (colorPromedioGrupo1 + colorPromedioGrupo2) / 2;
-            continuar = Math.abs(umbralAnterior - nuevoUmbral) > delta;
-
-            if (continuar) {
-                umbralAnterior = nuevoUmbral;
+            if (cantidadPixelesGrupo1 > 0 && cantidadPixelesGrupo2 > 0) {
+                umbralCalculado = (colorPromedioGrupo1 + colorPromedioGrupo2) / 2;
+            } else if (cantidadPixelesGrupo1 > 0) {
+                umbralCalculado = colorPromedioGrupo1 / 2;
+            } else {
+                umbralCalculado = colorPromedioGrupo2 / 2;
             }
 
-            umbralizar(umbral);
-            this.resultadoGlobal.setText(getString(R.string.resultado_Global).replace("{umbralGlobal}", String.valueOf(umbral)+" Cantidad de Iteraciones: " + cantidadIteraciones));
-        }
+            Log.i(LOG_TAG, "umbral calculado: " + umbralCalculado + " umbral anterior: " + umbralAnterior );
+
+            iteraciones++;
+
+        } while (Math.abs(umbralCalculado - umbralAnterior) > delta);
+
+        umbralizar(umbralCalculado);
+        this.resultadoGlobal.setText(getString(R.string.resultado_Global).replace("{umbralGlobal}", String.valueOf(umbralCalculado)+" Cantidad de Iteraciones: " + iteraciones));
     }
 
     private int calcularColorPromedio(int[] histograma) {
