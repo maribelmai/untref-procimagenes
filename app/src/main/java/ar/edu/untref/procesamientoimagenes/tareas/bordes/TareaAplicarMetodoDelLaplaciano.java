@@ -5,7 +5,9 @@ import android.graphics.Color;
 import android.os.AsyncTask;
 
 import ar.edu.untref.procesamientoimagenes.actividad.ActividadBordes;
+import ar.edu.untref.procesamientoimagenes.modelo.TipoImagen;
 import ar.edu.untref.procesamientoimagenes.util.Operacion;
+import ar.edu.untref.procesamientoimagenes.util.Transformacion;
 
 /**
  * Created by maribel on 4/10/16.
@@ -15,16 +17,22 @@ public class TareaAplicarMetodoDelLaplaciano extends AsyncTask<Void, Void, Bitma
     private static final String LOG_TAG = TareaAplicarMetodoDelLaplaciano.class.getSimpleName();
     private ActividadBordes actividadBordes;
     private Bitmap bitmapOriginal;
+    private TipoImagen tipoImagen;
     private int[][] matrizGradiente;
 
-    public TareaAplicarMetodoDelLaplaciano(ActividadBordes actividadBordes, Bitmap bitmapOriginal) {
+    public TareaAplicarMetodoDelLaplaciano(ActividadBordes actividadBordes, Bitmap bitmapOriginal, TipoImagen tipoImagen) {
 
         this.actividadBordes = actividadBordes;
         this.bitmapOriginal = bitmapOriginal;
+        this.tipoImagen = tipoImagen;
     }
 
     @Override
     protected Bitmap doInBackground(Void... params) {
+
+        if (tipoImagen == TipoImagen.COLOR) {
+            bitmapOriginal = Transformacion.colorAEscalaDeGrises(bitmapOriginal);
+        }
 
         matrizGradiente = generarMatrizGradientes();
         return Operacion.hacerTransformacionLineal(matrizGradiente);

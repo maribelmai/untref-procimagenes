@@ -23,6 +23,7 @@ import java.io.File;
 import ar.edu.untref.procesamientoimagenes.R;
 import ar.edu.untref.procesamientoimagenes.modelo.Constante;
 import ar.edu.untref.procesamientoimagenes.modelo.TipoBorde;
+import ar.edu.untref.procesamientoimagenes.modelo.TipoImagen;
 import ar.edu.untref.procesamientoimagenes.tareas.bordes.TareaAplicarBordesGenerico;
 import ar.edu.untref.procesamientoimagenes.tareas.bordes.TareaAplicarBordesKirsh;
 import ar.edu.untref.procesamientoimagenes.tareas.bordes.TareaAplicarBordesPrewitt;
@@ -31,6 +32,7 @@ import ar.edu.untref.procesamientoimagenes.tareas.bordes.TareaAplicarMetodoDelLa
 import ar.edu.untref.procesamientoimagenes.tareas.bordes.TareaAplicarMetodoDelLaplacianoConEvaluacionDePendiente;
 import ar.edu.untref.procesamientoimagenes.tareas.bordes.TareaAplicarMetodoDelLaplacianoDelGaussiano;
 import butterknife.Bind;
+import butterknife.OnCheckedChanged;
 import butterknife.OnClick;
 
 /**
@@ -62,6 +64,16 @@ public class ActividadBordes extends ActividadBasica {
     @Bind(R.id.guardar)
     View guardar;
 
+    @Bind(R.id.minimo)
+    TextView minimo;
+
+    @Bind(R.id.maximo)
+    TextView maximo;
+
+    @Bind(R.id.actual)
+    TextView actual;
+
+    private TipoImagen tipoImagen = TipoImagen.GRIS;
     private Bitmap bitmapOriginal;
     private ProgressDialog progressDialog;
     private String sufijo = "";
@@ -85,6 +97,17 @@ public class ActividadBordes extends ActividadBasica {
         bitmapOriginal = bitmap.copy(Bitmap.Config.RGB_565, true);
     }
 
+    @OnCheckedChanged(R.id.esColor)
+    public void esColorChanged(boolean checked) {
+
+        if (checked) {
+            tipoImagen = TipoImagen.COLOR;
+        }
+        else {
+            tipoImagen = TipoImagen.GRIS;
+        }
+    }
+
     @Override
     protected int getLayout() {
         return R.layout.actividad_bordes;
@@ -99,7 +122,7 @@ public class ActividadBordes extends ActividadBasica {
         }
         ocultarImagenUmbralizada();
         this.sufijo = "Prewitt";
-        new TareaAplicarBordesPrewitt(this, bitmapOriginal, TipoBorde.COMPLETO).execute();
+        new TareaAplicarBordesPrewitt(this, bitmapOriginal, TipoBorde.COMPLETO, tipoImagen).execute();
     }
 
     @OnClick(R.id.bordePrewittHorizontal)
@@ -109,7 +132,7 @@ public class ActividadBordes extends ActividadBasica {
             this.progressDialog.show();
         }
         ocultarImagenUmbralizada();
-        new TareaAplicarBordesPrewitt(this, bitmapOriginal, TipoBorde.HORIZONTAL).execute();
+        new TareaAplicarBordesPrewitt(this, bitmapOriginal, TipoBorde.HORIZONTAL, tipoImagen).execute();
     }
 
     @OnClick(R.id.bordePrewittVertical)
@@ -119,7 +142,7 @@ public class ActividadBordes extends ActividadBasica {
             this.progressDialog.show();
         }
         ocultarImagenUmbralizada();
-        new TareaAplicarBordesPrewitt(this, bitmapOriginal, TipoBorde.VERTICAL).execute();
+        new TareaAplicarBordesPrewitt(this, bitmapOriginal, TipoBorde.VERTICAL, tipoImagen).execute();
     }
 
     @OnClick(R.id.bordePrewittDiagonalDerecha)
@@ -129,7 +152,7 @@ public class ActividadBordes extends ActividadBasica {
             this.progressDialog.show();
         }
         ocultarImagenUmbralizada();
-        new TareaAplicarBordesPrewitt(this, bitmapOriginal, TipoBorde.DIAGONAL_DERECHA).execute();
+        new TareaAplicarBordesPrewitt(this, bitmapOriginal, TipoBorde.DIAGONAL_DERECHA, tipoImagen).execute();
     }
 
     @OnClick(R.id.bordePrewittDiagonalIzquierda)
@@ -139,7 +162,7 @@ public class ActividadBordes extends ActividadBasica {
             this.progressDialog.show();
         }
         ocultarImagenUmbralizada();
-        new TareaAplicarBordesPrewitt(this, bitmapOriginal, TipoBorde.DIAGONAL_IZQUIERDA).execute();
+        new TareaAplicarBordesPrewitt(this, bitmapOriginal, TipoBorde.DIAGONAL_IZQUIERDA, tipoImagen).execute();
     }
 
     //SOBEL
@@ -151,7 +174,7 @@ public class ActividadBordes extends ActividadBasica {
         }
         ocultarImagenUmbralizada();
         this.sufijo = "Sobel";
-        new TareaAplicarBordesSobel(this, bitmapOriginal, TipoBorde.COMPLETO).execute();
+        new TareaAplicarBordesSobel(this, bitmapOriginal, TipoBorde.COMPLETO, tipoImagen).execute();
     }
 
     @OnClick(R.id.bordeSobelHorizontal)
@@ -161,7 +184,7 @@ public class ActividadBordes extends ActividadBasica {
             this.progressDialog.show();
         }
         ocultarImagenUmbralizada();
-        new TareaAplicarBordesSobel(this, bitmapOriginal, TipoBorde.HORIZONTAL).execute();
+        new TareaAplicarBordesSobel(this, bitmapOriginal, TipoBorde.HORIZONTAL, tipoImagen).execute();
     }
 
     @OnClick(R.id.bordeSobelVertical)
@@ -171,7 +194,7 @@ public class ActividadBordes extends ActividadBasica {
             this.progressDialog.show();
         }
         ocultarImagenUmbralizada();
-        new TareaAplicarBordesSobel(this, bitmapOriginal, TipoBorde.VERTICAL).execute();
+        new TareaAplicarBordesSobel(this, bitmapOriginal, TipoBorde.VERTICAL, tipoImagen).execute();
     }
 
     @OnClick(R.id.bordeSobelDiagonalDerecha)
@@ -181,7 +204,7 @@ public class ActividadBordes extends ActividadBasica {
             this.progressDialog.show();
         }
         ocultarImagenUmbralizada();
-        new TareaAplicarBordesSobel(this, bitmapOriginal, TipoBorde.DIAGONAL_DERECHA).execute();
+        new TareaAplicarBordesSobel(this, bitmapOriginal, TipoBorde.DIAGONAL_DERECHA, tipoImagen).execute();
     }
 
     @OnClick(R.id.bordeSobelDiagonalIzquierda)
@@ -191,7 +214,7 @@ public class ActividadBordes extends ActividadBasica {
             this.progressDialog.show();
         }
         ocultarImagenUmbralizada();
-        new TareaAplicarBordesSobel(this, bitmapOriginal, TipoBorde.DIAGONAL_IZQUIERDA).execute();
+        new TareaAplicarBordesSobel(this, bitmapOriginal, TipoBorde.DIAGONAL_IZQUIERDA, tipoImagen).execute();
     }
 
     //KIRSH
@@ -203,7 +226,7 @@ public class ActividadBordes extends ActividadBasica {
         }
         ocultarImagenUmbralizada();
         this.sufijo = "KirshHorizontal";
-        new TareaAplicarBordesKirsh(this, bitmapOriginal, TipoBorde.HORIZONTAL).execute();
+        new TareaAplicarBordesKirsh(this, bitmapOriginal, TipoBorde.HORIZONTAL, tipoImagen).execute();
     }
 
     @OnClick(R.id.bordeKirshVertical)
@@ -214,7 +237,7 @@ public class ActividadBordes extends ActividadBasica {
         }
         ocultarImagenUmbralizada();
         this.sufijo = "KirshVertical";
-        new TareaAplicarBordesKirsh(this, bitmapOriginal, TipoBorde.VERTICAL).execute();
+        new TareaAplicarBordesKirsh(this, bitmapOriginal, TipoBorde.VERTICAL, tipoImagen).execute();
     }
 
     @OnClick(R.id.bordeKirshDiagonalDerecha)
@@ -225,7 +248,7 @@ public class ActividadBordes extends ActividadBasica {
         }
         ocultarImagenUmbralizada();
         this.sufijo = "KirshDiagonalDerecha";
-        new TareaAplicarBordesKirsh(this, bitmapOriginal, TipoBorde.DIAGONAL_DERECHA).execute();
+        new TareaAplicarBordesKirsh(this, bitmapOriginal, TipoBorde.DIAGONAL_DERECHA, tipoImagen).execute();
     }
 
     @OnClick(R.id.bordeKirshDiagonalIzquierda)
@@ -236,7 +259,7 @@ public class ActividadBordes extends ActividadBasica {
         }
         ocultarImagenUmbralizada();
         this.sufijo = "KirshDiagonalIzquierda";
-        new TareaAplicarBordesKirsh(this, bitmapOriginal, TipoBorde.DIAGONAL_IZQUIERDA).execute();
+        new TareaAplicarBordesKirsh(this, bitmapOriginal, TipoBorde.DIAGONAL_IZQUIERDA, tipoImagen).execute();
     }
 
     //GENERICO SIN NOMBRE PUNTO A)
@@ -248,7 +271,7 @@ public class ActividadBordes extends ActividadBasica {
         }
         ocultarImagenUmbralizada();
         this.sufijo = "GenericoHorizontal";
-        new TareaAplicarBordesGenerico(this, bitmapOriginal, TipoBorde.HORIZONTAL).execute();
+        new TareaAplicarBordesGenerico(this, bitmapOriginal, TipoBorde.HORIZONTAL, tipoImagen).execute();
     }
 
     @OnClick(R.id.bordeVertical)
@@ -259,7 +282,7 @@ public class ActividadBordes extends ActividadBasica {
         }
         ocultarImagenUmbralizada();
         this.sufijo = "GenericoVertical";
-        new TareaAplicarBordesGenerico(this, bitmapOriginal, TipoBorde.VERTICAL).execute();
+        new TareaAplicarBordesGenerico(this, bitmapOriginal, TipoBorde.VERTICAL, tipoImagen).execute();
     }
 
     @OnClick(R.id.bordeDiagonalDerecha)
@@ -270,7 +293,7 @@ public class ActividadBordes extends ActividadBasica {
         }
         ocultarImagenUmbralizada();
         this.sufijo = "GenericoDiagonalDerecha";
-        new TareaAplicarBordesGenerico(this, bitmapOriginal, TipoBorde.DIAGONAL_DERECHA).execute();
+        new TareaAplicarBordesGenerico(this, bitmapOriginal, TipoBorde.DIAGONAL_DERECHA, tipoImagen).execute();
     }
 
     @OnClick(R.id.bordeDiagonalIzquierda)
@@ -281,7 +304,7 @@ public class ActividadBordes extends ActividadBasica {
         }
         ocultarImagenUmbralizada();
         this.sufijo = "GenericoDiagonalIzquierda";
-        new TareaAplicarBordesGenerico(this, bitmapOriginal, TipoBorde.DIAGONAL_IZQUIERDA).execute();
+        new TareaAplicarBordesGenerico(this, bitmapOriginal, TipoBorde.DIAGONAL_IZQUIERDA, tipoImagen).execute();
     }
 
     //LAPLACIANO
@@ -294,7 +317,7 @@ public class ActividadBordes extends ActividadBasica {
         }
         ocultarImagenUmbralizada();
         this.sufijo = "Laplaciano";
-        new TareaAplicarMetodoDelLaplaciano(this, bitmapOriginal).execute();
+        new TareaAplicarMetodoDelLaplaciano(this, bitmapOriginal, tipoImagen).execute();
     }
 
     @OnClick(R.id.bordeMetodoDelLaplacianoCrucesPorCero)
@@ -305,7 +328,7 @@ public class ActividadBordes extends ActividadBasica {
         }
         ocultarImagenUmbralizada();
         this.sufijo = "LaplacianoCrucesPorCero";
-        new TareaAplicarMetodoDelLaplacianoConEvaluacionDePendiente(this, bitmapOriginal, 0).execute();
+        new TareaAplicarMetodoDelLaplacianoConEvaluacionDePendiente(this, bitmapOriginal, 0, tipoImagen).execute();
     }
 
     @OnClick(R.id.bordeMetodoDelLaplacianoEvaluacionPendiente)
@@ -329,7 +352,7 @@ public class ActividadBordes extends ActividadBasica {
                 }
                 ocultarImagenUmbralizada();
                 sufijo = "LaplacianoEvaluacionPendiente";
-                new TareaAplicarMetodoDelLaplacianoConEvaluacionDePendiente(ActividadBordes.this, bitmapOriginal, valorEntero).execute();
+                new TareaAplicarMetodoDelLaplacianoConEvaluacionDePendiente(ActividadBordes.this, bitmapOriginal, valorEntero, tipoImagen).execute();
             }
         });
         builder.setNegativeButton(R.string.cancelar, new DialogInterface.OnClickListener() {
@@ -353,7 +376,7 @@ public class ActividadBordes extends ActividadBasica {
 
             ocultarImagenUmbralizada();
             this.sufijo = "LoG";
-            new TareaAplicarMetodoDelLaplacianoDelGaussiano(valorSigma, this, bitmapOriginal).execute();
+            new TareaAplicarMetodoDelLaplacianoDelGaussiano(valorSigma, this, bitmapOriginal, tipoImagen).execute();
         }
     }
 
@@ -407,10 +430,11 @@ public class ActividadBordes extends ActividadBasica {
                 if (maximo < valorActual) {
                     maximo = valorActual;
                 }
-
             }
-
         }
+
+        this.minimo.setText(getString(R.string.min).replace("{min}", String.valueOf(minimo)));
+        this.maximo.setText(getString(R.string.max).replace("{max}", String.valueOf(maximo)));
 
         seleccionarUmbralSeekBar.setMax(maximo - minimo);
 
@@ -420,11 +444,14 @@ public class ActividadBordes extends ActividadBasica {
         else {
             seleccionarUmbralSeekBar.setProgress((maximo - minimo) / 2);
         }
+
+        this.actual.setText(getString(R.string.actual).replace("{actual}", String.valueOf(seleccionarUmbralSeekBar.getProgress())));
         mostrarImagenUmbralizada(seleccionarUmbralSeekBar, matrizGradientes);
 
         seleccionarUmbralSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                ActividadBordes.this.actual.setText(getString(R.string.actual).replace("{actual}", String.valueOf(progress)));
             }
 
             @Override

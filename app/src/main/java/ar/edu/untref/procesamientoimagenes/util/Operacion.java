@@ -156,24 +156,6 @@ public class Operacion {
         return hayCambio;
     }
 
-//    public static Bitmap obtenerBitmapMagnitudGradiente(int[][] horizontal, int[][] vertical) {
-//
-//        int ancho = horizontal.length;
-//        int alto = horizontal[0].length;
-//
-//        int[][] magnitudes = new int[ancho][alto];
-//
-//        for (int x = 0; x < ancho; x++) {
-//            for (int y = 0; y < alto; y++) {
-//
-//                int magnitud = (int) Math.sqrt(Math.pow(horizontal[x][y], 2) + Math.pow(vertical[x][y], 2));
-//                magnitudes[x][y] = magnitud;
-//            }
-//        }
-//
-//        return hacerTransformacionLineal(magnitudes);
-//    }
-
     public static int[][] obtenerMatrizMagnitudGradiente(int[][] matrizGradienteHorizontal, int[][] matrizGradienteVertical) {
 
         int ancho = matrizGradienteHorizontal.length;

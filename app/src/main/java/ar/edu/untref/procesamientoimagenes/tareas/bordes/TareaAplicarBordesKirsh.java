@@ -1,11 +1,12 @@
 package ar.edu.untref.procesamientoimagenes.tareas.bordes;
 
 import android.graphics.Bitmap;
-import android.graphics.Color;
 import android.os.AsyncTask;
 
 import ar.edu.untref.procesamientoimagenes.actividad.ActividadBordes;
 import ar.edu.untref.procesamientoimagenes.modelo.TipoBorde;
+import ar.edu.untref.procesamientoimagenes.modelo.TipoImagen;
+import ar.edu.untref.procesamientoimagenes.util.AplicadorMascaraBordes;
 import ar.edu.untref.procesamientoimagenes.util.Operacion;
 
 /**
@@ -17,33 +18,22 @@ public class TareaAplicarBordesKirsh extends AsyncTask<Void, Void, Bitmap> {
     private ActividadBordes actividadBordes;
     private Bitmap bitmapOriginal;
     private TipoBorde tipoBorde;
+    private TipoImagen tipoImagen;
     private int[][] matrizGradiente;
 
-    public TareaAplicarBordesKirsh(ActividadBordes actividadBordes, Bitmap bitmapOriginal, TipoBorde tipoBorde) {
+    public TareaAplicarBordesKirsh(ActividadBordes actividadBordes, Bitmap bitmapOriginal, TipoBorde tipoBorde, TipoImagen tipoImagen) {
 
         this.actividadBordes = actividadBordes;
         this.bitmapOriginal = bitmapOriginal;
         this.tipoBorde = tipoBorde;
+        this.tipoImagen = tipoImagen;
     }
 
     @Override
     protected Bitmap doInBackground(Void... params) {
 
-        if (tipoBorde != TipoBorde.COMPLETO) {
-
-            matrizGradiente = generarMatrizGradientes(tipoBorde);
-            return Operacion.hacerTransformacionLineal(matrizGradiente);
-        }
-        else {
-
-            int[][] matrizGradienteHorizontal = generarMatrizGradientes(TipoBorde.HORIZONTAL);
-            int[][] matrizGradienteVertical = generarMatrizGradientes(TipoBorde.VERTICAL);
-
-            matrizGradiente = Operacion.obtenerMatrizMagnitudGradiente(matrizGradienteHorizontal, matrizGradienteVertical);
-            Bitmap bitmap = Operacion.hacerTransformacionLineal(matrizGradiente);
-
-            return bitmap;
-        }
+        matrizGradiente = generarMatrizGradientes(tipoBorde);
+        return Operacion.hacerTransformacionLineal(matrizGradiente);
     }
 
     private int[][] generarMatrizGradientes(TipoBorde tipoBordeElegido) {
@@ -108,32 +98,7 @@ public class TareaAplicarBordesKirsh extends AsyncTask<Void, Void, Bitmap> {
             matrizBordesKirsh[2][2] = -3;
         }
 
-        int[][] matrizGradiente = new int[bitmapOriginal.getWidth()][bitmapOriginal.getHeight()];
-        int posicionCentralMascara = 3/2;
-
-        for (int x = posicionCentralMascara; x < bitmapOriginal.getWidth() - posicionCentralMascara; x++) {
-            for (int y = posicionCentralMascara; y < bitmapOriginal.getHeight() - posicionCentralMascara; y++) {
-
-                //Para cada pixel, recorro la máscara alrededor de ese pixel para calcular el valor resultado
-                float valorResultado = 0F;
-
-                for (int xMascaraEnImagen = x - posicionCentralMascara, xMascara = 0; xMascaraEnImagen <= x + posicionCentralMascara; xMascaraEnImagen ++, xMascara ++) {
-                    for (int yMascaraEnImagen = y - posicionCentralMascara, yMascara = 0; yMascaraEnImagen <= y + posicionCentralMascara; yMascaraEnImagen ++, yMascara++) {
-
-                        double valorMascara = matrizBordesKirsh[xMascara][yMascara];
-                        int nivelGrisPixel = Color.red(bitmapOriginal.getPixel(xMascaraEnImagen, yMascaraEnImagen));
-                        double operacion = nivelGrisPixel * valorMascara;
-
-                        valorResultado += operacion;
-                    }
-                }
-
-                int valorEntero = (int) valorResultado;
-                matrizGradiente[x][y] = Math.abs(valorEntero);;
-            }
-        }
-
-        return matrizGradiente;
+        return AplicadorMascaraBordes.obtenerMatrizGradientes(bitmapOriginal, matrizBordesKirsh, tipoImagen);
     }
 
     @Override

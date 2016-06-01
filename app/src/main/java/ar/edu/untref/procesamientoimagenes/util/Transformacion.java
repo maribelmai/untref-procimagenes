@@ -2,7 +2,6 @@ package ar.edu.untref.procesamientoimagenes.util;
 
 import android.graphics.Bitmap;
 import android.graphics.Color;
-import android.util.Log;
 
 /**
  * Created by maribel on 4/13/16.
@@ -135,5 +134,25 @@ public class Transformacion {
         }
 
         return bitmap;
+    }
+
+    public static Bitmap colorAEscalaDeGrises(Bitmap bitmap) {
+
+        Bitmap bitmapGris = Bitmap.createBitmap(bitmap.getWidth(), bitmap.getHeight(), Bitmap.Config.RGB_565);
+
+        for (int x = 0; x < bitmap.getWidth(); x++) {
+            for (int y = 0; y < bitmap.getHeight(); y++) {
+
+                int pixel = bitmap.getPixel(x,y);
+                int rojo = Color.red(pixel);
+                int verde = Color.green(pixel);
+                int azul = Color.blue(pixel);
+                int valorGris = (rojo + verde + azul) / 3;
+                int nuevoColor = Color.rgb(valorGris, valorGris, valorGris);
+                bitmapGris.setPixel(x, y, nuevoColor);
+            }
+        }
+
+        return bitmapGris;
     }
 }

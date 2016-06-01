@@ -14,432 +14,468 @@
         android:layout_weight="0.7"
         android:fillViewport="true">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/nombreImagen"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="ppp.png"
-                android:textStyle="bold"
-                android:padding="16dp"
-                android:layout_marginTop="16dp"/>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="horizontal"
-                android:layout_marginLeft="16dp">
-
-                <RelativeLayout
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="0.5">
-
-                    <ImageView
-                        android:id="@+id/imagen"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:adjustViewBounds="true"
-                        android:layout_gravity="center"
-                        android:layout_marginTop="32dp"/>
-                </RelativeLayout>
-
-                <RelativeLayout
-                    android:id="@+id/layoutImagenUmbralizada"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="0.5"
-                    android:visibility="invisible">
-
-                    <SeekBar
-                        android:id="@+id/seleccionUmbralSeekbar"
-                        android:layout_width="200dp"
-                        android:layout_height="wrap_content"/>
-
-                    <ImageView
-                        android:id="@+id/imagenUmbralizada"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:adjustViewBounds="true"
-                        android:layout_marginTop="32dp"
-                        android:visibility="invisible"/>
-
-                    <Button
-                        android:id="@+id/guardar"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@+id/imagenUmbralizada"
-                        android:layout_marginTop="16dp"
-                        android:visibility="invisible"
-                        android:text="GUARDAR."/>
-                </RelativeLayout>
-            </LinearLayout>
-        </LinearLayout>
-
-    </ScrollView>
-
-    <View
-        android:layout_width="0.5dp"
-        android:layout_height="match_parent"
-        android:background="@color/grisClaro"/>
-
-
-    <ScrollView
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:layout_weight="0.3">
-
-        <LinearLayout
+        <TextView
+            android:id="@+id/nombreImagen"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
+            android:text="ppp.png"
+            android:textStyle="bold"
+            android:padding="16dp"
+            android:layout_marginTop="16dp"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
             android:layout_marginLeft="16dp">
 
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0.5">
 
-            <TextView
-                android:id="@+id/bordePrewittHorizontal"
-                android:layout_width="wrap_content"
-                android:gravity="center"
-                android:layout_height="wrap_content"
-                android:text="PREWITT (BORDES HORIZONTALES)"
-                android:padding="8dp"
-                android:textColor="@android:color/white"
-                android:textStyle="bold"
-                android:textSize="11sp"
-                android:layout_marginTop="8dp"
-                android:background="@drawable/selector_boton"/>
+                <ImageView
+                    android:id="@+id/imagen"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:adjustViewBounds="true"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="32dp"/>
+            </RelativeLayout>
 
-            <TextView
-                android:id="@+id/bordePrewittVertical"
-                android:layout_width="wrap_content"
-                android:gravity="center"
-                android:layout_height="wrap_content"
-                android:text="PREWITT (BORDES VERTICALES)"
-                android:padding="8dp"
-                android:textColor="@android:color/white"
-                android:textStyle="bold"
-                android:textSize="11sp"
-                android:layout_marginTop="8dp"
-                android:background="@drawable/selector_boton"/>
+            <RelativeLayout
+                android:id="@+id/layoutImagenUmbralizada"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0.5"
+                android:visibility="invisible">
 
-            <TextView
-                android:id="@+id/bordePrewittDiagonalDerecha"
-                android:layout_width="wrap_content"
-                android:gravity="center"
-                android:layout_height="wrap_content"
-                android:text="PREWITT (BORDES DIAGONALES DERECHA)"
-                android:padding="8dp"
-                android:textColor="@android:color/white"
-                android:textStyle="bold"
-                android:textSize="11sp"
-                android:layout_marginTop="8dp"
-                android:background="@drawable/selector_boton"/>
+                <ImageView
+                    android:id="@+id/imagenUmbralizada"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:adjustViewBounds="true"
+                    android:layout_marginTop="32dp"
+                    android:visibility="invisible"/>
 
-            <TextView
-                android:id="@+id/bordePrewittDiagonalIzquierda"
-                android:layout_width="wrap_content"
-                android:gravity="center"
-                android:layout_height="wrap_content"
-                android:text="PREWITT (BORDES DIAGONALES IZQUIERDA)"
-                android:padding="8dp"
-                android:textColor="@android:color/white"
-                android:textStyle="bold"
-                android:textSize="11sp"
-                android:layout_marginTop="8dp"
-                android:background="@drawable/selector_boton"/>
+                <SeekBar
+                    android:id="@+id/seleccionUmbralSeekbar"
+                    android:layout_marginTop="16dp"
+                    android:layout_width="200dp"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/imagenUmbralizada"/>
 
-            <TextView
-                android:id="@+id/bordePrewittCompleto"
-                android:layout_width="wrap_content"
-                android:gravity="center"
-                android:layout_height="wrap_content"
-                android:text="PREWIT COMPLETO"
-                android:padding="8dp"
-                android:textColor="@android:color/white"
-                android:textStyle="bold"
-                android:textSize="11sp"
-                android:layout_marginTop="8dp"
-                android:background="@drawable/selector_boton_accent"/>
+                <LinearLayout
+                    android:id="@+id/info"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_below="@+id/seleccionUmbralSeekbar">
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="0.5dp"
-                android:background="@color/gris"
-                android:layout_margin="16dp"/>
+                    <TextView
+                        android:id="@+id/minimo"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/min"/>
 
-            <TextView
-                android:id="@+id/bordeSobelHorizontal"
-                android:layout_width="wrap_content"
-                android:gravity="center"
-                android:layout_height="wrap_content"
-                android:text="SOBEL (BORDES HORIZONTALES)"
-                android:padding="8dp"
-                android:textColor="@android:color/white"
-                android:textStyle="bold"
-                android:textSize="11sp"
-                android:layout_marginTop="8dp"
-                android:background="@drawable/selector_boton"/>
+                    <TextView
+                        android:id="@+id/maximo"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/max"/>
 
-            <TextView
-                android:id="@+id/bordeSobelVertical"
-                android:layout_width="wrap_content"
-                android:gravity="center"
-                android:layout_height="wrap_content"
-                android:text="SOBEL (BORDES VERTICALES)"
-                android:padding="8dp"
-                android:textColor="@android:color/white"
-                android:textStyle="bold"
-                android:textSize="11sp"
-                android:layout_marginTop="8dp"
-                android:background="@drawable/selector_boton"/>
+                    <TextView
+                        android:id="@+id/actual"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:textStyle="bold"
+                        android:text="@string/actual"/>
+                </LinearLayout>
 
-            <TextView
-                android:id="@+id/bordeSobelDiagonalDerecha"
-                android:layout_width="wrap_content"
-                android:gravity="center"
-                android:layout_height="wrap_content"
-                android:text="SOBEL (BORDES DIAGONALES DERECHA)"
-                android:padding="8dp"
-                android:textColor="@android:color/white"
-                android:textStyle="bold"
-                android:textSize="11sp"
-                android:layout_marginTop="8dp"
-                android:background="@drawable/selector_boton"/>
-
-            <TextView
-                android:id="@+id/bordeSobelDiagonalIzquierda"
-                android:layout_width="wrap_content"
-                android:gravity="center"
-                android:layout_height="wrap_content"
-                android:text="SOBEL (BORDES DIAGONALES IZQUIERDA)"
-                android:padding="8dp"
-                android:textColor="@android:color/white"
-                android:textStyle="bold"
-                android:textSize="11sp"
-                android:layout_marginTop="8dp"
-                android:background="@drawable/selector_boton"/>
-
-            <TextView
-                android:id="@+id/bordeSobelCompleto"
-                android:layout_width="wrap_content"
-                android:gravity="center"
-                android:layout_height="wrap_content"
-                android:text="SOBEL COMPLETO"
-                android:padding="8dp"
-                android:textColor="@android:color/white"
-                android:textStyle="bold"
-                android:textSize="11sp"
-                android:layout_marginTop="8dp"
-                android:background="@drawable/selector_boton_accent"/>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="0.5dp"
-                android:background="@color/gris"
-                android:layout_margin="16dp"/>
-
-            <TextView
-                android:id="@+id/bordeKirshHorizontal"
-                android:layout_width="wrap_content"
-                android:gravity="center"
-                android:layout_height="wrap_content"
-                android:text="KIRSH (BORDES HORIZONTALES)"
-                android:padding="8dp"
-                android:textColor="@android:color/white"
-                android:textStyle="bold"
-                android:textSize="11sp"
-                android:layout_marginTop="8dp"
-                android:background="@drawable/selector_boton"/>
-
-            <TextView
-                android:id="@+id/bordeKirshVertical"
-                android:layout_width="wrap_content"
-                android:gravity="center"
-                android:layout_height="wrap_content"
-                android:text="KIRSH (BORDES VERTICALES)"
-                android:padding="8dp"
-                android:textColor="@android:color/white"
-                android:textStyle="bold"
-                android:textSize="11sp"
-                android:layout_marginTop="8dp"
-                android:background="@drawable/selector_boton"/>
-
-            <TextView
-                android:id="@+id/bordeKirshDiagonalDerecha"
-                android:layout_width="wrap_content"
-                android:gravity="center"
-                android:layout_height="wrap_content"
-                android:text="KIRSH (BORDES DIAGONALES DERECHA)"
-                android:padding="8dp"
-                android:textColor="@android:color/white"
-                android:textStyle="bold"
-                android:textSize="11sp"
-                android:layout_marginTop="8dp"
-                android:background="@drawable/selector_boton"/>
-
-            <TextView
-                android:id="@+id/bordeKirshDiagonalIzquierda"
-                android:layout_width="wrap_content"
-                android:gravity="center"
-                android:layout_height="wrap_content"
-                android:text="KIRSH (BORDES DIAGONALES IZQUIERDA)"
-                android:padding="8dp"
-                android:textColor="@android:color/white"
-                android:textStyle="bold"
-                android:textSize="11sp"
-                android:layout_marginTop="8dp"
-                android:background="@drawable/selector_boton"/>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="0.5dp"
-                android:background="@color/gris"
-                android:layout_margin="16dp"/>
-
-            <TextView
-                android:id="@+id/bordeHorizontal"
-                android:layout_width="wrap_content"
-                android:gravity="center"
-                android:layout_height="wrap_content"
-                android:text="DETECCIÓN (BORDES HORIZONTALES)"
-                android:padding="8dp"
-                android:textColor="@android:color/white"
-                android:textStyle="bold"
-                android:textSize="11sp"
-                android:layout_marginTop="8dp"
-                android:background="@drawable/selector_boton"/>
-
-            <TextView
-                android:id="@+id/bordeVertical"
-                android:layout_width="wrap_content"
-                android:gravity="center"
-                android:layout_height="wrap_content"
-                android:text="DETECCIÓN (BORDES VERTICALES)"
-                android:padding="8dp"
-                android:textColor="@android:color/white"
-                android:textStyle="bold"
-                android:textSize="11sp"
-                android:layout_marginTop="8dp"
-                android:background="@drawable/selector_boton"/>
-
-            <TextView
-                android:id="@+id/bordeDiagonalDerecha"
-                android:layout_width="wrap_content"
-                android:gravity="center"
-                android:layout_height="wrap_content"
-                android:text="DETECCIÓN (BORDES DIAGONALES DERECHA)"
-                android:padding="8dp"
-                android:textColor="@android:color/white"
-                android:textStyle="bold"
-                android:textSize="11sp"
-                android:layout_marginTop="8dp"
-                android:background="@drawable/selector_boton"/>
-
-            <TextView
-                android:id="@+id/bordeDiagonalIzquierda"
-                android:layout_width="wrap_content"
-                android:gravity="center"
-                android:layout_height="wrap_content"
-                android:text="DETECCIÓN (BORDES DIAGONALES IZQUIERDA)"
-                android:padding="8dp"
-                android:textColor="@android:color/white"
-                android:textStyle="bold"
-                android:textSize="11sp"
-                android:layout_marginTop="8dp"
-                android:background="@drawable/selector_boton"/>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="0.5dp"
-                android:background="@color/gris"
-                android:layout_margin="16dp"/>
-
-            <TextView
-                android:id="@+id/bordeMetodoDelLaplaciano"
-                android:layout_width="wrap_content"
-                android:gravity="center"
-                android:layout_height="wrap_content"
-                android:text="MÉTODO DEL LAPLACIANO"
-                android:padding="8dp"
-                android:textColor="@android:color/white"
-                android:textStyle="bold"
-                android:textSize="11sp"
-                android:layout_marginTop="8dp"
-                android:background="@drawable/selector_boton"/>
-
-            <TextView
-                android:id="@+id/bordeMetodoDelLaplacianoCrucesPorCero"
-                android:layout_width="wrap_content"
-                android:gravity="center"
-                android:layout_height="wrap_content"
-                android:text="MÉTODO DEL LAPLACIANO (CRUCES POR CERO)"
-                android:padding="8dp"
-                android:textColor="@android:color/white"
-                android:textStyle="bold"
-                android:textSize="11sp"
-                android:layout_marginTop="8dp"
-                android:background="@drawable/selector_boton"/>
-
-            <TextView
-                android:id="@+id/bordeMetodoDelLaplacianoEvaluacionPendiente"
-                android:layout_width="wrap_content"
-                android:gravity="center"
-                android:layout_height="wrap_content"
-                android:text="MÉTODO DEL LAPLACIANO (EVALUACION DE LA PENDIENTE)"
-                android:padding="8dp"
-                android:textColor="@android:color/white"
-                android:textStyle="bold"
-                android:textSize="11sp"
-                android:layout_marginTop="8dp"
-                android:background="@drawable/selector_boton"/>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="0.5dp"
-                android:background="@color/gris"
-                android:layout_margin="16dp"/>
-
-            <TextView
-                android:id="@+id/tituloLaplacianoGaussiano"
+            <Button
+                android:id="@+id/guardar"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="LAPLACIANO DEL GAUSSIANO"
-                android:textStyle="bold"
-                android:layout_marginTop="16dp"/>
-
-            <EditText
-                android:id="@+id/sigma"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:hint="Sigma"
-                android:inputType="numberDecimal"
-                android:textSize="14sp"
-                android:layout_below="@+id/tituloLaplacianoGaussiano"/>
-
-
-            <TextView
-                android:id="@+id/bordeMetodoDelLaplacianoDelGaussiano"
-                android:layout_width="wrap_content"
-                android:gravity="center"
-                android:layout_height="wrap_content"
-                android:text="APLICAR"
-                android:padding="8dp"
-                android:textColor="@android:color/white"
-                android:textStyle="bold"
-                android:textSize="11sp"
-                android:layout_marginTop="8dp"
-                android:background="@drawable/selector_boton"/>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="0.5dp"
-                android:background="@color/gris"
-                android:layout_margin="16dp"/>
-        </LinearLayout>
+                android:layout_below="@+id/info"
+                android:layout_marginTop="16dp"
+                android:visibility="invisible"
+                android:text="GUARDAR."/>
+        </RelativeLayout>
+    </LinearLayout>
+</LinearLayout>
 
     </ScrollView>
+
+<View
+android:layout_width="0.5dp"
+android:layout_height="match_parent"
+android:background="@color/grisClaro"/>
+
+
+<ScrollView
+android:layout_width="0dp"
+android:layout_height="match_parent"
+android:layout_weight="0.3">
+
+<LinearLayout
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:layout_marginLeft="16dp">
+
+    <CheckBox
+        android:id="@+id/esColor"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Es imagen a color"
+        android:layout_marginTop="8dp"/>
+
+    <TextView
+        android:id="@+id/bordePrewittHorizontal"
+        android:layout_width="wrap_content"
+        android:gravity="center"
+        android:layout_height="wrap_content"
+        android:text="PREWITT (BORDES HORIZONTALES)"
+        android:padding="8dp"
+        android:textColor="@android:color/white"
+        android:textStyle="bold"
+        android:textSize="11sp"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/selector_boton"/>
+
+    <TextView
+        android:id="@+id/bordePrewittVertical"
+        android:layout_width="wrap_content"
+        android:gravity="center"
+        android:layout_height="wrap_content"
+        android:text="PREWITT (BORDES VERTICALES)"
+        android:padding="8dp"
+        android:textColor="@android:color/white"
+        android:textStyle="bold"
+        android:textSize="11sp"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/selector_boton"/>
+
+    <TextView
+        android:id="@+id/bordePrewittDiagonalDerecha"
+        android:layout_width="wrap_content"
+        android:gravity="center"
+        android:layout_height="wrap_content"
+        android:text="PREWITT (BORDES DIAGONALES DERECHA)"
+        android:padding="8dp"
+        android:textColor="@android:color/white"
+        android:textStyle="bold"
+        android:textSize="11sp"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/selector_boton"/>
+
+    <TextView
+        android:id="@+id/bordePrewittDiagonalIzquierda"
+        android:layout_width="wrap_content"
+        android:gravity="center"
+        android:layout_height="wrap_content"
+        android:text="PREWITT (BORDES DIAGONALES IZQUIERDA)"
+        android:padding="8dp"
+        android:textColor="@android:color/white"
+        android:textStyle="bold"
+        android:textSize="11sp"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/selector_boton"/>
+
+    <TextView
+        android:id="@+id/bordePrewittCompleto"
+        android:layout_width="wrap_content"
+        android:gravity="center"
+        android:layout_height="wrap_content"
+        android:text="PREWIT COMPLETO"
+        android:padding="8dp"
+        android:textColor="@android:color/white"
+        android:textStyle="bold"
+        android:textSize="11sp"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/selector_boton_accent"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="@color/gris"
+        android:layout_margin="16dp"/>
+
+    <TextView
+        android:id="@+id/bordeSobelHorizontal"
+        android:layout_width="wrap_content"
+        android:gravity="center"
+        android:layout_height="wrap_content"
+        android:text="SOBEL (BORDES HORIZONTALES)"
+        android:padding="8dp"
+        android:textColor="@android:color/white"
+        android:textStyle="bold"
+        android:textSize="11sp"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/selector_boton"/>
+
+    <TextView
+        android:id="@+id/bordeSobelVertical"
+        android:layout_width="wrap_content"
+        android:gravity="center"
+        android:layout_height="wrap_content"
+        android:text="SOBEL (BORDES VERTICALES)"
+        android:padding="8dp"
+        android:textColor="@android:color/white"
+        android:textStyle="bold"
+        android:textSize="11sp"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/selector_boton"/>
+
+    <TextView
+        android:id="@+id/bordeSobelDiagonalDerecha"
+        android:layout_width="wrap_content"
+        android:gravity="center"
+        android:layout_height="wrap_content"
+        android:text="SOBEL (BORDES DIAGONALES DERECHA)"
+        android:padding="8dp"
+        android:textColor="@android:color/white"
+        android:textStyle="bold"
+        android:textSize="11sp"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/selector_boton"/>
+
+    <TextView
+        android:id="@+id/bordeSobelDiagonalIzquierda"
+        android:layout_width="wrap_content"
+        android:gravity="center"
+        android:layout_height="wrap_content"
+        android:text="SOBEL (BORDES DIAGONALES IZQUIERDA)"
+        android:padding="8dp"
+        android:textColor="@android:color/white"
+        android:textStyle="bold"
+        android:textSize="11sp"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/selector_boton"/>
+
+    <TextView
+        android:id="@+id/bordeSobelCompleto"
+        android:layout_width="wrap_content"
+        android:gravity="center"
+        android:layout_height="wrap_content"
+        android:text="SOBEL COMPLETO"
+        android:padding="8dp"
+        android:textColor="@android:color/white"
+        android:textStyle="bold"
+        android:textSize="11sp"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/selector_boton_accent"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="@color/gris"
+        android:layout_margin="16dp"/>
+
+    <TextView
+        android:id="@+id/bordeKirshHorizontal"
+        android:layout_width="wrap_content"
+        android:gravity="center"
+        android:layout_height="wrap_content"
+        android:text="KIRSH (BORDES HORIZONTALES)"
+        android:padding="8dp"
+        android:textColor="@android:color/white"
+        android:textStyle="bold"
+        android:textSize="11sp"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/selector_boton"/>
+
+    <TextView
+        android:id="@+id/bordeKirshVertical"
+        android:layout_width="wrap_content"
+        android:gravity="center"
+        android:layout_height="wrap_content"
+        android:text="KIRSH (BORDES VERTICALES)"
+        android:padding="8dp"
+        android:textColor="@android:color/white"
+        android:textStyle="bold"
+        android:textSize="11sp"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/selector_boton"/>
+
+    <TextView
+        android:id="@+id/bordeKirshDiagonalDerecha"
+        android:layout_width="wrap_content"
+        android:gravity="center"
+        android:layout_height="wrap_content"
+        android:text="KIRSH (BORDES DIAGONALES DERECHA)"
+        android:padding="8dp"
+        android:textColor="@android:color/white"
+        android:textStyle="bold"
+        android:textSize="11sp"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/selector_boton"/>
+
+    <TextView
+        android:id="@+id/bordeKirshDiagonalIzquierda"
+        android:layout_width="wrap_content"
+        android:gravity="center"
+        android:layout_height="wrap_content"
+        android:text="KIRSH (BORDES DIAGONALES IZQUIERDA)"
+        android:padding="8dp"
+        android:textColor="@android:color/white"
+        android:textStyle="bold"
+        android:textSize="11sp"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/selector_boton"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="@color/gris"
+        android:layout_margin="16dp"/>
+
+    <TextView
+        android:id="@+id/bordeHorizontal"
+        android:layout_width="wrap_content"
+        android:gravity="center"
+        android:layout_height="wrap_content"
+        android:text="DETECCIÓN (BORDES HORIZONTALES)"
+        android:padding="8dp"
+        android:textColor="@android:color/white"
+        android:textStyle="bold"
+        android:textSize="11sp"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/selector_boton"/>
+
+    <TextView
+        android:id="@+id/bordeVertical"
+        android:layout_width="wrap_content"
+        android:gravity="center"
+        android:layout_height="wrap_content"
+        android:text="DETECCIÓN (BORDES VERTICALES)"
+        android:padding="8dp"
+        android:textColor="@android:color/white"
+        android:textStyle="bold"
+        android:textSize="11sp"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/selector_boton"/>
+
+    <TextView
+        android:id="@+id/bordeDiagonalDerecha"
+        android:layout_width="wrap_content"
+        android:gravity="center"
+        android:layout_height="wrap_content"
+        android:text="DETECCIÓN (BORDES DIAGONALES DERECHA)"
+        android:padding="8dp"
+        android:textColor="@android:color/white"
+        android:textStyle="bold"
+        android:textSize="11sp"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/selector_boton"/>
+
+    <TextView
+        android:id="@+id/bordeDiagonalIzquierda"
+        android:layout_width="wrap_content"
+        android:gravity="center"
+        android:layout_height="wrap_content"
+        android:text="DETECCIÓN (BORDES DIAGONALES IZQUIERDA)"
+        android:padding="8dp"
+        android:textColor="@android:color/white"
+        android:textStyle="bold"
+        android:textSize="11sp"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/selector_boton"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="@color/gris"
+        android:layout_margin="16dp"/>
+
+    <TextView
+        android:id="@+id/bordeMetodoDelLaplaciano"
+        android:layout_width="wrap_content"
+        android:gravity="center"
+        android:layout_height="wrap_content"
+        android:text="MÉTODO DEL LAPLACIANO"
+        android:padding="8dp"
+        android:textColor="@android:color/white"
+        android:textStyle="bold"
+        android:textSize="11sp"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/selector_boton"/>
+
+    <TextView
+        android:id="@+id/bordeMetodoDelLaplacianoCrucesPorCero"
+        android:layout_width="wrap_content"
+        android:gravity="center"
+        android:layout_height="wrap_content"
+        android:text="MÉTODO DEL LAPLACIANO (CRUCES POR CERO)"
+        android:padding="8dp"
+        android:textColor="@android:color/white"
+        android:textStyle="bold"
+        android:textSize="11sp"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/selector_boton"/>
+
+    <TextView
+        android:id="@+id/bordeMetodoDelLaplacianoEvaluacionPendiente"
+        android:layout_width="wrap_content"
+        android:gravity="center"
+        android:layout_height="wrap_content"
+        android:text="MÉTODO DEL LAPLACIANO (EVALUACION DE LA PENDIENTE)"
+        android:padding="8dp"
+        android:textColor="@android:color/white"
+        android:textStyle="bold"
+        android:textSize="11sp"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/selector_boton"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="@color/gris"
+        android:layout_margin="16dp"/>
+
+    <TextView
+        android:id="@+id/tituloLaplacianoGaussiano"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="LAPLACIANO DEL GAUSSIANO"
+        android:textStyle="bold"
+        android:layout_marginTop="16dp"/>
+
+    <EditText
+        android:id="@+id/sigma"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="Sigma"
+        android:inputType="numberDecimal"
+        android:textSize="14sp"
+        android:layout_below="@+id/tituloLaplacianoGaussiano"/>
+
+
+    <TextView
+        android:id="@+id/bordeMetodoDelLaplacianoDelGaussiano"
+        android:layout_width="wrap_content"
+        android:gravity="center"
+        android:layout_height="wrap_content"
+        android:text="APLICAR"
+        android:padding="8dp"
+        android:textColor="@android:color/white"
+        android:textStyle="bold"
+        android:textSize="11sp"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/selector_boton"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="@color/gris"
+        android:layout_margin="16dp"/>
 </LinearLayout>
+
+</ScrollView>
+    </LinearLayout>

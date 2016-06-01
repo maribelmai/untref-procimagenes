@@ -5,7 +5,9 @@ import android.graphics.Color;
 import android.os.AsyncTask;
 
 import ar.edu.untref.procesamientoimagenes.actividad.ActividadBordes;
+import ar.edu.untref.procesamientoimagenes.modelo.TipoImagen;
 import ar.edu.untref.procesamientoimagenes.util.Operacion;
+import ar.edu.untref.procesamientoimagenes.util.Transformacion;
 
 /**
  * Created by maribel on 4/10/16.
@@ -16,16 +18,22 @@ public class TareaAplicarMetodoDelLaplacianoDelGaussiano extends AsyncTask<Void,
     private Float sigma;
     private ActividadBordes actividadBordes;
     private Bitmap bitmapOriginal;
+    private TipoImagen tipoImagen;
 
-    public TareaAplicarMetodoDelLaplacianoDelGaussiano(Float sigma, ActividadBordes actividadBordes, Bitmap bitmapOriginal) {
+    public TareaAplicarMetodoDelLaplacianoDelGaussiano(Float sigma, ActividadBordes actividadBordes, Bitmap bitmapOriginal, TipoImagen tipoImagen) {
 
         this.sigma = sigma;
         this.actividadBordes = actividadBordes;
         this.bitmapOriginal = bitmapOriginal;
+        this.tipoImagen = tipoImagen;
     }
 
     @Override
     protected Bitmap doInBackground(Void... params) {
+
+        if (tipoImagen == TipoImagen.COLOR) {
+            bitmapOriginal = Transformacion.colorAEscalaDeGrises(bitmapOriginal);
+        }
 
         int [][] matrizPixelesLoG = new int[bitmapOriginal.getWidth()] [bitmapOriginal.getHeight()];
 
@@ -77,7 +85,9 @@ public class TareaAplicarMetodoDelLaplacianoDelGaussiano extends AsyncTask<Void,
 
     private double[][] generarMascaraLaplacianoDelGaussiano() {
 
-        int posibleTamanio = (int) ((3 * sigma) % 2 == 0 ?  3 * sigma : (3 * sigma) + 1);
+        int auxTamanio = (int) (3 * sigma);
+
+        int posibleTamanio = auxTamanio % 2 == 0 ? auxTamanio : auxTamanio + 1;
         int tamanioMascara = sigma < 1 ? 5 : posibleTamanio + 1;
         double[][] matrizDeLaplacianoDelGaussiano = new double[tamanioMascara][tamanioMascara];
 

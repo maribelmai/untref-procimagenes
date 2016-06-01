@@ -5,7 +5,9 @@ import android.graphics.Color;
 import android.os.AsyncTask;
 
 import ar.edu.untref.procesamientoimagenes.actividad.ActividadBordes;
+import ar.edu.untref.procesamientoimagenes.modelo.TipoImagen;
 import ar.edu.untref.procesamientoimagenes.util.Operacion;
+import ar.edu.untref.procesamientoimagenes.util.Transformacion;
 
 /**
  * Created by maribel on 4/10/16.
@@ -15,16 +17,22 @@ public class TareaAplicarMetodoDelLaplacianoConEvaluacionDePendiente extends Asy
     private ActividadBordes actividadBordes;
     private Bitmap bitmapOriginal;
     private int pendiente;
+    private TipoImagen tipoImagen;
 
-    public TareaAplicarMetodoDelLaplacianoConEvaluacionDePendiente(ActividadBordes actividadBordes, Bitmap bitmapOriginal, int pendiente) {
+    public TareaAplicarMetodoDelLaplacianoConEvaluacionDePendiente(ActividadBordes actividadBordes, Bitmap bitmapOriginal, int pendiente, TipoImagen tipoImagen) {
 
         this.actividadBordes = actividadBordes;
         this.bitmapOriginal = bitmapOriginal;
         this.pendiente = pendiente;
+        this.tipoImagen = tipoImagen;
     }
 
     @Override
     protected Bitmap doInBackground(Void... params) {
+
+        if (tipoImagen == TipoImagen.COLOR) {
+            bitmapOriginal = Transformacion.colorAEscalaDeGrises(bitmapOriginal);
+        }
 
         int[][] matrizGradiente = generarMatrizGradientes();
 
