@@ -126,7 +126,7 @@ public class Operacion {
                     || (valorAnterior > 0 && valorActual < 0);
 
             if (hayCambio) {
-                hayCambio = valorActual + valorAnterior >= pendiente;
+                hayCambio = Math.abs(valorActual + valorAnterior) >= pendiente;
             }
         }
         return hayCambio;
@@ -149,7 +149,7 @@ public class Operacion {
                     || (valorAnterior > 0 && valorActual < 0);
 
             if (hayCambio) {
-                hayCambio = valorActual + valorAnterior >= pendiente;
+                hayCambio = Math.abs(valorActual + valorAnterior) >= pendiente;
             }
         }
 

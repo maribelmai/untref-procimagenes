@@ -44,7 +44,6 @@ public class TareaAplicarMetodoDelLaplacianoDelGaussiano extends AsyncTask<Void,
         int posicionCentralMascara = mascaraLoG.length / 2;
 
         //Paso la máscara
-
         for (int x = posicionCentralMascara; x < bitmapOriginal.getWidth() - posicionCentralMascara; x++) {
             for (int y = posicionCentralMascara; y < bitmapOriginal.getHeight() - posicionCentralMascara; y++) {
 
@@ -100,6 +99,19 @@ public class TareaAplicarMetodoDelLaplacianoDelGaussiano extends AsyncTask<Void,
                 matrizDeLaplacianoDelGaussiano[x][y] = primerTermino * (2 - segundoTermino) * Math.exp((-0.5) * segundoTermino);
             }
         }
+
+//        for (int x = 0; x < tamanioMascara; x++) {
+//            for (int y = 0; y < tamanioMascara; y++) {
+//
+//                double primerFactor = (Math.pow(x,2) + Math.pow(y, 2) - (2 * Math.pow(sigma,2)));
+//                primerFactor = primerFactor / Math.pow(sigma, 4);
+//
+//                double segundoFactor = Math.exp(((-1) * (Math.pow(x,2) + Math.pow(y,2))) / (2 * Math.pow(sigma,2)));
+//
+//                matrizDeLaplacianoDelGaussiano[x][y] = primerFactor * segundoFactor;
+//            }
+//        }
+
 
         return matrizDeLaplacianoDelGaussiano;
     }
