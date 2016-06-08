@@ -76,19 +76,19 @@ public class ActividadDifusion extends ActividadBasica {
         for (int i = 0; i < cantidadRepeticiones; i++) {
 
             int[][] matriz = new int[mutableBitmap.getWidth()][mutableBitmap.getHeight()];
-            for (int j = 1; j < mutableBitmap.getWidth() - 1; j++) {
+            for (int x = 1; x < mutableBitmap.getWidth() - 1; x++) {
 
-                for (int k = 1; k < mutableBitmap.getHeight() - 1; k++) {
+                for (int y = 1; y < mutableBitmap.getHeight() - 1; y++) {
 
-                    int derivadaNorte = calcularDerivadaNorte(mutableBitmap, j, k);
-                    int derivadaSur = calcularDerivadaSur(mutableBitmap, j, k);
-                    int derivadaOeste = calcularDerivadaOeste(mutableBitmap, j, k);
-                    int derivadaEste = calcularDerivadaEste(mutableBitmap, j, k);
+                    int derivadaNorte = calcularDerivadaNorte(mutableBitmap, x, y);
+                    int derivadaSur = calcularDerivadaSur(mutableBitmap, x, y);
+                    int derivadaOeste = calcularDerivadaOeste(mutableBitmap, x, y);
+                    int derivadaEste = calcularDerivadaEste(mutableBitmap, x, y);
 
-                    int color = (int) (Color.red(mutableBitmap.getPixel(j, k)) +
+                    int color = (int) (Color.red(mutableBitmap.getPixel(x, y)) +
                             (LAMBDA * (derivadaNorte + derivadaSur + derivadaOeste + derivadaEste)));
 
-                    matriz[j][k] = color;
+                    matriz[x][y] = color;
                 }
             }
 
@@ -103,113 +103,157 @@ public class ActividadDifusion extends ActividadBasica {
     public void difusionAnisotropica() {
 
         String sigma = this.sigma.getText().toString().trim();
+        String repeticionesString =  repeticiones.getText().toString().trim();
 
-        if (!sigma.isEmpty()) {
+        if (!sigma.isEmpty() && !repeticionesString.isEmpty()) {
 
             float valorSigma = Float.valueOf(sigma);
+            int cantidadRepeticiones = Integer.parseInt(repeticionesString);
 
-            int cantidadRepeticiones = Integer.parseInt(repeticiones.getText().toString());
-            Bitmap mutableBitmap = bitmapOriginal.copy(Bitmap.Config.RGB_565, true);
+            Bitmap resultado = Bitmap.createBitmap(bitmapOriginal.getWidth(), bitmapOriginal.getHeight(), Bitmap.Config.RGB_565);
+            aplicarDifusionAnisotropica(resultado, cantidadRepeticiones, valorSigma);
 
-            for (int i = 0; i < cantidadRepeticiones; i++) {
-
-                int[][] matriz = new int[mutableBitmap.getWidth()][mutableBitmap.getHeight()];
-                for (int j = 1; j < mutableBitmap.getWidth() - 1; j++) {
-
-                    for (int k = 1; k < mutableBitmap.getHeight() - 1; k++) {
-
-                        int derivadaNorte = calcularDerivadaNorte(mutableBitmap, j, k);
-                        int derivadaSur = calcularDerivadaSur(mutableBitmap, j, k);
-                        int derivadaOeste = calcularDerivadaOeste(mutableBitmap, j, k);
-                        int derivadaEste = calcularDerivadaEste(mutableBitmap, j, k);
-
-                        boolean lorentz = coeficiente.getCheckedRadioButtonId() == R.id.lorentz;
-
-                        double coeficienteNorte = lorentz ? gradienteLorentz(valorSigma, derivadaNorte) : gradienteLeclerc(valorSigma, derivadaNorte);
-                        double coeficienteSur = lorentz ? gradienteLorentz(valorSigma, derivadaSur) : gradienteLeclerc(valorSigma, derivadaSur);
-                        double coeficienteOeste = lorentz ? gradienteLorentz(valorSigma, derivadaOeste) : gradienteLeclerc(valorSigma, derivadaOeste);
-                        double coeficienteEste = lorentz ? gradienteLorentz(valorSigma, derivadaEste) : gradienteLeclerc(valorSigma, derivadaEste);
-
-                        double DnCn = derivadaNorte * coeficienteNorte;
-                        double DsCs = derivadaSur * coeficienteSur;
-                        double DeCe = derivadaEste * coeficienteOeste;
-                        double DoCo = derivadaOeste * coeficienteEste;
-
-                        int color = (int) (Color.red(mutableBitmap.getPixel(j, k)) +
-                                (LAMBDA * (DnCn + DsCs + DeCe + DoCo)));
-
-                        matriz[j][k] = color;
-                    }
-                }
-
-                mutableBitmap = Operacion.hacerTransformacionLineal(matriz);
-            }
-
-            imageView.setImageBitmap(mutableBitmap);
+            imageView.setImageBitmap(resultado);
         }
-        else {
+
+        if (sigma.isEmpty()) {
             this.sigma.setError("Requerido");
         }
-    }
 
-    public double gradienteLorentz(double sigma, double derivada) {
-        return (1/(1 + (Math.pow(Math.abs(derivada), 2) / Math.pow(sigma, 2))));
-    }
-
-    public double gradienteLeclerc(double sigma, double derivada) {
-        return Math.exp(((-1) * Math.pow(Math.abs(derivada), 2)) / Math.pow(sigma, 2));
-    }
-
-    private int calcularDerivadaEste(Bitmap mutableBitmap, int x, int y) {
-
-        int derivada = 0;
-
-        if (y != mutableBitmap.getWidth()) {
-
-            int color = Color.red(mutableBitmap.getPixel(x, y));
-            derivada = Color.red(mutableBitmap.getPixel(x - 1, y)) - color;
+        if (repeticionesString.isEmpty()) {
+            this.repeticiones.setError("Requerido");
         }
 
-        return derivada;
     }
 
-    private int calcularDerivadaOeste(Bitmap mutableBitmap, int x, int y) {
+    private void aplicarDifusionAnisotropica(Bitmap resultado, int cantidadRepeticiones, float valorSigma) {
 
-        int derivada = 0;
+        int ancho = resultado.getWidth();
+        int alto = resultado.getHeight();
 
-        if (y != 0) {
+        int[][] coloresImagen = new int[alto][ancho];
 
-            int color = Color.red(mutableBitmap.getPixel(x, y));
-            derivada = Color.red(mutableBitmap.getPixel(x + 1, y)) - color;
+        for (int x = 0; x < ancho; x++) {
+            for (int y = 0; y < alto; y++) {
+                coloresImagen[x][y] = Color.red(bitmapOriginal.getPixel(x,y));
+            }
         }
 
-        return derivada;
+        for (int repeticion = 0; repeticion < cantidadRepeticiones; repeticion ++) {
+            for (int x = 0; x < ancho; x++) {
+                for (int y = 0; y < alto; y++) {
+
+                    int nivelDeGris = coloresImagen[x][y];
+
+                    float derivadaNorte = calcularDerivadaNorte(resultado, x, y);
+                    float derivadaEste = calcularDerivadaEste(resultado, x, y);
+                    float derivadaOeste = calcularDerivadaOeste(resultado, x, y);
+                    float derivadaSur = calcularDerivadaSur(resultado, x, y);
+
+                    boolean lorentz = coeficiente.getCheckedRadioButtonId() == R.id.lorentz;
+
+                    double coeficienteNorte = lorentz ? gradienteLorentz(valorSigma, derivadaNorte) : gradienteLeclerc(valorSigma, derivadaNorte);
+                    double coeficienteSur = lorentz ? gradienteLorentz(valorSigma, derivadaSur) : gradienteLeclerc(valorSigma, derivadaSur);
+                    double coeficienteOeste = lorentz ? gradienteLorentz(valorSigma, derivadaOeste) : gradienteLeclerc(valorSigma, derivadaOeste);
+                    double coeficienteEste = lorentz ? gradienteLorentz(valorSigma, derivadaEste) : gradienteLeclerc(valorSigma, derivadaEste);
+
+                    double DnIijCnij = derivadaNorte * coeficienteNorte;
+                    double DsIijCsij = derivadaSur * coeficienteSur;
+                    double DeIijCeij = derivadaEste * coeficienteEste;
+                    double DoIijCoij = derivadaOeste * coeficienteOeste;
+
+                    double nuevoValor = nivelDeGris + LAMBDA * (DnIijCnij + DsIijCsij + DeIijCeij + DoIijCoij);
+
+                    coloresImagen[x][y] = (int) nuevoValor;
+                }
+            }
+
+            coloresImagen = Operacion.obtenerMatrizTransformada(coloresImagen);
+
+            for (int x = 0; x < ancho; x++) {
+                for (int y = 0; y < alto; y++) {
+
+                    int nuevoGris = coloresImagen[x][y];
+                    resultado.setPixel(x, y, Color.rgb(nuevoGris, nuevoGris, nuevoGris));
+                }
+            }
+        }
     }
 
-    private int calcularDerivadaSur(Bitmap mutableBitmap, int x, int y) {
-
-        int derivada = 0;
-
-        if (x != mutableBitmap.getHeight()) {
-
-            int color = Color.red(mutableBitmap.getPixel(x, y));
-            derivada = Color.red(mutableBitmap.getPixel(x, y + 1)) - color;
-        }
-
-        return derivada;
+    private float gradienteLorentz(double sigma, float derivada) {
+        return 1/ ( ((float) (Math.pow(Math.abs(derivada), 2) / Math.pow(sigma, 2))) + 1);
     }
 
-    private int calcularDerivadaNorte(Bitmap mutableBitmap, int x, int y) {
+    public float gradienteLeclerc(double sigma, double derivada) {
+        return (float) Math.exp(((-1) * Math.pow(Math.abs(derivada), 2)) / Math.pow(sigma, 2));
+    }
 
-        int derivada = 0;
+    private int calcularDerivadaEste(Bitmap imagen, int x, int y) {
 
-        if (x != 0) {
+        int colorVecino;
 
-            int color = Color.red(mutableBitmap.getPixel(x, y));
-            derivada = Color.red(mutableBitmap.getPixel(x, y - 1)) - color;
+        int coordenadaVecina = y + 1;
+        int colorActual = Color.red(imagen.getPixel(x, y));
+
+        if (coordenadaVecina < imagen.getWidth() && coordenadaVecina >= 0) {
+            colorVecino = Color.red(imagen.getPixel(x, coordenadaVecina));
+
+        } else {
+            colorVecino = colorActual;
         }
 
-        return derivada;
+        return colorVecino - colorActual;
+    }
+
+    private int calcularDerivadaOeste(Bitmap imagen, int x, int y) {
+
+        int colorVecino;
+
+        int coordenadaVecina = y - 1;
+        int colorActual = Color.red(imagen.getPixel(x, y));
+
+        if (coordenadaVecina < imagen.getWidth() && coordenadaVecina >= 0) {
+            colorVecino = Color.red(imagen.getPixel(x, coordenadaVecina));
+
+        } else {
+            colorVecino = colorActual;
+        }
+
+        return colorVecino - colorActual;
+    }
+
+    private int calcularDerivadaSur(Bitmap imagen, int x, int y) {
+
+        int colorVecino;
+
+        int coordenadaVecina = x + 1;
+        int colorActual = Color.red(imagen.getPixel(x, y));
+
+        if (coordenadaVecina < imagen.getHeight() && coordenadaVecina >= 0) {
+            colorVecino = Color.red(imagen.getPixel(coordenadaVecina, y));
+
+        } else {
+            colorVecino = colorActual;
+        }
+
+        return colorVecino - colorActual;
+    }
+
+    private int calcularDerivadaNorte(Bitmap imagen, int x, int y) {
+
+        int colorCorrido;
+
+        int coordenadaVecina = x - 1;
+        int colorActual = Color.red(imagen.getPixel(x, y));
+
+        if (coordenadaVecina < imagen.getHeight() && coordenadaVecina >= 0) {
+            colorCorrido = Color.red(imagen.getPixel(coordenadaVecina, y));
+
+        } else {
+            colorCorrido = colorActual;
+        }
+
+        return colorCorrido - colorActual;
     }
 
     @Override

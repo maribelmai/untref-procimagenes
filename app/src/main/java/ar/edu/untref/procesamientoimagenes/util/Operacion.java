@@ -8,8 +8,6 @@ import android.graphics.Color;
  */
 public class Operacion {
 
-    private static final String TAG = Operacion.class.getSimpleName();
-
     public static Bitmap sumar (Bitmap bitmap1, Bitmap bitmap2) {
 
         int[][] matrizPixeles = new int[bitmap1.getWidth()][bitmap2.getHeight()];
@@ -30,14 +28,11 @@ public class Operacion {
 
     public static Bitmap hacerTransformacionLineal(int[][] matrizPixeles) {
 
-        float minimo;
-        float maximo;
-
         int ancho = matrizPixeles.length;
         int alto = matrizPixeles[0].length;
 
-        minimo = 0;
-        maximo = 255;
+        float minimo = 0;
+        float maximo = 255;
 
         for (int x = 0; x < ancho; x++) {
             for (int y = 0; y < alto; y++) {
@@ -51,9 +46,7 @@ public class Operacion {
                 if (maximo < valorActual) {
                     maximo = valorActual;
                 }
-
             }
-
         }
 
         Bitmap bitmap = Bitmap.createBitmap(ancho, alto, Bitmap.Config.RGB_565);
@@ -71,42 +64,42 @@ public class Operacion {
         return bitmap;
     }
 
-    public static boolean hayCambioDeSignoPorFila(int[][] matriz, int x, int y) {
+    public static int[][] obtenerMatrizTransformada(int[][] matrizPixeles) {
 
-        boolean hayCambio = false;
+        int filas = matrizPixeles.length;
+        int columnas = matrizPixeles[0].length;
 
-        if (y - 1 >= 0) {
+        int[][] matrizTransformada = new int[filas][columnas];
 
-            int valorActual = matriz[x][y];
-            int valorAnterior = matriz[x][y - 1];
+        float minimo = 0;
+        float maximo = 255;
 
-            if (valorAnterior == 0 && y - 2 >= 0) {
-                valorAnterior = matriz[x][y - 2];
+        for (int f = 0; f < filas; f++) {
+            for (int g = 0; g < columnas; g++) {
+
+                int valorActual = matrizPixeles[f][g];
+
+                if (minimo > valorActual) {
+                    minimo = valorActual;
+                }
+
+                if (maximo < valorActual) {
+                    maximo = valorActual;
+                }
             }
-
-            hayCambio = (valorAnterior < 0 && valorActual > 0)
-                    || (valorAnterior > 0 && valorActual < 0);
         }
-        return hayCambio;
-    }
 
-    public static boolean hayCambioDeSignoPorColumna(int[][] matriz, int x, int y) {
+        for (int i = 0; i < filas; i++) {
+            for (int j = 0; j < columnas; j++) {
 
-        boolean hayCambio = false;
+                int valorActual = matrizPixeles[i][j];
+                int valorTransformado = (int) ((((255f) / (maximo - minimo)) * valorActual) - ((minimo * 255f) / (maximo - minimo)));
 
-        if (x - 1 >= 0) {
-
-            int valorActual = matriz[x][y];
-            int valorAnterior = matriz[x-1][y];
-
-            if (valorAnterior == 0 && x - 2 >= 0) {
-                valorAnterior = matriz[x - 2][y];
+                matrizTransformada[i][j] = valorTransformado;
             }
-
-            hayCambio = (valorAnterior < 0 && valorActual > 0)
-                    || (valorAnterior > 0 && valorActual < 0);
         }
-        return hayCambio;
+
+        return matrizTransformada;
     }
 
     public static boolean hayCambioDeSignoPorColumna(int[][] matriz, int x, int y, int pendiente) {
