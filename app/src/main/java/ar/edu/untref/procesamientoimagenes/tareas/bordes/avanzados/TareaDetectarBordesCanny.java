@@ -39,24 +39,24 @@ public class TareaDetectarBordesCanny extends AsyncTask<Void, Bitmap, Bitmap> {
         Bitmap nuevoBitmap = Bitmap.createBitmap(bitmap.getWidth(), bitmap.getHeight(), Bitmap.Config.RGB_565);
 
         try {
-            Bitmap bitmap1 = new TareaAplicarFiltroGaussiano(null, this.bitmap, sigma1).get();
+            Bitmap bitmap1 = new TareaAplicarFiltroGaussiano(null, this.bitmap, sigma1).ejecutar();
             progreso = Progreso.GAUSS_1_CALCULADO;
             publishProgress(bitmap1);
-            Bitmap bitmap2 = new TareaAplicarFiltroGaussiano(null, this.bitmap, sigma2).get();
+            Bitmap bitmap2 = new TareaAplicarFiltroGaussiano(null, this.bitmap, sigma2).ejecutar();
             progreso = Progreso.GAUSS_2_CALCULADO;
             publishProgress(bitmap2);
-            Bitmap bitmap3 = new TareaAplicarFiltroGaussiano(null, this.bitmap, sigma3).get();
+            Bitmap bitmap3 = new TareaAplicarFiltroGaussiano(null, this.bitmap, sigma3).ejecutar();
             progreso = Progreso.GAUSS_3_CALCULADO;
-            publishProgress(bitmap2);
+            publishProgress(bitmap3);
 
-            int[][] bitmap1GHorizontal = AplicadorMascaraBordes.obtenerMatrizGradientes(bitmap1, GeneradorMatrizBordes.getMatrizSobel(TipoBorde.HORIZONTAL), TipoImagen.GRIS);
-            int[][] bitmap1GVertical = AplicadorMascaraBordes.obtenerMatrizGradientes(bitmap1, GeneradorMatrizBordes.getMatrizSobel(TipoBorde.VERTICAL), TipoImagen.GRIS);
+            int[][] bitmap1GHorizontal = AplicadorMascaraBordes.obtenerMatrizGradientes(bitmap1.copy(Bitmap.Config.RGB_565, false), GeneradorMatrizBordes.getMatrizSobel(TipoBorde.HORIZONTAL), TipoImagen.GRIS);
+            int[][] bitmap1GVertical = AplicadorMascaraBordes.obtenerMatrizGradientes(bitmap1.copy(Bitmap.Config.RGB_565, false), GeneradorMatrizBordes.getMatrizSobel(TipoBorde.VERTICAL), TipoImagen.GRIS);
 
-            int[][] bitmap2GHorizontal = AplicadorMascaraBordes.obtenerMatrizGradientes(bitmap2, GeneradorMatrizBordes.getMatrizSobel(TipoBorde.HORIZONTAL), TipoImagen.GRIS);
-            int[][] bitmap2GVertical = AplicadorMascaraBordes.obtenerMatrizGradientes(bitmap2, GeneradorMatrizBordes.getMatrizSobel(TipoBorde.VERTICAL), TipoImagen.GRIS);
+            int[][] bitmap2GHorizontal = AplicadorMascaraBordes.obtenerMatrizGradientes(bitmap2.copy(Bitmap.Config.RGB_565, false), GeneradorMatrizBordes.getMatrizSobel(TipoBorde.HORIZONTAL), TipoImagen.GRIS);
+            int[][] bitmap2GVertical = AplicadorMascaraBordes.obtenerMatrizGradientes(bitmap2.copy(Bitmap.Config.RGB_565, false), GeneradorMatrizBordes.getMatrizSobel(TipoBorde.VERTICAL), TipoImagen.GRIS);
 
-            int[][] bitmap3GHorizontal = AplicadorMascaraBordes.obtenerMatrizGradientes(bitmap3, GeneradorMatrizBordes.getMatrizSobel(TipoBorde.HORIZONTAL), TipoImagen.GRIS);
-            int[][] bitmap3GVertical = AplicadorMascaraBordes.obtenerMatrizGradientes(bitmap3, GeneradorMatrizBordes.getMatrizSobel(TipoBorde.VERTICAL), TipoImagen.GRIS);
+            int[][] bitmap3GHorizontal = AplicadorMascaraBordes.obtenerMatrizGradientes(bitmap3.copy(Bitmap.Config.RGB_565, false), GeneradorMatrizBordes.getMatrizSobel(TipoBorde.HORIZONTAL), TipoImagen.GRIS);
+            int[][] bitmap3GVertical = AplicadorMascaraBordes.obtenerMatrizGradientes(bitmap3.copy(Bitmap.Config.RGB_565, false), GeneradorMatrizBordes.getMatrizSobel(TipoBorde.VERTICAL), TipoImagen.GRIS);
 
             int[][] angulosBitmap1 = obtenerAngulos(bitmap1GHorizontal, bitmap1GVertical);
             int[][] angulosBitmap2 = obtenerAngulos(bitmap2GHorizontal, bitmap2GVertical);
@@ -78,17 +78,39 @@ public class TareaDetectarBordesCanny extends AsyncTask<Void, Bitmap, Bitmap> {
         for (int i = 0; i < ancho; i++) {
             for (int j = 0; j < alto; j ++) {
 
-                int gx = gradientesHorizontal[i][j];
-                int gy = gradientesVertical [i][j];
+                float gx = gradientesHorizontal[i][j];
+                float gy = gradientesVertical [i][j];
 
-                int angulo = (int) Math.atan(gy / gx);
-                matrizAngulos[i][j] = angulo;
+                int angulo = gx == 0 ? 0 : (int) Math.toDegrees(Math.atan(gy / gx));
+
+                if (angulo < 0) {
+                    angulo += 180;
+                }
+
+                matrizAngulos[i][j] = discretizar(angulo);
 
                 Log.i(TAG, "obtenerAngulos: " + angulo);
             }
         }
 
         return matrizAngulos;
+    }
+
+    private int discretizar(int angulo) {
+
+        int anguloDiscretizado = 0;
+
+        if (angulo >= 22.5 && angulo <= 67.5) {
+            anguloDiscretizado = 45;
+        }
+        else if (angulo > 67.5 && angulo <= 112.5) {
+            anguloDiscretizado = 90;
+        }
+        else if (angulo > 112.5 && angulo <= 157.5) {
+            anguloDiscretizado = 135;
+        }
+
+        return anguloDiscretizado;
     }
 
     @Override

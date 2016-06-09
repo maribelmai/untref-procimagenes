@@ -26,9 +26,16 @@ public class TareaAplicarFiltroGaussiano extends AsyncTask<Void, Void, Bitmap> {
     @Override
     protected Bitmap doInBackground(Void... params) {
 
+        Bitmap mutableBitmap = ejecutar();
+
+        return mutableBitmap;
+    }
+
+    public Bitmap ejecutar() {
+
         Bitmap mutableBitmap = bitmapOriginal.copy(Bitmap.Config.RGB_565, true);
 
-        int auxTamanio = (int) (3 * sigma);
+        int auxTamanio = (int) (2 * Math.sqrt(2D) * sigma);
         int posibleTamanio = auxTamanio % 2 == 0 ? auxTamanio : auxTamanio + 1;
         int tamanioMascara = sigma < 1 ? 5 : posibleTamanio + 1;
 
@@ -76,7 +83,6 @@ public class TareaAplicarFiltroGaussiano extends AsyncTask<Void, Void, Bitmap> {
                 }
             }
         }
-
         return mutableBitmap;
     }
 

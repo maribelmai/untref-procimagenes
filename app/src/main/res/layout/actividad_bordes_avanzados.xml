@@ -57,17 +57,20 @@
 
                         <ImageView
                             android:id="@+id/canny_gauss_1"
-                            android:layout_width="wrap_content"
+                            android:layout_width="0dp"
+                            android:layout_weight="0.33"
                             android:layout_height="wrap_content" />
 
                         <ImageView
                             android:id="@+id/canny_gauss_2"
-                            android:layout_width="wrap_content"
+                            android:layout_width="0dp"
+                            android:layout_weight="0.33"
                             android:layout_height="wrap_content" />
 
                         <ImageView
                             android:id="@+id/canny_gauss_3"
-                            android:layout_width="wrap_content"
+                            android:layout_width="0dp"
+                            android:layout_weight="0.33"
                             android:layout_height="wrap_content" />
                     </LinearLayout>
                 </RelativeLayout>

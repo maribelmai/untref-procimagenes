@@ -46,6 +46,7 @@ public class ActividadBordesAvanzados extends ActividadBasica {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         this.progressDialogBordes = new ProgressDialog(this);
+        this.progressDialogBordes.setCancelable(false);
         this.progressDialogBordes.setTitle("Espere por favor");
         this.progressDialogBordes.setMessage("Detectando bordes...");
 

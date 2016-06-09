@@ -131,7 +131,7 @@ public class ActividadDifusion extends ActividadBasica {
         int ancho = resultado.getWidth();
         int alto = resultado.getHeight();
 
-        int[][] coloresImagen = new int[alto][ancho];
+        int[][] coloresImagen = new int[ancho][alto];
 
         for (int x = 0; x < ancho; x++) {
             for (int y = 0; y < alto; y++) {
@@ -195,7 +195,7 @@ public class ActividadDifusion extends ActividadBasica {
         int coordenadaVecina = y + 1;
         int colorActual = imagen[x][y];
 
-        if (coordenadaVecina < imagen.length && coordenadaVecina >= 0) {
+        if (coordenadaVecina < imagen[0].length && coordenadaVecina >= 0) {
             colorVecino = imagen[x][coordenadaVecina];
 
         } else {
@@ -212,7 +212,7 @@ public class ActividadDifusion extends ActividadBasica {
         int coordenadaVecina = x - 1;
         int colorActual = imagen[x][y];
 
-        if (coordenadaVecina < imagen[0].length && coordenadaVecina >= 0) {
+        if (coordenadaVecina < imagen.length && coordenadaVecina >= 0) {
             colorCorrido = imagen[coordenadaVecina][y];
 
         } else {
@@ -246,7 +246,7 @@ public class ActividadDifusion extends ActividadBasica {
         int coordenadaVecina = x + 1;
         int colorActual = imagen[x][y];
 
-        if (coordenadaVecina < imagen[0].length && coordenadaVecina >= 0) {
+        if (coordenadaVecina < imagen.length && coordenadaVecina >= 0) {
             colorVecino = imagen[coordenadaVecina][y];
 
         } else {
@@ -255,7 +255,6 @@ public class ActividadDifusion extends ActividadBasica {
 
         return colorVecino - colorActual;
     }
-//ke
 
     private int calcularDerivadaEste(Bitmap imagen, int x, int y) {
 
