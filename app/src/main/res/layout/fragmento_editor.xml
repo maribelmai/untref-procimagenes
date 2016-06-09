@@ -375,6 +375,30 @@
                     android:textStyle="bold"/>
             </LinearLayout>
 
+            <!-- Bordes Avanzado -->
+            <LinearLayout
+                android:id="@+id/bordes_avanzados"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:gravity="center"
+                style="@style/selectableItem">
+
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:src="@drawable/ic_borde_avanzado"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="BORDES (AVANZADO)"
+                    android:gravity="center"
+                    android:textSize="10sp"
+                    android:padding="4dp"
+                    android:textStyle="bold"/>
+            </LinearLayout>
+
             <!-- Difusión -->
             <LinearLayout
                 android:id="@+id/difusion"

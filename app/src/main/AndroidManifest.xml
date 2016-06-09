@@ -10,6 +10,7 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
+        android:largeHeap="true"
         android:theme="@style/AppTheme">
 
         <activity android:name=".actividad.ActividadPrincipal"
@@ -54,6 +55,9 @@
             android:screenOrientation="landscape"/>
 
         <activity android:name=".actividad.ActividadBordes"
+            android:screenOrientation="landscape"/>
+
+        <activity android:name=".actividad.ActividadBordesAvanzados"
             android:screenOrientation="landscape"/>
 
         <activity android:name=".actividad.ActividadDifusion"

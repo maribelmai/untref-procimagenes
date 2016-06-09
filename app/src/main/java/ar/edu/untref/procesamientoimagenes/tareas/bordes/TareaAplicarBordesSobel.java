@@ -47,66 +47,7 @@ public class TareaAplicarBordesSobel extends AsyncTask<Void, Void, Bitmap> {
 
     private int[][] generarMatrizGradientes(TipoBorde tipoBordeElegido) {
 
-        int[][] matrizBordesSobel = new int[3][3];
-
-        if (tipoBordeElegido == TipoBorde.HORIZONTAL) {
-
-            matrizBordesSobel[0][0] = -1;
-            matrizBordesSobel[0][1] =  0;
-            matrizBordesSobel[0][2] =  1;
-
-            matrizBordesSobel[1][0] = -2;
-            matrizBordesSobel[1][1] =  0;
-            matrizBordesSobel[1][2] =  2;
-
-            matrizBordesSobel[2][0] = -1;
-            matrizBordesSobel[2][1] =  0;
-            matrizBordesSobel[2][2] =  1;
-        }
-        else if (tipoBordeElegido == TipoBorde.VERTICAL) {
-
-            matrizBordesSobel[0][0] = -1;
-            matrizBordesSobel[0][1] = -2;
-            matrizBordesSobel[0][2] = -1;
-
-            matrizBordesSobel[1][0] = 0;
-            matrizBordesSobel[1][1] = 0;
-            matrizBordesSobel[1][2] = 0;
-
-            matrizBordesSobel[2][0] = 1;
-            matrizBordesSobel[2][1] = 2;
-            matrizBordesSobel[2][2] = 1;
-        }
-        else if (tipoBordeElegido == TipoBorde.DIAGONAL_DERECHA) {
-
-            matrizBordesSobel[0][0] = 0;
-            matrizBordesSobel[0][1] = 1;
-            matrizBordesSobel[0][2] = 2;
-
-            matrizBordesSobel[1][0] = -1;
-            matrizBordesSobel[1][1] = 0;
-            matrizBordesSobel[1][2] = 1;
-
-            matrizBordesSobel[2][0] = -2;
-            matrizBordesSobel[2][1] = -1;
-            matrizBordesSobel[2][2] =  0;
-
-        }
-        else if (tipoBordeElegido == TipoBorde.DIAGONAL_IZQUIERDA) {
-
-            matrizBordesSobel[0][0] = -2;
-            matrizBordesSobel[0][1] = -1;
-            matrizBordesSobel[0][2] = 0;
-
-            matrizBordesSobel[1][0] = -1;
-            matrizBordesSobel[1][1] = 0;
-            matrizBordesSobel[1][2] = 1;
-
-            matrizBordesSobel[2][0] = 0;
-            matrizBordesSobel[2][1] = 1;
-            matrizBordesSobel[2][2] = 2;
-        }
-
+        int[][] matrizBordesSobel = GeneradorMatrizBordes.getMatrizSobel(tipoBordeElegido);
         return AplicadorMascaraBordes.obtenerMatrizGradientes(bitmapOriginal, matrizBordesSobel, tipoImagen);
     }
 

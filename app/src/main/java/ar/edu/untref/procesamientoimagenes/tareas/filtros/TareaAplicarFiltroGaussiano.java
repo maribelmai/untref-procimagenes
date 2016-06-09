@@ -28,7 +28,9 @@ public class TareaAplicarFiltroGaussiano extends AsyncTask<Void, Void, Bitmap> {
 
         Bitmap mutableBitmap = bitmapOriginal.copy(Bitmap.Config.RGB_565, true);
 
-        int tamanioMascara = sigma < 1 ? 5 : (int) ((3 * sigma) + 1);
+        int auxTamanio = (int) (3 * sigma);
+        int posibleTamanio = auxTamanio % 2 == 0 ? auxTamanio : auxTamanio + 1;
+        int tamanioMascara = sigma < 1 ? 5 : posibleTamanio + 1;
 
         double[][] matrizFiltroGaussiano = new double[tamanioMascara][tamanioMascara];
         int posicionCentralMascara = tamanioMascara/2;
@@ -91,6 +93,8 @@ public class TareaAplicarFiltroGaussiano extends AsyncTask<Void, Void, Bitmap> {
     protected void onPostExecute(Bitmap bitmapResultante) {
         super.onPostExecute(bitmapResultante);
 
-        actividadFiltros.filtroAplicado(bitmapResultante);
+        if (actividadFiltros != null) {
+            actividadFiltros.filtroAplicado(bitmapResultante);
+        }
     }
 }

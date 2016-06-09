@@ -110,7 +110,7 @@ public class ActividadDifusion extends ActividadBasica {
             float valorSigma = Float.valueOf(sigma);
             int cantidadRepeticiones = Integer.parseInt(repeticionesString);
 
-            Bitmap resultado = Bitmap.createBitmap(bitmapOriginal.getWidth(), bitmapOriginal.getHeight(), Bitmap.Config.RGB_565);
+            Bitmap resultado = bitmapOriginal.copy(Bitmap.Config.RGB_565, true);
             aplicarDifusionAnisotropica(resultado, cantidadRepeticiones, valorSigma);
 
             imageView.setImageBitmap(resultado);
@@ -145,10 +145,10 @@ public class ActividadDifusion extends ActividadBasica {
 
                     int nivelDeGris = coloresImagen[x][y];
 
-                    float derivadaNorte = calcularDerivadaNorte(resultado, x, y);
-                    float derivadaEste = calcularDerivadaEste(resultado, x, y);
-                    float derivadaOeste = calcularDerivadaOeste(resultado, x, y);
-                    float derivadaSur = calcularDerivadaSur(resultado, x, y);
+                    float derivadaNorte = calcularDerivadaNorte(coloresImagen, x, y);
+                    float derivadaEste = calcularDerivadaEste(coloresImagen, x, y);
+                    float derivadaOeste = calcularDerivadaOeste(coloresImagen, x, y);
+                    float derivadaSur = calcularDerivadaSur(coloresImagen, x, y);
 
                     boolean lorentz = coeficiente.getCheckedRadioButtonId() == R.id.lorentz;
 
@@ -187,6 +187,75 @@ public class ActividadDifusion extends ActividadBasica {
     public float gradienteLeclerc(double sigma, double derivada) {
         return (float) Math.exp(((-1) * Math.pow(Math.abs(derivada), 2)) / Math.pow(sigma, 2));
     }
+
+    private int calcularDerivadaEste(int[][] imagen, int x, int y) {
+
+        int colorVecino;
+
+        int coordenadaVecina = y + 1;
+        int colorActual = imagen[x][y];
+
+        if (coordenadaVecina < imagen.length && coordenadaVecina >= 0) {
+            colorVecino = imagen[x][coordenadaVecina];
+
+        } else {
+            colorVecino = colorActual;
+        }
+
+        return colorVecino - colorActual;
+    }
+
+    private int calcularDerivadaNorte(int[][] imagen, int x, int y) {
+
+        int colorCorrido;
+
+        int coordenadaVecina = x - 1;
+        int colorActual = imagen[x][y];
+
+        if (coordenadaVecina < imagen[0].length && coordenadaVecina >= 0) {
+            colorCorrido = imagen[coordenadaVecina][y];
+
+        } else {
+            colorCorrido = colorActual;
+        }
+
+        return colorCorrido - colorActual;
+    }
+
+    private int calcularDerivadaOeste(int[][] imagen, int x, int y) {
+
+        int colorVecino;
+
+        int coordenadaVecina = y - 1;
+        int colorActual = imagen[x][y];
+
+        if (coordenadaVecina < imagen.length && coordenadaVecina >= 0) {
+            colorVecino = imagen[x][coordenadaVecina];
+
+        } else {
+            colorVecino = colorActual;
+        }
+
+        return colorVecino - colorActual;
+    }
+
+    private int calcularDerivadaSur(int[][] imagen, int x, int y) {
+
+        int colorVecino;
+
+        int coordenadaVecina = x + 1;
+        int colorActual = imagen[x][y];
+
+        if (coordenadaVecina < imagen[0].length && coordenadaVecina >= 0) {
+            colorVecino = imagen[coordenadaVecina][y];
+
+        } else {
+            colorVecino = colorActual;
+        }
+
+        return colorVecino - colorActual;
+    }
+//ke
 
     private int calcularDerivadaEste(Bitmap imagen, int x, int y) {
 

@@ -12,6 +12,7 @@ import java.io.File;
 import ar.edu.untref.procesamientoimagenes.R;
 import ar.edu.untref.procesamientoimagenes.actividad.ActividadAumentarContraste;
 import ar.edu.untref.procesamientoimagenes.actividad.ActividadBordes;
+import ar.edu.untref.procesamientoimagenes.actividad.ActividadBordesAvanzados;
 import ar.edu.untref.procesamientoimagenes.actividad.ActividadDegrade;
 import ar.edu.untref.procesamientoimagenes.actividad.ActividadDifusion;
 import ar.edu.untref.procesamientoimagenes.actividad.ActividadFiltros;
@@ -219,6 +220,19 @@ public class FragmentoEditor extends FragmentoBasico {
 
         if (imagen != null) {
             Intent intent = new Intent(getActivity(), ActividadBordes.class);
+            intent.putExtra(Constante.EXTRA_IMAGEN, imagen);
+            startActivityForResult(intent, Constante.RESULT_CODE_IMAGEN_MODIFICADA);
+        }
+        else {
+            Toast.makeText(getActivity(), R.string.selecciona_una_imagen, Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    @OnClick(R.id.bordes_avanzados)
+    public void aplicarBordesAvanzados() {
+
+        if (imagen != null) {
+            Intent intent = new Intent(getActivity(), ActividadBordesAvanzados.class);
             intent.putExtra(Constante.EXTRA_IMAGEN, imagen);
             startActivityForResult(intent, Constante.RESULT_CODE_IMAGEN_MODIFICADA);
         }
