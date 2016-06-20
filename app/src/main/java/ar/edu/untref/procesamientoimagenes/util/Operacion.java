@@ -64,6 +64,23 @@ public class Operacion {
         return bitmap;
     }
 
+    public static Bitmap hacerTransformacionLineal(Bitmap bitmap) {
+
+        int ancho = bitmap.getWidth();
+        int alto = bitmap.getHeight();
+
+        int[][] matrizPixeles = new int[ancho][alto];
+
+        for (int x = 0; x < ancho; x++) {
+            for (int y = 0; y < alto; y++) {
+
+                matrizPixeles[x][y] = Color.red(bitmap.getPixel(x,y));
+            }
+        }
+
+        return hacerTransformacionLineal(matrizPixeles);
+    }
+
     public static int[][] obtenerMatrizTransformada(int[][] matrizPixeles) {
 
         int filas = matrizPixeles.length;
@@ -165,5 +182,26 @@ public class Operacion {
         }
 
         return magnitudes;
+    }
+
+    public static Bitmap umbralizar(int[][] matriz) {
+
+        int ancho = matriz.length;
+        int alto = matriz[0].length;
+
+        Bitmap bitmap = Bitmap.createBitmap(ancho, alto, Bitmap.Config.RGB_565);
+
+        for (int x = 0; x < ancho; x++) {
+            for (int y = 0; y < alto; y++) {
+
+                int valorActual = matriz[x][y];
+
+                if (valorActual == 1) {
+                    bitmap.setPixel(x,y, Color.WHITE);
+                }
+            }
+        }
+
+        return bitmap;
     }
 }

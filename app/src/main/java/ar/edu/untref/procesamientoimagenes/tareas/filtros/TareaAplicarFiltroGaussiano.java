@@ -73,16 +73,17 @@ public class TareaAplicarFiltroGaussiano extends AsyncTask<Void, Void, Bitmap> {
             }
         }
 
-        //Pinto los bordes negros
-        for (int x = 0; x < bitmapOriginal.getWidth(); x++) {
-            for (int y = 0 ; y < bitmapOriginal.getHeight(); y ++) {
+//        //Pinto los bordes negros
+//        for (int x = 0; x < bitmapOriginal.getWidth(); x++) {
+//            for (int y = 0 ; y < bitmapOriginal.getHeight(); y ++) {
+//
+//                if (x < posicionCentralMascara || x >= bitmapOriginal.getWidth() - posicionCentralMascara
+//                        || y < posicionCentralMascara || y >= bitmapOriginal.getHeight() - posicionCentralMascara) {
+//                    mutableBitmap.setPixel(x,y, Color.rgb(0, 0, 0));
+//                }
+//            }
+//        }
 
-                if (x < posicionCentralMascara || x >= bitmapOriginal.getWidth() - posicionCentralMascara
-                        || y < posicionCentralMascara || y >= bitmapOriginal.getHeight() - posicionCentralMascara) {
-                    mutableBitmap.setPixel(x,y, Color.rgb(0, 0, 0));
-                }
-            }
-        }
         return mutableBitmap;
     }
 
@@ -103,4 +104,99 @@ public class TareaAplicarFiltroGaussiano extends AsyncTask<Void, Void, Bitmap> {
             actividadFiltros.filtroAplicado(bitmapResultante);
         }
     }
+
+
+
+
+
+//    /**
+//     * @return imagen binaria que detecta los bordes y esquinas de la imagen original
+//     */
+//    public Bitmap aplicarSusanBorde(Bitmap imagenOriginal, String flagDetector) {
+//
+//        BufferedImage imagenResultado = new BufferedImage(imagenOriginal.getWidth(), imagenOriginal.getHeight(), imagenOriginal.getType());
+//
+//        int sumarEnAncho = (-1) * (TAMANIO_MASCARA / 2);
+//        int sumarEnAlto = (-1) * (TAMANIO_MASCARA / 2);
+//
+//        // Iterar la imagen, sacando los bordes.
+//        for (int i = TAMANIO_MASCARA / 2; i < imagenResultado.getWidth() - (TAMANIO_MASCARA / 2); i++) {
+//            for (int j = TAMANIO_MASCARA / 2; j < imagenResultado.getHeight() - (TAMANIO_MASCARA / 2); j++) {
+//
+//                // Tomo el valor del píxel central de la máscara (el (3,3) de la máscara)
+//                int indiceICentralDeLaImagen = i + sumarEnAncho + (TAMANIO_MASCARA / 2);
+//                int indiceJCentralDeLaImagen = j + sumarEnAlto + (TAMANIO_MASCARA / 2);
+//                double valorCentral = new Color(imagenOriginal.getRGB(indiceICentralDeLaImagen, indiceJCentralDeLaImagen)).getRed();
+//
+//                int cantidadDePixelesSimilaresAlCentral = 0;
+//
+//                // Iterar la máscara
+//                for(int iAnchoMascara = 0; iAnchoMascara < TAMANIO_MASCARA; iAnchoMascara++) {
+//                    for(int iAltoMascara = 0; iAltoMascara < TAMANIO_MASCARA; iAltoMascara++) {
+//
+//                        int indiceIDeLaImagen = i + sumarEnAncho + iAnchoMascara;
+//                        int indiceJDeLaImagen = j + sumarEnAlto + iAltoMascara;
+//
+//                        double valor = new Color(imagenOriginal.getRGB(indiceIDeLaImagen, indiceJDeLaImagen)).getRed();
+//
+//                        // Se multiplica el valor leído por la máscara, para sacar los que no pertenezcan a la parte circular.
+//                        valor = valor * mascara[iAnchoMascara][iAltoMascara];
+//
+//                        if (Math.abs(valor - valorCentral) < umbralT) {
+//
+//                            cantidadDePixelesSimilaresAlCentral++;
+//                        }
+//                    }
+//                }
+//                // Fin iteración máscara
+//
+//                double Sr0 = 1.0 - ((double)cantidadDePixelesSimilaresAlCentral / (double)CANTIDAD_PIXELES_MASCARA);
+//
+//
+//                switch (flagDetector) {
+//
+//                    case "E":
+//                        if(Math.abs( Sr0 - criterioDeEsquina) < 0.2){
+//
+//                            imagenResultado.setRGB(i, j, pixelVerde);
+//                        } else {
+//
+//                            imagenResultado.setRGB(i, j, pixelNegro);
+//                        }
+//                        break;
+//
+//                    case "B":
+//                        if(Math.abs( Sr0 - criterioDeBorde) < 0.1){
+//
+//                            imagenOriginal.setRGB(i, j, pixelVerde);
+//                        } else {
+//
+//// 	 					imagenResultado.setRGB(i, j, pixelNegro);
+//                        }
+//                        break;
+//
+//                    case "BE":
+//                        if(Math.abs( Sr0 - criterioDeEsquina) < 0.1 || Math.abs( Sr0 - criterioDeBorde) < 0.1){
+//
+//                            imagenResultado.setRGB(i, j, pixelVerde);
+//                        } else {
+//
+//                            imagenResultado.setRGB(i, j, pixelNegro);
+//                        }
+//                        break;
+//
+//                    case "EB":
+//                        if(Math.abs( Sr0 - criterioDeEsquina) < 0.1 || Math.abs( Sr0 - criterioDeBorde) < 0.1){
+//
+//                            imagenResultado.setRGB(i, j, pixelVerde);
+//                        } else {
+//
+//                            imagenResultado.setRGB(i, j, pixelNegro);
+//                        }
+//                        break;
+//                }
+//            }
+//        }
+//        return imagenOriginal;
+//    }
 }
