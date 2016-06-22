@@ -49,6 +49,12 @@ public class ActividadDeteccionFormas extends ActividadBasica {
     @Bind(R.id.rho_min)
     EditText minRho;
 
+    @Bind(R.id.discretizaciones_theta)
+    EditText discretizacionesTheta;
+
+    @Bind(R.id.discretizaciones_rho)
+    EditText discretizacionesRho;
+
     private static final float EPSILON = 0.5F;
     private static final int MINIMO_PUNTOS_RECTA = 5;
 
@@ -79,9 +85,12 @@ public class ActividadDeteccionFormas extends ActividadBasica {
         String maxThetaValor = maxTheta.getText().toString().trim();
         String minRhoValor = minRho.getText().toString().trim();
         String maxRhoValor = maxRho.getText().toString().trim();
+        String discretizacionestheta = discretizacionesTheta.getText().toString().trim();
+        String discretizacionesrho = discretizacionesRho.getText().toString().trim();
 
-        if (minThetaValor.isEmpty() || maxThetaValor.isEmpty() || minRhoValor.isEmpty() || maxRhoValor.isEmpty()) {
-            Toast.makeText(this, "Especificar Theta y Rho", Toast.LENGTH_LONG).show();
+        if (minThetaValor.isEmpty() || maxThetaValor.isEmpty() || minRhoValor.isEmpty() || maxRhoValor.isEmpty()
+                || discretizacionesrho.isEmpty() || discretizacionestheta.isEmpty()) {
+            Toast.makeText(this, "Especificar Theta y Rho y discretizaciones", Toast.LENGTH_LONG).show();
         } else {
 
             int minTheta = Integer.valueOf(minThetaValor);
@@ -89,8 +98,8 @@ public class ActividadDeteccionFormas extends ActividadBasica {
             int minRho = Integer.valueOf(minRhoValor);
             int maxRho = Integer.valueOf(maxRhoValor);
 
-            int discretizacionesTetha = 101;
-            int discretizacionesDeRho = 300;
+            int discretizacionesTetha = Integer.valueOf(discretizacionestheta);
+            int discretizacionesDeRho = Integer.valueOf(discretizacionesrho);
 
             Bitmap bitmap = ((BitmapDrawable) imageView.getDrawable()).getBitmap();
 

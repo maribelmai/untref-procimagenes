@@ -5,7 +5,6 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Point;
-import android.util.Log;
 
 import java.util.List;
 import java.util.Set;
@@ -44,9 +43,6 @@ public class LineaHough {
 
             Point punto1 = puntosDeEstaRecta.get(0);
             Point punto2 = puntosDeEstaRecta.get(1);
-
-            Log.i(TAG, "draw: " + punto1 + " a " + punto2);
-
 
             int x0, y0, x1, y1;
 
@@ -94,6 +90,5 @@ public class LineaHough {
             p.setColor(Color.MAGENTA);
             c.drawLine(x0, y0, x1, y1, p);
         }
-
     }
 }

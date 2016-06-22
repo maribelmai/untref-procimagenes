@@ -4,15 +4,18 @@ import android.graphics.Bitmap;
 import android.graphics.Point;
 import android.graphics.RectF;
 import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.widget.ImageView;
 
 import com.isseiaoki.simplecropview.CropImageView;
 import com.isseiaoki.simplecropview.callback.LoadCallback;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Target;
 
 import java.io.File;
 
@@ -33,6 +36,9 @@ public class ActividadSeguimientoVideo extends ActividadBasica {
     CropImageView primerFrame;
 
     private Bitmap bitmapOriginal;
+
+    private Point punto1;
+    private Point punto2;
 
     private int i;
     private Callback callbackVideo = new CallbackVideo();
@@ -70,8 +76,9 @@ public class ActividadSeguimientoVideo extends ActividadBasica {
     public void identificarObjeto() {
 
         RectF seleccion = primerFrame.getActualCropRect();
-        Point punto1 = new Point((int)seleccion.left, (int)seleccion.top);
-        Point punto2 = new Point((int)seleccion.right, (int)seleccion.bottom);
+
+        punto1 = new Point((int)seleccion.left, (int)seleccion.top);
+        punto2 = new Point((int)seleccion.right, (int)seleccion.bottom);
 
         Bitmap bitmapResultante = Segmentacion.identificarObjeto(bitmapOriginal, 100, 50, punto1, punto2);
         primerFrame.setImageBitmap(bitmapResultante);
@@ -91,8 +98,45 @@ public class ActividadSeguimientoVideo extends ActividadBasica {
 
         @Override
         public void onSuccess() {
+
             i++;
-            Picasso.with(ActividadSeguimientoVideo.this).load("file:///android_asset/video_senora/Frame" + i + ".jpeg").noPlaceholder().noFade().into(imagen, CallbackVideo.this);
+
+            Log.i(TAG, "cargando...: " + i);
+
+            Picasso.with(ActividadSeguimientoVideo.this).load("file:///android_asset/video_senora/Frame" + i + ".jpeg").into(new Target() {
+                @Override
+                public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
+
+                    Log.i(TAG, "segmentando...: " + i);
+                    final Bitmap bitmapResultante = Segmentacion.segmentarImagen(bitmap);
+                    Log.i(TAG, "segmentado...: " + i);
+
+//                    new Handler().postDelayed(new Runnable() {
+//                        @Override
+//                        public void run() {
+
+                            try {
+                                Log.i(TAG, "guardando...: " + i);
+                                File file = getAplicacion().guardarArchivo(bitmapResultante, "/tmp/", System.currentTimeMillis() + ".png");
+                                Log.i(TAG, "abriendo...: " + i);
+                                Picasso.with(ActividadSeguimientoVideo.this).load(file).noPlaceholder().noFade().into(imagen, CallbackVideo.this);
+                            } catch (Exception e) {
+                                Log.e(TAG, "Temporal no se pudo guardar: " + e);
+                            }
+//                        }
+//                    }, 100);
+                }
+
+                @Override
+                public void onBitmapFailed(Drawable errorDrawable) {
+                    Log.i(TAG, "onBitmapFailed: " + errorDrawable);
+                }
+
+                @Override
+                public void onPrepareLoad(Drawable placeHolderDrawable) {
+                    Log.i(TAG, "prepare...: " + i);
+                }
+            });
         }
 
         @Override

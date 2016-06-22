@@ -1,7 +1,6 @@
 package ar.edu.untref.procesamientoimagenes.tareas.bordes.avanzados.hough;
 
 import android.graphics.Point;
-import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -64,7 +63,7 @@ public class MatrizAcumuladora {
 
             int cantidadPuntos = espacioDeParametros.get(parametro).size();
 
-            Log.i(TAG, "getMaximos: cantidad puntos: " + cantidadPuntos + " en " + parametro.getRo() + " " + parametro.getTetha());
+//            Log.i(TAG, "getMaximos: cantidad puntos: " + cantidadPuntos + " en " + parametro.getRo() + " " + parametro.getTetha());
 
             if (cantidadPuntos > cantidadElementosMaximo) {
                 cantidadElementosMaximo = cantidadPuntos;

@@ -22,6 +22,7 @@ public class Segmentacion {
     private static int diferenciaMaxima;
 
     public static Bitmap identificarObjeto(Bitmap bitmapOriginal, int veces, int diferenciaMaxima, Point puntoInicial, Point puntoFinal) {
+
         Segmentacion.diferenciaMaxima = diferenciaMaxima;
 
         Curva curvaSeleccionada = obtenerCurvaDesdePuntosSeleccionados(puntoInicial.x, puntoInicial.y, puntoFinal.x, puntoFinal.y);
@@ -224,7 +225,7 @@ public class Segmentacion {
                                              Bitmap imagen) {
         Point unPoint = iteradorPuntosLout2.next();
 
-        if (unPoint.x > 0 && unPoint.y < imagen.getHeight() - 1 && unPoint.y > 0 && unPoint.x < imagen.getWidth()) {
+        if (unPoint.x > 0 && unPoint.y < imagen.getHeight() - 1 && unPoint.y > 0 && unPoint.x < imagen.getWidth() - 1) {
             int valorMatrizIzquierda = matrizSigmas[unPoint.x - 1][unPoint.y];
             int valorMatrizDerecha = matrizSigmas[unPoint.x + 1][unPoint.y];
             int valorMatrizArriba = matrizSigmas[unPoint.x][unPoint.y - 1];
@@ -372,5 +373,44 @@ public class Segmentacion {
         Point hasta = new Point(hastaX, hastaY);
 
         return new Curva(desde, hasta);
+    }
+
+    public static Bitmap segmentarImagen(Bitmap imagen) {
+
+        for (int i = 0; i < 50; i++) {
+
+            Iterator<Point> iteradorPuntos = lOut.iterator();
+            while (iteradorPuntos.hasNext()) {
+
+                expandir(imagen,lIn, lOut, promedioDeColores, iteradorPuntos);
+            }
+
+            Iterator<Point> iteradorPuntosLin = lIn.iterator();
+            while (iteradorPuntosLin.hasNext()) {
+
+                sacarLinNoCorrespondientes(lIn, iteradorPuntosLin);
+            }
+
+            Iterator<Point> iteradorPuntosLin2 = lIn.iterator();
+            while (iteradorPuntosLin2.hasNext()) {
+
+                contraer(imagen, lIn, lOut, promedioDeColores, iteradorPuntosLin2);
+            }
+
+            Iterator<Point> iteradorPuntosLout2 = lOut.iterator();
+            while (iteradorPuntosLout2.hasNext()) {
+
+                sacarLoutNoCorrespondientes(lOut,
+                        iteradorPuntosLout2, imagen);
+            }
+        }
+
+        Bitmap imagenCopia = imagen.copy(Bitmap.Config.RGB_565, true);
+
+        for (Point unPoint : lIn) {
+            imagenCopia.setPixel(unPoint.x, unPoint.y, Color.GREEN);
+        }
+
+        return imagenCopia;
     }
 }
