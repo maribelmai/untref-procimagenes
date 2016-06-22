@@ -423,6 +423,54 @@
                     android:textStyle="bold"/>
             </LinearLayout>
 
+            <!-- DETECCION DE FORMAS -->
+            <LinearLayout
+                android:id="@+id/deteccion_formas"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:gravity="center"
+                style="@style/selectableItem">
+
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:src="@drawable/ic_difusion"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="DETECCION DE FORMAS"
+                    android:gravity="center"
+                    android:textSize="10sp"
+                    android:padding="4dp"
+                    android:textStyle="bold"/>
+            </LinearLayout>
+
+            <!-- SEGMENTACION -->
+            <LinearLayout
+                android:id="@+id/segmentacion"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:gravity="center"
+                style="@style/selectableItem">
+
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:src="@drawable/ic_segmentacion_imagen"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="SEGMENTACION"
+                    android:gravity="center"
+                    android:textSize="10sp"
+                    android:padding="4dp"
+                    android:textStyle="bold"/>
+            </LinearLayout>
+
         </LinearLayout>
     </ScrollView>
 </LinearLayout>

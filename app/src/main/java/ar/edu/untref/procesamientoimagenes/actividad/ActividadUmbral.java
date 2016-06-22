@@ -134,23 +134,29 @@ public class ActividadUmbral extends ActividadBasica {
     private void umbralizar(int umbral) {
 
         Bitmap bitmap = ((BitmapDrawable) imageView.getDrawable()).getBitmap();
+        Bitmap bitmapModificado = obtenerBitmapUmbralizado(bitmap, umbral);
+        imagenUmbralizada.setImageBitmap(bitmapModificado);
+    }
+
+    public Bitmap obtenerBitmapUmbralizado(Bitmap bitmap, int umbral) {
+
         Bitmap bitmapModificado = Bitmap.createBitmap(bitmap.getWidth(), bitmap.getHeight(), Bitmap.Config.RGB_565);
 
         for (int x = 0; x < bitmap.getWidth(); x++) {
 
             for (int y = 0; y < bitmap.getHeight(); y++) {
 
-                int valorPixel = Color.blue(bitmap.getPixel(x, y));
+                int valorPixel = Color.red(bitmap.getPixel(x, y));
 
                 if (valorPixel > umbral) {
-                    bitmapModificado.setPixel(x, y, Color.rgb(255, 255, 255));
+                    bitmapModificado.setPixel(x, y, Color.WHITE);
                 } else {
-                    bitmapModificado.setPixel(x, y, Color.rgb(0, 0, 0));
+                    bitmapModificado.setPixel(x, y, Color.BLACK);
                 }
             }
         }
 
-        imagenUmbralizada.setImageBitmap(bitmapModificado);
+        return bitmapModificado;
     }
 
     @OnClick(R.id.umbralizarGlobal)
@@ -259,6 +265,13 @@ public class ActividadUmbral extends ActividadBasica {
 
         Bitmap bitmap = ((BitmapDrawable) imageView.getDrawable()).getBitmap();
 
+        int maximoT = umbralizarOtsuABitmap(bitmap);
+        umbralizar(maximoT);
+        this.resultadoOtsu.setText(getString(R.string.resultado_Otsu).replace("{umbralOtsu}", String.valueOf(maximoT)));
+    }
+
+    public int umbralizarOtsuABitmap(Bitmap bitmap) {
+
         float[] probabilidadPorColor= calcularProbabilidades(bitmap);
         float maximo = 0;
         int maximoT = 0;
@@ -305,10 +318,8 @@ public class ActividadUmbral extends ActividadBasica {
             }
         }
 
-        umbralizar(maximoT);
-        this.resultadoOtsu.setText(getString(R.string.resultado_Otsu).replace("{umbralOtsu}", String.valueOf(maximoT)));
+        return maximoT;
     }
-
 
     private float[] calcularProbabilidades(Bitmap bitmap) {
 

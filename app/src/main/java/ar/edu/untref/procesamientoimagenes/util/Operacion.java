@@ -204,4 +204,21 @@ public class Operacion {
 
         return bitmap;
     }
+
+    public static int[][] bitmapAMatriz(Bitmap bitmap) {
+
+        int ancho = bitmap.getWidth();
+        int alto = bitmap.getHeight();
+
+        int[][] matriz = new int[ancho][alto];
+
+        for (int x = 0; x < ancho; x++) {
+            for (int y = 0; y < alto; y++) {
+
+                matriz[x][y] = Color.red(bitmap.getPixel(x,y));
+            }
+        }
+
+        return matriz;
+    }
 }

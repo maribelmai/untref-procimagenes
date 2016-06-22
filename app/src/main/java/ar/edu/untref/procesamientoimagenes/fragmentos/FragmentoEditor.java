@@ -14,6 +14,7 @@ import ar.edu.untref.procesamientoimagenes.actividad.ActividadAumentarContraste;
 import ar.edu.untref.procesamientoimagenes.actividad.ActividadBordes;
 import ar.edu.untref.procesamientoimagenes.actividad.ActividadBordesAvanzados;
 import ar.edu.untref.procesamientoimagenes.actividad.ActividadDegrade;
+import ar.edu.untref.procesamientoimagenes.actividad.ActividadDeteccionFormas;
 import ar.edu.untref.procesamientoimagenes.actividad.ActividadDifusion;
 import ar.edu.untref.procesamientoimagenes.actividad.ActividadFiltros;
 import ar.edu.untref.procesamientoimagenes.actividad.ActividadFormas;
@@ -22,6 +23,7 @@ import ar.edu.untref.procesamientoimagenes.actividad.ActividadObtenerPixel;
 import ar.edu.untref.procesamientoimagenes.actividad.ActividadOperaciones;
 import ar.edu.untref.procesamientoimagenes.actividad.ActividadRecortar;
 import ar.edu.untref.procesamientoimagenes.actividad.ActividadRuidos;
+import ar.edu.untref.procesamientoimagenes.actividad.ActividadSegmentacionImagen;
 import ar.edu.untref.procesamientoimagenes.actividad.ActividadUmbral;
 import ar.edu.untref.procesamientoimagenes.modelo.Constante;
 import butterknife.Bind;
@@ -246,6 +248,33 @@ public class FragmentoEditor extends FragmentoBasico {
 
         if (imagen != null) {
             Intent intent = new Intent(getActivity(), ActividadDifusion.class);
+            intent.putExtra(Constante.EXTRA_IMAGEN, imagen);
+            startActivityForResult(intent, Constante.RESULT_CODE_IMAGEN_MODIFICADA);
+        }
+        else {
+            Toast.makeText(getActivity(), R.string.selecciona_una_imagen, Toast.LENGTH_SHORT).show();
+        }
+    }
+
+
+    @OnClick(R.id.deteccion_formas)
+    public void detectarFormas() {
+
+        if (imagen != null) {
+            Intent intent = new Intent(getActivity(), ActividadDeteccionFormas.class);
+            intent.putExtra(Constante.EXTRA_IMAGEN, imagen);
+            startActivityForResult(intent, Constante.RESULT_CODE_IMAGEN_MODIFICADA);
+        }
+        else {
+            Toast.makeText(getActivity(), R.string.selecciona_una_imagen, Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    @OnClick(R.id.segmentacion)
+    public void segmentarImagen() {
+
+        if (imagen != null) {
+            Intent intent = new Intent(getActivity(), ActividadSegmentacionImagen.class);
             intent.putExtra(Constante.EXTRA_IMAGEN, imagen);
             startActivityForResult(intent, Constante.RESULT_CODE_IMAGEN_MODIFICADA);
         }

@@ -63,6 +63,12 @@
         <activity android:name=".actividad.ActividadDifusion"
             android:screenOrientation="landscape"/>
 
+        <activity android:name=".actividad.ActividadDeteccionFormas"
+            android:screenOrientation="landscape"/>
+
+        <activity android:name=".actividad.ActividadSegmentacionImagen"
+            android:screenOrientation="landscape"/>
+
     </application>
 
 </manifest>
