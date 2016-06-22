@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.4"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Primer frame"/>
+
+            <FrameLayout
+                android:layout_width="400dp"
+                android:layout_height="400dp">
+
+            <com.isseiaoki.simplecropview.CropImageView
+                xmlns:custom="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/primer_frame"
+                android:layout_weight="1"
+                android:paddingTop="16dp"
+                android:paddingBottom="16dp"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
+                android:layout_width="400dp"
+                android:layout_height="400dp"
+                custom:scv_crop_mode="free"
+                custom:scv_handle_color="@color/colorAccent"
+                custom:scv_guide_color="@color/colorAccent"
+                custom:scv_frame_color="@color/colorAccent"
+                custom:scv_overlay_color="@android:color/transparent"
+                custom:scv_handle_size="12dp"
+                custom:scv_touch_padding="8dp"
+                custom:scv_handle_show_mode="show_always"
+                custom:scv_guide_show_mode="not_show"
+                custom:scv_min_frame_size="10dp"
+                custom:scv_frame_stroke_weight="1dp"
+                custom:scv_guide_stroke_weight="1dp"/>
+
+            </FrameLayout>
+
+            <TextView
+                android:id="@+id/identificar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="IDENTIFICAR"
+                android:padding="8dp"
+                android:textSize="10sp"
+                android:background="@drawable/selector_boton"
+                android:textColor="@android:color/white"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.4"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Video"/>
+
+            <ImageView
+                android:id="@+id/imagen"
+                android:layout_marginTop="16dp"
+                android:layout_width="400dp"
+                android:layout_height="400dp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.2"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <TextView
+                android:id="@+id/reproducir"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="REPRODUCIR"
+                android:padding="8dp"
+                android:textSize="10sp"
+                android:background="@drawable/selector_boton"
+                android:textColor="@android:color/white"/>
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>

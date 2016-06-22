@@ -435,7 +435,7 @@
                 <ImageView
                     android:layout_width="30dp"
                     android:layout_height="30dp"
-                    android:src="@drawable/ic_difusion"/>
+                    android:src="@drawable/ic_detectar_formas"/>
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -464,7 +464,31 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="SEGMENTACION"
+                    android:text="SEGMENTACION IMAGENES"
+                    android:gravity="center"
+                    android:textSize="10sp"
+                    android:padding="4dp"
+                    android:textStyle="bold"/>
+            </LinearLayout>
+
+            <!-- SEGMENTACION -->
+            <LinearLayout
+                android:id="@+id/seguimiento_video"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:gravity="center"
+                style="@style/selectableItem">
+
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:src="@drawable/ic_video"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="SEGUIMIENTO EN VIDEO"
                     android:gravity="center"
                     android:textSize="10sp"
                     android:padding="4dp"

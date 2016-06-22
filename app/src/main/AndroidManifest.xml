@@ -69,6 +69,9 @@
         <activity android:name=".actividad.ActividadSegmentacionImagen"
             android:screenOrientation="landscape"/>
 
+        <activity android:name=".actividad.ActividadSeguimientoVideo"
+            android:screenOrientation="landscape"/>
+
     </application>
 
 </manifest>

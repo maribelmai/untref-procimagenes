@@ -81,6 +81,7 @@ public class ActividadPrincipal extends ActividadBasica {
             copiarRaw(R.raw.nenesprueba, directorio.getAbsolutePath() + "/nenesprueba.png");
             copiarRaw(R.raw.mateo_valen_prueba, directorio.getAbsolutePath() + "/mateo_valen_prueba.jpg");
             copiarRaw(R.raw.lena_test, directorio.getAbsolutePath() + "/lena_test.png");
+            copiarRaw(R.raw.frame1, directorio.getAbsolutePath() + "/frame_1.jpeg");
 
             FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
             fragmentTransaction.replace(R.id.listaArchivosPlaceholder, fragmentoListaArchivos);
@@ -98,6 +99,9 @@ public class ActividadPrincipal extends ActividadBasica {
 
             InputStream in = getResources().openRawResource(id);
             FileOutputStream out = new FileOutputStream(ruta);
+
+//            new File(ruta).mkdirs();
+
             byte[] buff = new byte[1024];
             int read = 0;
             try {

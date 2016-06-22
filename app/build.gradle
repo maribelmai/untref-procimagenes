@@ -31,4 +31,5 @@ dependencies {
     compile 'com.jakewharton:butterknife:7.0.1'
     compile 'com.github.PhilJay:MPAndroidChart:v2.2.4'
     compile 'com.isseiaoki:simplecropview:1.1.4'
+    compile 'com.squareup.picasso:picasso:2.5.2'
 }

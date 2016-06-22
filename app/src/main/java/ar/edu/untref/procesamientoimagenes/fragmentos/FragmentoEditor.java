@@ -24,6 +24,7 @@ import ar.edu.untref.procesamientoimagenes.actividad.ActividadOperaciones;
 import ar.edu.untref.procesamientoimagenes.actividad.ActividadRecortar;
 import ar.edu.untref.procesamientoimagenes.actividad.ActividadRuidos;
 import ar.edu.untref.procesamientoimagenes.actividad.ActividadSegmentacionImagen;
+import ar.edu.untref.procesamientoimagenes.actividad.ActividadSeguimientoVideo;
 import ar.edu.untref.procesamientoimagenes.actividad.ActividadUmbral;
 import ar.edu.untref.procesamientoimagenes.modelo.Constante;
 import butterknife.Bind;
@@ -281,5 +282,12 @@ public class FragmentoEditor extends FragmentoBasico {
         else {
             Toast.makeText(getActivity(), R.string.selecciona_una_imagen, Toast.LENGTH_SHORT).show();
         }
+    }
+
+    @OnClick(R.id.seguimiento_video)
+    public void seguimientoEnVideo() {
+
+        Intent intent = new Intent(getActivity(), ActividadSeguimientoVideo.class);
+        startActivity(intent);
     }
 }

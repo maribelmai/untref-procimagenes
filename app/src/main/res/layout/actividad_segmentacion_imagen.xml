@@ -86,6 +86,13 @@
                 android:layout_height="wrap_content"
                 android:hint="veces (50 por defecto)"/>
 
+            <EditText
+                android:id="@+id/maxima_diferencia"
+                android:inputType="number"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:hint="diferencia RGB aceptada (10 por defecto)"/>
+
             <TextView
                 android:id="@+id/segmentar"
                 android:layout_width="wrap_content"
