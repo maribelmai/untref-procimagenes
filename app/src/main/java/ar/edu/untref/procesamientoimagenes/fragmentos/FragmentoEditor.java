@@ -1,6 +1,7 @@
 package ar.edu.untref.procesamientoimagenes.fragmentos;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.view.View;
 import android.widget.ImageView;
@@ -23,6 +24,7 @@ import ar.edu.untref.procesamientoimagenes.actividad.ActividadObtenerPixel;
 import ar.edu.untref.procesamientoimagenes.actividad.ActividadOperaciones;
 import ar.edu.untref.procesamientoimagenes.actividad.ActividadRecortar;
 import ar.edu.untref.procesamientoimagenes.actividad.ActividadRuidos;
+import ar.edu.untref.procesamientoimagenes.actividad.ActividadSIFT;
 import ar.edu.untref.procesamientoimagenes.actividad.ActividadSegmentacionImagen;
 import ar.edu.untref.procesamientoimagenes.actividad.ActividadSeguimientoVideo;
 import ar.edu.untref.procesamientoimagenes.actividad.ActividadUmbral;
@@ -66,8 +68,9 @@ public class FragmentoEditor extends FragmentoBasico {
     private void mostrarImagen() {
 
         if (isAdded()) {
-            nombreImagen.setText(imagen.getName());
             getAplicacion().mostrarImagen(imagen, imagenOriginal);
+            Bitmap bitmap = ((BitmapDrawable) imagenOriginal.getDrawable()).getBitmap();
+            nombreImagen.setText(String.format("%s(%dx%d)", imagen.getName(), bitmap.getWidth(), bitmap.getHeight()));
             imagenEditada.setImageDrawable(null);
             botonGuardar.setVisibility(View.INVISIBLE);
         }
@@ -289,5 +292,18 @@ public class FragmentoEditor extends FragmentoBasico {
 
         Intent intent = new Intent(getActivity(), ActividadSeguimientoVideo.class);
         startActivity(intent);
+    }
+
+    @OnClick(R.id.sift)
+    public void sift() {
+
+        if (imagen != null) {
+            Intent intent = new Intent(getActivity(), ActividadSIFT.class);
+            intent.putExtra(Constante.EXTRA_IMAGEN, imagen);
+            startActivityForResult(intent, Constante.RESULT_CODE_IMAGEN_MODIFICADA);
+        }
+        else {
+            Toast.makeText(getActivity(), R.string.selecciona_una_imagen, Toast.LENGTH_SHORT).show();
+        }
     }
 }

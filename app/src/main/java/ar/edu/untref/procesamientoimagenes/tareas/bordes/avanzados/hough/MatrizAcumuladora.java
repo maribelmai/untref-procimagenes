@@ -13,43 +13,102 @@ import java.util.Map;
 public class MatrizAcumuladora {
 
     private static final String TAG = MatrizAcumuladora.class.getSimpleName();
-    private int rhoMin;
-    private int rhoMax;
-    private int tethaMin;
-    private int tethaMax;
-    private Integer discretizacionesRho;
-    private Integer discretizacionesTetha;
+    private int xMin;
+    private int xMax;
+    private int yMin;
+    private int yMax;
+    private Integer discretizacionesX;
+    private Integer discretizacionesY;
     private Map<Parametro, List<Point>> espacioDeParametros = new HashMap<>();
+    private Map<Parametro, List<Point>> espacioDeParametrosVerticales = new HashMap<>();
+    private int minCentroX;
+    private int maxCentroX;
+    private int minCentroY;
+    private int maxCentroY;
+    private int minRadio;
+    private int maxRadio;
+    private int discretizacionesDeCentroY;
+    private int discretizacionesDeCentroX;
+    private int discretizacionesDeRadio;
 
-    public MatrizAcumuladora(int minRho, int maxRho, int minTheta, int maxTheta, Integer discretizacionesRho, Integer discretizacionesTetha) {
+    public MatrizAcumuladora(int minRho, int maxRho, int minTheta, int maxTheta, Integer discretizacionesX, Integer discretizacionesY) {
 
-        this.rhoMin = minRho;
-        this.rhoMax = maxRho;
-        this.tethaMin = minTheta;
-        this.tethaMax = maxTheta;
-        this.discretizacionesRho = discretizacionesRho;
-        this.discretizacionesTetha = discretizacionesTetha;
+        this.xMin = minRho;
+        this.xMax = maxRho;
+        this.yMin = minTheta;
+        this.yMax = maxTheta;
+        this.discretizacionesX = discretizacionesX;
+        this.discretizacionesY = discretizacionesY;
         this.cargarEspacioParametros();
+    }
+
+    public MatrizAcumuladora(int minCentroX, int maxCentroX, int minCentroY, int maxCentroY, int minRadio, int maxRadio, int discretizacionesDeCentroY, int discretizacionesDeCentroX, int discretizacionesDeRadio) {
+
+        this.minCentroX = minCentroX;
+        this.maxCentroX = maxCentroX;
+        this.minCentroY = minCentroY;
+        this.maxCentroY = maxCentroY;
+        this.minRadio = minRadio;
+        this.maxRadio = maxRadio;
+        this.discretizacionesDeCentroY = discretizacionesDeCentroY;
+        this.discretizacionesDeCentroX = discretizacionesDeCentroX;
+        this.discretizacionesDeRadio = discretizacionesDeRadio;
+        this.cargarEspacioParametrosCirculos();
     }
 
     private void cargarEspacioParametros() {
 
-        int distanciaEntreRhos = this.rhoMax - this.rhoMin;
+        int distanciaEntreX = this.xMax - this.xMin;
 
-        if (this.discretizacionesRho > 2) {
-            distanciaEntreRhos = this.rhoMax / this.discretizacionesRho;
+        if (this.discretizacionesX > 2) {
+            distanciaEntreX = distanciaEntreX / this.discretizacionesX;
         }
 
-        int distanciaEntreTethas = this.tethaMax - this.tethaMin;
-        if (this.discretizacionesTetha > 2) {
-            distanciaEntreTethas = this.tethaMax / this.discretizacionesTetha;
+        int distanciaEntreY = this.yMax - this.yMin;
+        if (this.discretizacionesY > 2) {
+            distanciaEntreY = distanciaEntreY / this.discretizacionesY;
         }
 
         //Todas las posibles combinaciones entre theta y rho
-        for (int rho = 0; rho < this.discretizacionesRho; rho++) {
-            for (int tetha = 0; tetha < this.discretizacionesTetha; tetha++) {
+        for (int x = xMin; x < xMax; x++) {
+            for (int y = yMin; y < yMax; y++) {
 
-                espacioDeParametros.put(new Parametro(tetha * distanciaEntreTethas, rho * distanciaEntreRhos), new ArrayList<Point>());
+                Parametro parametro = new Parametro(y * distanciaEntreY, x * distanciaEntreX);
+
+                espacioDeParametros.put(parametro, new ArrayList<Point>());
+                espacioDeParametrosVerticales.put(parametro, new ArrayList<Point>());
+            }
+        }
+    }
+
+    private void cargarEspacioParametrosCirculos() {
+
+        int distanciaEntreX = this.maxCentroX - this.minCentroX;
+
+        if (this.discretizacionesDeCentroX > 2) {
+            distanciaEntreX = distanciaEntreX / this.discretizacionesDeCentroX;
+        }
+
+        int distanciaEntreY = this.maxCentroY - this.minCentroY;
+
+        if (this.discretizacionesDeCentroY > 2) {
+            distanciaEntreY = distanciaEntreY / this.discretizacionesDeCentroY;
+        }
+
+        int distanciaEntreRadios = this.maxRadio - this.minRadio;
+
+        if (this.discretizacionesDeRadio > 2) {
+            distanciaEntreRadios = distanciaEntreRadios / this.discretizacionesDeRadio;
+        }
+
+        for (int x = minCentroX; x < maxCentroX; x++) {
+            for (int y = minCentroY; y < maxCentroY; y++) {
+                for (int radio = minRadio; radio < maxRadio; radio++) {
+
+                    Parametro parametro = new Parametro(y * distanciaEntreY, x * distanciaEntreX, radio*distanciaEntreRadios);
+
+                    espacioDeParametros.put(parametro, new ArrayList<Point>());
+                }
             }
         }
     }
@@ -63,7 +122,14 @@ public class MatrizAcumuladora {
 
             int cantidadPuntos = espacioDeParametros.get(parametro).size();
 
-//            Log.i(TAG, "getMaximos: cantidad puntos: " + cantidadPuntos + " en " + parametro.getRo() + " " + parametro.getTetha());
+            if (cantidadPuntos > cantidadElementosMaximo) {
+                cantidadElementosMaximo = cantidadPuntos;
+            }
+        }
+
+        for (Parametro parametro : espacioDeParametrosVerticales.keySet()) {
+
+            int cantidadPuntos = espacioDeParametrosVerticales.get(parametro).size();
 
             if (cantidadPuntos > cantidadElementosMaximo) {
                 cantidadElementosMaximo = cantidadPuntos;
@@ -76,7 +142,17 @@ public class MatrizAcumuladora {
 
             if (cantidadPuntos >= ((float)cantidadElementosMaximo * 0.8f)) {
 
-                lineas.add(new LineaHough(parametro.getRo(), parametro.getTetha()));
+                lineas.add(new LineaHough(parametro.getY(), parametro.getX()));
+            }
+        }
+
+        for (Parametro parametro : espacioDeParametrosVerticales.keySet()) {
+
+            int cantidadPuntos = espacioDeParametrosVerticales.get(parametro).size();
+
+            if (cantidadPuntos >= ((float)cantidadElementosMaximo * 0.8f)) {
+
+                lineas.add(new LineaHough(parametro.getY(), parametro.getX()));
             }
         }
 
@@ -85,5 +161,36 @@ public class MatrizAcumuladora {
 
     public Map<Parametro, List<Point>> getEspacioDeParametros() {
         return espacioDeParametros;
+    }
+
+    public Map<Parametro, List<Point>> getEspacioDeParametrosVerticales() {
+        return espacioDeParametrosVerticales;
+    }
+
+    public List<CirculoHough> getMaximosCirculos() {
+
+        int cantidadElementosMaximo = 0;
+        List<CirculoHough> circuloHoughs = new ArrayList<>();
+
+        for (Parametro parametro : espacioDeParametros.keySet()) {
+
+            int cantidadPuntos = espacioDeParametros.get(parametro).size();
+
+            if (cantidadPuntos > cantidadElementosMaximo) {
+                cantidadElementosMaximo = cantidadPuntos;
+            }
+        }
+
+        for (Parametro parametro : espacioDeParametros.keySet()) {
+
+            int cantidadPuntos = espacioDeParametros.get(parametro).size();
+
+            if (cantidadPuntos >= ((float)cantidadElementosMaximo * 0.8f)) {
+
+                circuloHoughs.add(new CirculoHough(parametro.getY(), parametro.getX(), parametro.getRadio()));
+            }
+        }
+
+        return circuloHoughs;
     }
 }

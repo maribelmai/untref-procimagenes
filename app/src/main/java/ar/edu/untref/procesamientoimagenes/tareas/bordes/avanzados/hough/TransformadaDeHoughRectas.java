@@ -34,19 +34,24 @@ public class TransformadaDeHoughRectas {
         if (color == Color.WHITE) {
 
             for (Parametro parametro : acumuladora.getEspacioDeParametros().keySet()) {
-                int tetha = parametro.getTetha();
-                int ro = parametro.getRo();
-                evaluarPunto(acumuladora, i, j, parametro, tetha, ro);
+                int x = parametro.getX();
+                int y = parametro.getY();
+                evaluarPunto(acumuladora, i, j, parametro, x, y);
             }
         }
     }
 
-    private static void evaluarPunto(MatrizAcumuladora acumuladora, int i, int j, Parametro parametro, int tetha, int rho) {
+    private static void evaluarPunto(MatrizAcumuladora acumuladora, int i, int j, Parametro parametro, int a, int b) {
 
-        boolean perteneceALaRecta = Math.abs(rho - i*Math.cos(Math.toRadians(tetha))- j*Math.sin(Math.toRadians(tetha))) < EPSILON;
+        boolean perteneceALaRectaHorizontal = (Double.compare(Math.abs(-a * i - b + j) , EPSILON) < 0);
+        boolean perteneceALaRectaVertical = (Double.compare(Math.abs(-a * j - b + i) , EPSILON) < 0);
 
-        if (perteneceALaRecta) {
+        if (perteneceALaRectaHorizontal) {
             acumuladora.getEspacioDeParametros().get(parametro).add(new Point(i, j));
+        }
+
+        if (perteneceALaRectaVertical) {
+            acumuladora.getEspacioDeParametrosVerticales().get(parametro).add(new Point(i, j));
         }
     }
 }

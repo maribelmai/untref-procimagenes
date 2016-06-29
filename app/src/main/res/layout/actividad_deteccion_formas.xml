@@ -70,8 +70,8 @@
                 android:orientation="horizontal">
 
                 <EditText
-                    android:id="@+id/theta_min"
-                    android:hint="Theta (min)"
+                    android:id="@+id/min_x"
+                    android:hint="X (min)"
                     android:inputType="numberSigned"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
@@ -84,8 +84,8 @@
                     android:layout_marginRight="16dp"/>
 
                 <EditText
-                    android:id="@+id/theta_max"
-                    android:hint="Theta (max)"
+                    android:id="@+id/max_x"
+                    android:hint="X (max)"
                     android:inputType="numberSigned"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
@@ -96,8 +96,8 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
                 <EditText
-                    android:id="@+id/rho_min"
-                    android:hint="Rho (min)"
+                    android:id="@+id/min_y"
+                    android:hint="Y (min)"
                     android:inputType="numberSigned"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
@@ -110,23 +110,23 @@
                     android:layout_marginRight="16dp"/>
 
                 <EditText
-                    android:id="@+id/rho_max"
-                    android:hint="Rho (max)"
+                    android:id="@+id/max_y"
+                    android:hint="Y (max)"
                     android:inputType="numberSigned"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
             </LinearLayout>
 
             <EditText
-                android:id="@+id/discretizaciones_theta"
-                android:hint="Discretizaciones de Theta"
+                android:id="@+id/discretizaciones_x"
+                android:hint="Discretizaciones de X"
                 android:inputType="number"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
 
             <EditText
-                android:id="@+id/discretizaciones_rho"
-                android:hint="Discretizaciones de Rho"
+                android:id="@+id/discretizaciones_y"
+                android:hint="Discretizaciones de Y"
                 android:inputType="number"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
@@ -136,6 +136,142 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="DETECTAR RECTAS"
+                android:textStyle="bold"
+                android:padding="8dp"
+                android:textSize="10sp"
+                android:background="@drawable/selector_boton"
+                android:textColor="@android:color/white"
+                android:layout_marginTop="8dp"
+                android:layout_marginRight="16dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:layout_marginTop="16dp"
+                android:background="@color/gris"/>
+
+            <!--Circulos-->
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Centro"
+                android:layout_marginTop="16dp"/>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <EditText
+                    android:id="@+id/centro_x_min"
+                    android:hint="X (min)"
+                    android:inputType="numberSigned"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="-"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginRight="16dp"/>
+
+                <EditText
+                    android:id="@+id/centro_x_max"
+                    android:hint="X (max)"
+                    android:inputType="numberSigned"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <EditText
+                    android:id="@+id/centro_y_min"
+                    android:hint="Y (min)"
+                    android:inputType="numberSigned"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="-"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginRight="16dp"/>
+
+                <EditText
+                    android:id="@+id/centro_y_max"
+                    android:hint="Y (max)"
+                    android:inputType="numberSigned"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+
+            <EditText
+                android:id="@+id/discretizaciones_centro_x"
+                android:hint="Discretizaciones de X"
+                android:inputType="number"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <EditText
+                android:id="@+id/discretizaciones_centro_y"
+                android:hint="Discretizaciones de Y"
+                android:inputType="number"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Radio"
+                android:layout_marginTop="16dp"/>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <EditText
+                    android:id="@+id/radio_min"
+                    android:hint="Radio (min)"
+                    android:inputType="numberSigned"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="-"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginRight="16dp"/>
+
+                <EditText
+                    android:id="@+id/radio_max"
+                    android:hint="Radio (max)"
+                    android:inputType="numberSigned"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+
+            <EditText
+                android:id="@+id/discretizaciones_radio"
+                android:hint="Discretizaciones del radio"
+                android:inputType="number"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:id="@+id/detectar_circulos"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="DETECTAR CIRCULOS"
                 android:textStyle="bold"
                 android:padding="8dp"
                 android:textSize="10sp"

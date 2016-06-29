@@ -17,6 +17,7 @@ import java.io.File;
 import ar.edu.untref.procesamientoimagenes.R;
 import ar.edu.untref.procesamientoimagenes.modelo.Constante;
 import ar.edu.untref.procesamientoimagenes.tareas.bordes.avanzados.hough.MatrizAcumuladora;
+import ar.edu.untref.procesamientoimagenes.tareas.bordes.avanzados.hough.TransformadaDeHoughCirculos;
 import ar.edu.untref.procesamientoimagenes.tareas.bordes.avanzados.hough.TransformadaDeHoughRectas;
 import butterknife.Bind;
 import butterknife.OnClick;
@@ -37,23 +38,50 @@ public class ActividadDeteccionFormas extends ActividadBasica {
     @Bind(R.id.imagen)
     ImageView imageView;
 
-    @Bind(R.id.theta_min)
-    EditText minTheta;
+    @Bind(R.id.min_x)
+    EditText minX;
 
-    @Bind(R.id.theta_max)
-    EditText maxTheta;
+    @Bind(R.id.max_x)
+    EditText maxX;
 
-    @Bind(R.id.rho_max)
-    EditText maxRho;
+    @Bind(R.id.min_y)
+    EditText minY;
 
-    @Bind(R.id.rho_min)
-    EditText minRho;
+    @Bind(R.id.max_y)
+    EditText maxY;
 
-    @Bind(R.id.discretizaciones_theta)
-    EditText discretizacionesTheta;
+    @Bind(R.id.discretizaciones_x)
+    EditText discretizacionesX;
 
-    @Bind(R.id.discretizaciones_rho)
-    EditText discretizacionesRho;
+    @Bind(R.id.discretizaciones_y)
+    EditText discretizacionesY;
+
+    @Bind(R.id.centro_x_min)
+    EditText minCentroX;
+
+    @Bind(R.id.centro_x_max)
+    EditText maxCentroX;
+
+    @Bind(R.id.centro_y_min)
+    EditText minCentroY;
+
+    @Bind(R.id.centro_y_max)
+    EditText maxCentroY;
+
+    @Bind(R.id.radio_min)
+    EditText minRadio;
+
+    @Bind(R.id.radio_max)
+    EditText maxRadio;
+
+    @Bind(R.id.discretizaciones_centro_x)
+    EditText discretizacionesCentroX;
+
+    @Bind(R.id.discretizaciones_centro_y)
+    EditText discretizacionesCentroY;
+
+    @Bind(R.id.discretizaciones_radio)
+    EditText discretizacionesRadio;
 
     private static final float EPSILON = 0.5F;
     private static final int MINIMO_PUNTOS_RECTA = 5;
@@ -81,30 +109,72 @@ public class ActividadDeteccionFormas extends ActividadBasica {
     @OnClick(R.id.detectar_rectas)
     public void detectarRectas() {
 
-        String minThetaValor = minTheta.getText().toString().trim();
-        String maxThetaValor = maxTheta.getText().toString().trim();
-        String minRhoValor = minRho.getText().toString().trim();
-        String maxRhoValor = maxRho.getText().toString().trim();
-        String discretizacionestheta = discretizacionesTheta.getText().toString().trim();
-        String discretizacionesrho = discretizacionesRho.getText().toString().trim();
+        String minXValor = minX.getText().toString().trim();
+        String maxXValor = maxX.getText().toString().trim();
+        String minYValor = minY.getText().toString().trim();
+        String maxYValor = maxY.getText().toString().trim();
+        String discretizacionesX = this.discretizacionesX.getText().toString().trim();
+        String discretizacionesY = this.discretizacionesY.getText().toString().trim();
 
-        if (minThetaValor.isEmpty() || maxThetaValor.isEmpty() || minRhoValor.isEmpty() || maxRhoValor.isEmpty()
-                || discretizacionesrho.isEmpty() || discretizacionestheta.isEmpty()) {
-            Toast.makeText(this, "Especificar Theta y Rho y discretizaciones", Toast.LENGTH_LONG).show();
+        if (minXValor.isEmpty() || maxXValor.isEmpty() || minYValor.isEmpty() || maxYValor.isEmpty()
+                || discretizacionesY.isEmpty() || discretizacionesX.isEmpty()) {
+            Toast.makeText(this, "Especificar X e Y y discretizaciones", Toast.LENGTH_LONG).show();
         } else {
 
-            int minTheta = Integer.valueOf(minThetaValor);
-            int maxTheta = Integer.valueOf(maxThetaValor);
-            int minRho = Integer.valueOf(minRhoValor);
-            int maxRho = Integer.valueOf(maxRhoValor);
+            int minX = Integer.valueOf(minXValor);
+            int maxX = Integer.valueOf(maxXValor);
+            int minY = Integer.valueOf(minYValor);
+            int maxY = Integer.valueOf(maxYValor);
 
-            int discretizacionesTetha = Integer.valueOf(discretizacionestheta);
-            int discretizacionesDeRho = Integer.valueOf(discretizacionesrho);
+            int discretizacionesDeX = Integer.valueOf(discretizacionesX);
+            int discretizacionesDeY = Integer.valueOf(discretizacionesY);
 
             Bitmap bitmap = ((BitmapDrawable) imageView.getDrawable()).getBitmap();
 
-            MatrizAcumuladora matriz = new MatrizAcumuladora(minRho, maxRho, minTheta, maxTheta, discretizacionesDeRho, discretizacionesTetha);
-            Bitmap bitmapTransformado = TransformadaDeHoughRectas.aplicarTransformadaDeHough(bitmap, matriz);
+            MatrizAcumuladora matriz = new MatrizAcumuladora(minY, maxY, minX, maxX, discretizacionesDeY, discretizacionesDeX);
+            Bitmap bitmapTransformado = TransformadaDeHoughRectas.aplicarTransformadaDeHough(bitmap.copy(Bitmap.Config.RGB_565, true), matriz);
+            imageView.setImageBitmap(bitmapTransformado);
+        }
+    }
+
+    @OnClick(R.id.detectar_circulos)
+    public void detectarCirculos() {
+
+        String minCentroXValor = minCentroX.getText().toString().trim();
+        String maxCentroXValor = maxCentroX.getText().toString().trim();
+        String minCentroYValor = minCentroY.getText().toString().trim();
+        String maxCentroYValor = maxCentroY.getText().toString().trim();
+        String minRadioValor = minRadio.getText().toString().trim();
+        String maxRadioValor = maxRadio.getText().toString().trim();
+        String discretizacionesCentroX = this.discretizacionesCentroX.getText().toString().trim();
+        String discretizacionesCentroY = this.discretizacionesCentroY.getText().toString().trim();
+        String discretizacionesRadio = this.discretizacionesRadio.getText().toString().trim();
+
+        if (minCentroXValor.isEmpty() || maxCentroXValor.isEmpty()
+                || minCentroYValor.isEmpty() || maxCentroYValor.isEmpty()
+                || minRadioValor.isEmpty() || maxRadioValor.isEmpty()
+                || discretizacionesCentroX.isEmpty()
+                || discretizacionesCentroY.isEmpty()
+                || discretizacionesRadio.isEmpty()) {
+
+            Toast.makeText(this, "Especificar X e Y del centro, radio y discretizaciones", Toast.LENGTH_LONG).show();
+        } else {
+
+            int minCentroX = Integer.valueOf(minCentroXValor);
+            int maxCentroX = Integer.valueOf(maxCentroXValor);
+            int minCentroY = Integer.valueOf(minCentroYValor);
+            int maxCentroY = Integer.valueOf(maxCentroYValor);
+            int minRadio = Integer.valueOf(minRadioValor);
+            int maxRadio = Integer.valueOf(maxRadioValor);
+
+            int discretizacionesDeX = Integer.valueOf(discretizacionesCentroX);
+            int discretizacionesDeY = Integer.valueOf(discretizacionesCentroY);
+            int discretizacionesDeRadio = Integer.valueOf(discretizacionesRadio);
+
+            Bitmap bitmap = ((BitmapDrawable) imageView.getDrawable()).getBitmap();
+
+            MatrizAcumuladora matriz = new MatrizAcumuladora(minCentroX, maxCentroX, minCentroY, maxCentroY, minRadio, maxRadio, discretizacionesDeY, discretizacionesDeX, discretizacionesDeRadio);
+            Bitmap bitmapTransformado = TransformadaDeHoughCirculos.aplicarTransformadaDeHough(bitmap.copy(Bitmap.Config.RGB_565, true), matriz);
             imageView.setImageBitmap(bitmapTransformado);
         }
     }

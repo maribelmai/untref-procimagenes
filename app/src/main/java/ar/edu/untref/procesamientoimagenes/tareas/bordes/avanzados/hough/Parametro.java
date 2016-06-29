@@ -5,19 +5,37 @@ package ar.edu.untref.procesamientoimagenes.tareas.bordes.avanzados.hough;
  */
 public class Parametro {
 
-    private Integer tetha;
-    private Integer ro;
+    private Integer x;
+    private Integer y;
+    private Integer radio;
 
-    public Parametro(Integer ro, Integer tetha) {
-        this.tetha = tetha;
-        this.ro = ro;
+    public Parametro(Integer y, Integer x) {
+        this.x = x;
+        this.y = y;
     }
 
-    public Integer getTetha() {
-        return tetha;
+    public Parametro(Integer y, Integer x, Integer radio) {
+        this.x = x;
+        this.y = y;
+        this.radio = radio;
     }
 
-    public Integer getRo() {
-        return ro;
+    public Integer getX() {
+        return x;
+    }
+
+    public Integer getY() {
+        return y;
+    }
+    public Integer getRadio() {
+        return radio;
+    }
+
+    @Override
+    public String toString() {
+        return "Parametro{" +
+                "x=" + x +
+                ", y=" + y +
+                '}';
     }
 }

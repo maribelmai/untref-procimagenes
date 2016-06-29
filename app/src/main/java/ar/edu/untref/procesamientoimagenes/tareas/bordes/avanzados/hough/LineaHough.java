@@ -15,15 +15,19 @@ import java.util.Set;
 public class LineaHough {
 
     private static final String TAG = LineaHough.class.getSimpleName();
-    private Integer tetha;
-    private Integer ro;
+    private Integer x;
+    private Integer y;
 
-    public LineaHough(Integer ro, Integer tetha) {
-        this.tetha = tetha;
-        this.ro = ro;
+    public LineaHough(Integer y, Integer x) {
+        this.x = x;
+        this.y = y;
     }
 
     public void dibujar (MatrizAcumuladora acumuladora, Bitmap imagen) {
+
+        Canvas c = new Canvas(imagen);
+        Paint p = new Paint();
+        p.setColor(Color.MAGENTA);
 
         Set<Parametro> parametros = acumuladora.getEspacioDeParametros().keySet();
 
@@ -31,11 +35,13 @@ public class LineaHough {
 
         for (Parametro parametro : parametros) {
 
-            if(parametro.getRo() == this.ro && parametro.getTetha() == this.tetha) {
+            if(parametro.getY() == this.y && parametro.getX() == this.x) {
 
                 parametroEncontrado = parametro;
             }
         }
+
+        //Chequeo en todas menos verticales
 
         List<Point> puntosDeEstaRecta = acumuladora.getEspacioDeParametros().get(parametroEncontrado);
 
@@ -46,16 +52,16 @@ public class LineaHough {
 
             int x0, y0, x1, y1;
 
-            // Recta Vertical
-            if(punto1.x == punto2.x) {
+            // Recta Horizontal
+            if(punto1.y == punto2.y) {
 
                 x0 = 0;
                 x1 = imagen.getWidth();
                 y0 = punto1.y;
                 y1 = punto1.y;
 
-                // Recta Horizontal
-            } else if (punto1.y == punto2.y) {
+                // Recta Vertical
+            } else if (punto1.x == punto2.x) {
 
                 x0 = punto1.x;
                 x1 = punto1.x;
@@ -65,30 +71,44 @@ public class LineaHough {
                 // Diagonales
             } else {
 
-                // Ecuacion de la recta que pasa por dos puntos (x0, y0), (x1, y1)
-                // (x - x0) * (y1 - y0) = (y - y0) * (x1 - x0)
-                // => y = [ (x - x0) * (y1 - y0) / (x1 - x0) ] - y0
-
-                // Cuando x = 0 ¿cuál es el y correspondiente de la recta en la imágen?
-//            x0 = 0;
-//            y0 = (x0 - punto1.x) * (punto2.y - punto1.y) / (punto2.x - punto1.x);
-//            y0 = y0 - punto1.y;
-//
-//            // Necesito otro punto de la imágen, ¿cuando x0 es el ancho total, cuál va a ser el valor de y?
-//            x1 = imagen.getWidth() - 1;
-//            y1 = (x1 - punto1.x) * (punto2.y - punto1.y) / (punto2.x - punto1.x);
-//            y1 = y1 - punto1.y;
-
                 x0 = punto1.x;
                 x1 = punto2.x;
                 y0 = punto1.y;
                 y1 = punto2.y;
             }
-
-            Canvas c = new Canvas(imagen);
-            Paint p = new Paint();
-            p.setColor(Color.MAGENTA);
             c.drawLine(x0, y0, x1, y1, p);
         }
+
+        //VERTICALES
+
+        //Chequeo en todas menos verticales
+
+        List<Point> puntosVerticalesDeEstaRecta = acumuladora.getEspacioDeParametrosVerticales().get(parametroEncontrado);
+
+        if (puntosVerticalesDeEstaRecta.size() > 1) {
+
+            Point punto1 = puntosVerticalesDeEstaRecta.get(0);
+            Point punto2 = puntosVerticalesDeEstaRecta.get(1);
+
+            int x0, y0, x1, y1;
+
+            if (punto1.x == punto2.x) {
+
+                x0 = punto1.x;
+                x1 = punto1.x;
+                y0 = 0;
+                y1 = imagen.getHeight();
+
+                c.drawLine(x0, y0, x1, y1, p);
+            }
+        }
+    }
+
+    @Override
+    public String toString() {
+        return "LineaHough{" +
+                "x=" + x +
+                ", y=" + y +
+                '}';
     }
 }

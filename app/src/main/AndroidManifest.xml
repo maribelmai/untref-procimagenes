@@ -72,6 +72,9 @@
         <activity android:name=".actividad.ActividadSeguimientoVideo"
             android:screenOrientation="landscape"/>
 
+        <activity android:name=".actividad.ActividadSIFT"
+            android:screenOrientation="landscape"/>
+
     </application>
 
 </manifest>
