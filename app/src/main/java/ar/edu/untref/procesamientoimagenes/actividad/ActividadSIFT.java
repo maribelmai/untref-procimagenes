@@ -140,7 +140,7 @@ public class ActividadSIFT extends ActividadBasica {
         detector.detect(rgba, keyPoints);
         Features2d.drawKeypoints(rgba, keyPoints, rgba);
         Utils.matToBitmap(rgba, mutable);
-        imagen1.setImageBitmap(mutable);
+        resultado.setImageBitmap(mutable);
     }
 
     @OnClick(R.id.comparar)

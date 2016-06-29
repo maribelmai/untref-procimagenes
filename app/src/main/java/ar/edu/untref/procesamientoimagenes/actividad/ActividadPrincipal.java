@@ -91,6 +91,16 @@ public class ActividadPrincipal extends ActividadBasica {
             copiarRaw(R.raw.aloe1, directorio.getAbsolutePath() + "/aloe1.png");
             copiarRaw(R.raw.aloe2, directorio.getAbsolutePath() + "/aloe2.png");
             copiarRaw(R.raw.strandvagen, directorio.getAbsolutePath() + "/strandvagen.png");
+            copiarRaw(R.raw.cartelazul1, directorio.getAbsolutePath() + "/cartelazul1.png");
+            copiarRaw(R.raw.cartelazul2, directorio.getAbsolutePath() + "/cartelazul2.png");
+            copiarRaw(R.raw.cartel1, directorio.getAbsolutePath() + "/cartel1.png");
+            copiarRaw(R.raw.cartel2, directorio.getAbsolutePath() + "/cartel2.png");
+            copiarRaw(R.raw.cartel3, directorio.getAbsolutePath() + "/cartel3.png");
+            copiarRaw(R.raw.cartel4, directorio.getAbsolutePath() + "/cartel4.png");
+            copiarRaw(R.raw.cartel5, directorio.getAbsolutePath() + "/cartel5.png");
+            copiarRaw(R.raw.cartel6, directorio.getAbsolutePath() + "/cartel6.png");
+            copiarRaw(R.raw.magazine1, directorio.getAbsolutePath() + "/magazine1.png");
+            copiarRaw(R.raw.magazine2, directorio.getAbsolutePath() + "/magazine2.png");
 
             FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
             fragmentTransaction.replace(R.id.listaArchivosPlaceholder, fragmentoListaArchivos);

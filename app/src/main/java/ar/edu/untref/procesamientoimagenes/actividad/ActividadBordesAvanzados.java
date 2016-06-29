@@ -16,6 +16,7 @@ import java.io.IOException;
 
 import ar.edu.untref.procesamientoimagenes.R;
 import ar.edu.untref.procesamientoimagenes.modelo.Constante;
+import ar.edu.untref.procesamientoimagenes.tareas.bordes.avanzados.DetectorDeHarris;
 import ar.edu.untref.procesamientoimagenes.tareas.bordes.avanzados.TareaDetectarBordesCanny;
 import ar.edu.untref.procesamientoimagenes.tareas.bordes.avanzados.TareaDetectarBordesSUSAN;
 import butterknife.Bind;
@@ -112,6 +113,15 @@ public class ActividadBordesAvanzados extends ActividadBasica {
         }
 
         new TareaDetectarBordesSUSAN(bitmapOriginal, this, tipoSUSAN).execute();
+    }
+
+    @OnClick(R.id.esquinas_harris)
+    public void detectarEsquinasHarris() {
+
+        reset();
+
+        Bitmap bitmap = new DetectorDeHarris(bitmapOriginal).detectarEsquinas();
+        imageView.setImageBitmap(bitmap);
     }
 
     private void reset() {
