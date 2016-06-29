@@ -12,6 +12,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -55,6 +56,9 @@ public class ActividadSIFT extends ActividadBasica {
 
     @Bind(R.id.resultado)
     ImageView resultado;
+
+    @Bind(R.id.diferenciaAceptada)
+    EditText factorDiferenciaAceptada;
 
     private File imagen;
 
@@ -142,112 +146,104 @@ public class ActividadSIFT extends ActividadBasica {
     @OnClick(R.id.comparar)
     public void comparar() {
 
-        Mat refMat = new Mat();
-        Mat srcMat = new Mat();
+        try {
 
-        Bitmap refBitmap = ((BitmapDrawable) imagen1.getDrawable()).getBitmap();
-        refBitmap = refBitmap.copy(Bitmap.Config.RGB_565, true);
-        Bitmap srcBitmap = ((BitmapDrawable) imagen2.getDrawable()).getBitmap();
-        srcBitmap = srcBitmap.copy(Bitmap.Config.RGB_565, true);
+            String diferenciaAceptada = factorDiferenciaAceptada.getText().toString();
+            Float diferenciaAceptadaValor = 3F;
 
-        if (refBitmap != null && srcBitmap != null) {
-
-            Utils.bitmapToMat(refBitmap, refMat);
-            Utils.bitmapToMat(srcBitmap, srcMat);
-
-            MatOfDMatch matches = new MatOfDMatch();
-            MatOfDMatch goodMatches = new MatOfDMatch();
-
-            LinkedList<DMatch> listOfGoodMatches = new LinkedList<>();
-
-            LinkedList<Point> refObjectList = new LinkedList<>();
-            LinkedList<Point> srcObjectList = new LinkedList<>();
-
-            MatOfKeyPoint refKeypoints = new MatOfKeyPoint();
-            MatOfKeyPoint srcKeyPoints = new MatOfKeyPoint();
-
-            Mat refDescriptors = new Mat();
-            Mat srcDescriptors = new Mat();
-
-            MatOfPoint2f reference = new MatOfPoint2f();
-            MatOfPoint2f source = new MatOfPoint2f();
-
-            FeatureDetector orbFeatureDetector = FeatureDetector.create(FeatureDetector.ORB);
-            orbFeatureDetector.detect(refMat, refKeypoints);
-            orbFeatureDetector.detect(srcMat, srcKeyPoints);
-
-            DescriptorExtractor descriptorExtractor = DescriptorExtractor.create(DescriptorExtractor.ORB);
-            descriptorExtractor.compute(refMat, refKeypoints, refDescriptors);
-            descriptorExtractor.compute(srcMat, srcKeyPoints, srcDescriptors);
-
-            DescriptorMatcher matcher = DescriptorMatcher.create(DescriptorMatcher.BRUTEFORCE_HAMMING);
-            matcher.match(refDescriptors, srcDescriptors, matches);
-
-            double max_dist = 0;
-            double min_dist = 100;
-            List<DMatch> matchesList = matches.toList();
-
-            for (int i = 0; i < refDescriptors.rows(); i++) {
-                Double distance = (double) matchesList.get(i).distance;
-                if (distance < min_dist) min_dist = distance;
-                if (distance > max_dist) max_dist = distance;
+            if (!diferenciaAceptada.isEmpty() && diferenciaAceptada != null) {
+                diferenciaAceptadaValor = Float.valueOf(diferenciaAceptada);
             }
 
-            for (int i = 0; i < refDescriptors.rows(); i++) {
-                if (matchesList.get(i).distance <= 1 * min_dist) {
-                    listOfGoodMatches.add(matchesList.get(i));
+            Mat refMat = new Mat();
+            Mat srcMat = new Mat();
+
+            Bitmap refBitmap = ((BitmapDrawable) imagen1.getDrawable()).getBitmap();
+            refBitmap = refBitmap.copy(Bitmap.Config.RGB_565, true);
+            Bitmap srcBitmap = ((BitmapDrawable) imagen2.getDrawable()).getBitmap();
+            srcBitmap = srcBitmap.copy(Bitmap.Config.RGB_565, true);
+
+            if (refBitmap != null && srcBitmap != null) {
+
+                Utils.bitmapToMat(refBitmap, refMat);
+                Utils.bitmapToMat(srcBitmap, srcMat);
+
+                MatOfDMatch matches = new MatOfDMatch();
+                MatOfDMatch goodMatches = new MatOfDMatch();
+
+                LinkedList<DMatch> listOfGoodMatches = new LinkedList<>();
+
+                LinkedList<Point> refObjectList = new LinkedList<>();
+                LinkedList<Point> srcObjectList = new LinkedList<>();
+
+                MatOfKeyPoint refKeypoints = new MatOfKeyPoint();
+                MatOfKeyPoint srcKeyPoints = new MatOfKeyPoint();
+
+                Mat refDescriptors = new Mat();
+                Mat srcDescriptors = new Mat();
+
+                MatOfPoint2f reference = new MatOfPoint2f();
+                MatOfPoint2f source = new MatOfPoint2f();
+
+                FeatureDetector orbFeatureDetector = FeatureDetector.create(FeatureDetector.SIFT);
+                orbFeatureDetector.detect(refMat, refKeypoints);
+                orbFeatureDetector.detect(srcMat, srcKeyPoints);
+
+                DescriptorExtractor descriptorExtractor = DescriptorExtractor.create(DescriptorExtractor.SIFT);
+                descriptorExtractor.compute(refMat, refKeypoints, refDescriptors);
+                descriptorExtractor.compute(srcMat, srcKeyPoints, srcDescriptors);
+
+                DescriptorMatcher matcher = DescriptorMatcher.create(DescriptorMatcher.FLANNBASED);
+                matcher.match(refDescriptors, srcDescriptors, matches);
+
+                double max_dist = 0;
+                double min_dist = 100;
+                List<DMatch> matchesList = matches.toList();
+
+                for (int i = 0; i < refDescriptors.rows(); i++) {
+                    Double distance = (double) matchesList.get(i).distance;
+                    if (distance < min_dist) min_dist = distance;
+                    if (distance > max_dist) max_dist = distance;
                 }
+
+                for (int i = 0; i < refDescriptors.rows(); i++) {
+                    if (matchesList.get(i).distance <= diferenciaAceptadaValor * min_dist) {
+                        listOfGoodMatches.add(matchesList.get(i));
+                    }
+                }
+
+                goodMatches.fromList(listOfGoodMatches);
+
+                List<KeyPoint> refObjectListKeypoints = refKeypoints.toList();
+                List<KeyPoint> srcObjectListKeypoints = srcKeyPoints.toList();
+
+                for (int i = 0; i < listOfGoodMatches.size(); i++) {
+                    refObjectList.addLast(refObjectListKeypoints.get(listOfGoodMatches.get(i).queryIdx).pt);
+                    srcObjectList.addLast(srcObjectListKeypoints.get(listOfGoodMatches.get(i).trainIdx).pt);
+                }
+
+                reference.fromList(refObjectList);
+                source.fromList(srcObjectList);
+
+                Imgproc.cvtColor(refMat, refMat, Imgproc.COLOR_RGBA2RGB, 1);
+                Imgproc.cvtColor(srcMat, srcMat, Imgproc.COLOR_RGBA2RGB, 1);
+
+                Mat outputImage = new Mat();
+                Bitmap comboBmp = combineImages(refBitmap, srcBitmap);
+                Utils.bitmapToMat(comboBmp, outputImage);
+
+                Features2d.drawMatches(refMat, refKeypoints, srcMat, srcKeyPoints, goodMatches, outputImage);
+
+                Bitmap bitmap = Bitmap.createBitmap(outputImage.cols(), outputImage.rows(), Bitmap.Config.ARGB_8888);
+                Utils.matToBitmap(outputImage, bitmap);
+                resultado.setImageBitmap(bitmap);
+            } else {
+                Toast.makeText(this, "Selecciona dos imágenes", Toast.LENGTH_LONG).show();
             }
-
-            goodMatches.fromList(listOfGoodMatches);
-
-            List<KeyPoint> refObjectListKeypoints = refKeypoints.toList();
-            List<KeyPoint> srcObjectListKeypoints = srcKeyPoints.toList();
-
-            for (int i = 0; i < listOfGoodMatches.size(); i++) {
-                refObjectList.addLast(refObjectListKeypoints.get(listOfGoodMatches.get(i).queryIdx).pt);
-                srcObjectList.addLast(srcObjectListKeypoints.get(listOfGoodMatches.get(i).trainIdx).pt);
-            }
-
-            reference.fromList(refObjectList);
-            source.fromList(srcObjectList);
-
-//            String result;
-//            if (listOfGoodMatches.size() > 1 && listOfGoodMatches.size() < 200) {
-//                result = "They MATCH!";
-//            } else {
-//                result = "They DON'T match!";
-//            }
-//
-//            AlertDialog alert = new AlertDialog.Builder(this)
-//                    .setMessage(result)
-//                    .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-//                        @Override
-//                        public void onClick(DialogInterface dialog, int which) {
-//                            // close
-//                        }
-//                    }).create();
-//            alert.show();
-
-            Imgproc.cvtColor(refMat, refMat, Imgproc.COLOR_RGBA2RGB, 1);
-            Imgproc.cvtColor(srcMat, srcMat, Imgproc.COLOR_RGBA2RGB, 1);
-
-            Mat outputImage = new Mat();
-            Bitmap comboBmp = combineImages(refBitmap, srcBitmap);
-            Utils.bitmapToMat(comboBmp, outputImage);
-
-            Features2d.drawMatches(refMat, refKeypoints, srcMat, srcKeyPoints, goodMatches, outputImage);
-
-            Bitmap bitmap = Bitmap.createBitmap(outputImage.cols(), outputImage.rows(), Bitmap.Config.ARGB_8888);
-            Utils.matToBitmap(outputImage, bitmap);
-            resultado.setImageBitmap(bitmap);
-//            imagen1.setImageBitmap(comboBmp);
-//            imagen1.invalidate();
-//            imagen2.setImageBitmap(bitmap);
-//            imagen2.invalidate();
         }
-        else{
-            Toast.makeText(this, "Selecciona dos imágenes", Toast.LENGTH_LONG).show();
+        catch (Exception e) {
+            e.printStackTrace();
+            Toast.makeText(this, "Ocurrio un error ejecutando SIFT", Toast.LENGTH_LONG).show();
         }
     }
 

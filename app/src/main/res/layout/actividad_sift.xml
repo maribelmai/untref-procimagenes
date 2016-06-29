@@ -143,6 +143,14 @@
                 android:background="@drawable/selector_boton"
                 android:layout_marginTop="16dp"/>
 
+            <EditText
+                android:id="@+id/diferenciaAceptada"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:inputType="numberDecimal"
+                android:hint="Diferencia aceptada (Por defecto 3)"/>
+
         </LinearLayout>
 
     </LinearLayout>
