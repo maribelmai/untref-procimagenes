@@ -12,7 +12,6 @@ import java.util.Set;
  */
 public class CirculoHough {
 
-    private static final String TAG = CirculoHough.class.getSimpleName();
     private Integer x;
     private Integer y;
     private Integer radio;
@@ -28,6 +27,7 @@ public class CirculoHough {
         Canvas c = new Canvas(imagen);
         Paint p = new Paint();
         p.setColor(Color.MAGENTA);
+        p.setStyle(Paint.Style.STROKE);
 
         Set<Parametro> parametros = acumuladora.getEspacioDeParametros().keySet();
 
@@ -35,13 +35,14 @@ public class CirculoHough {
 
         for (Parametro parametro : parametros) {
 
-            if(parametro.getY().equals(this.y) && parametro.getX().equals(this.x)) {
-
+            if(parametro.getY().equals(this.y) && parametro.getX().equals(this.x) && parametro.getRadio().equals(this.radio)) {
                 parametroEncontrado = parametro;
             }
         }
 
-        c.drawCircle(parametroEncontrado.getX(), parametroEncontrado.getY(), parametroEncontrado.getRadio(), p);
+        if (acumuladora.getEspacioDeParametros().get(parametroEncontrado).size() > 1) {
+            c.drawCircle(parametroEncontrado.getX(), parametroEncontrado.getY(), parametroEncontrado.getRadio(), p);
+        }
 
     }
 

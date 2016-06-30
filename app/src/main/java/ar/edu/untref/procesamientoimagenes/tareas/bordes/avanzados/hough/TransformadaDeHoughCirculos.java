@@ -47,6 +47,8 @@ public class TransformadaDeHoughCirculos {
         boolean perteneceALaCircunferencia = (Math.pow(i - x, 2) + Math.pow(j - y, 2) - y) == Math.pow(radio, 2);
 
         if (perteneceALaCircunferencia) {
+//                        Log.d(TAG, "el punto: " + i + "," + j + " pertenece a la circunferencia con radio dio " + (Math.pow(i - x, 2) + Math.pow(j - y, 2) - y) + " en lugar de " + Math.pow(radio, 2));
+
             acumuladora.getEspacioDeParametros().get(parametro).add(new Point(i, j));
         }
 //        else {
